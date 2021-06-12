@@ -9,11 +9,11 @@
 	import { getContext, setContext } from 'svelte'
 	import { writable } from 'svelte/store'
 
-	export let exitBeforeEnter = false
-
 	let stack = writable([])
 	let action = writable(null)
-	let transitioning = false
+
+	let exitBeforeEnter = false
+	let transitioning = null
 
 	function pop(amount = 1) {
 		$stack = [...$stack].slice(0, $stack.length - amount)
@@ -24,13 +24,14 @@
 	}
 
 	function closeModals(amount = 1) {
-		if (exitBeforeEnter && transitioning) {
+		if (transitioning) {
 			return
 		}
 
 		if (exitBeforeEnter && $stack.length > 0) {
 			transitioning = true
 		}
+		exitBeforeEnter = false
 
 		$action = 'pop'
 
@@ -44,7 +45,7 @@
 	function openModal(component, props, options) {
 		let newStack = [...$stack]
 
-		if (exitBeforeEnter && transitioning) {
+		if (transitioning) {
 			return
 		}
 
@@ -57,6 +58,7 @@
 		if (exitBeforeEnter && $stack.length > 0) {
 			transitioning = true
 		}
+		exitBeforeEnter = false
 
 		$stack = [...newStack, { component, props }]
 	}
@@ -82,7 +84,10 @@
 	{#each $stack as modal, i (i)}
 		<svelte:component
 			this={modal.component}
-			isOpen={i === $stack.length - 1 && (!exitBeforeEnter || !transitioning)}
+			isOpen={i === $stack.length - 1 && !transitioning}
+			on:introstart={() => {
+				exitBeforeEnter = true
+			}}
 			on:outroend={() => {
 				transitioning = false
 			}}

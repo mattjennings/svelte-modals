@@ -1,8 +1,12 @@
 <script>
+  import { createEventDispatcher } from 'svelte'
+
   import { useModals } from 'svelte-modal-stack'
   import { fade, fly } from 'svelte/transition'
 
   const { closeModal, stack } = useModals()
+
+  const dispatch = createEventDispatcher()
 
   export let isOpen
   export let title
@@ -10,6 +14,7 @@
   export let openAnother
 
   export let transition = 'fade'
+  export let exitBeforeEnter = false
 
   let _transition = transition === 'fade' ? fade : fly
   let transitionArgs =
@@ -23,7 +28,21 @@
 </script>
 
 {#if isOpen}
-  <div role="dialog" class="modal" transition:_transition={transitionArgs} on:outroend>
+  <div
+    role="dialog"
+    class="modal"
+    transition:_transition={transitionArgs}
+    on:introstart={() => {
+      if (exitBeforeEnter) {
+        dispatch('introstart')
+      }
+    }}
+    on:outroend={() => {
+      if (exitBeforeEnter) {
+        dispatch('outroend')
+      }
+    }}
+  >
     <div class="contents">
       <h2>{title} #{index}</h2>
       <p>{message}</p>

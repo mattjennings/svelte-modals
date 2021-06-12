@@ -1,17 +1,7 @@
 <script>
   import { ModalStack, useModals } from 'svelte-modal-stack'
   import AlertModal from './_components/AlertModal.svelte' 
-  import AnimatedAlertModal from './_components/AnimatedAlertModal.svelte'
-  import InfiniteModal from './_components/InfiniteModal.svelte'
-  import AnimatedInfiniteModal from './_components/AnimatedInfiniteModal.svelte'
   import { fade } from 'svelte/transition'
-
-  function openInfiniteModal(openModal, props) {
-    openModal(InfiniteModal, { title: 'Modal', message: 'Try opening another one', openAnother: () => openInfiniteModal(openModal, props), ...props })
-  }
-  function openAnimatedInfiniteModal(openModal, props) {
-    openModal(AnimatedInfiniteModal, { title: 'Modal', message: 'Try opening another one', openAnother: () => openAnimatedInfiniteModal(openModal, props), ...props })
-  }
 </script>
 
 <style>
@@ -33,7 +23,7 @@ npm install svelte-modal-stack
 
 ## Basic Usage
 
-Add `ModalStack` at the root of your app (or \_\_layout if using SvelteKit):
+Add `ModalStack` at the root of your app (or \_\_layout if using SvelteKit)
 
 ```svelte
 <script>
@@ -63,7 +53,7 @@ Add `ModalStack` at the root of your app (or \_\_layout if using SvelteKit):
 </style>
 ```
 
-Create your Modal component:
+Create your Modal component
 
 ```svelte
 <!-- Modal.svelte -->
@@ -137,7 +127,7 @@ Create your Modal component:
 </style>
 ```
 
-Open it:
+Open it
 
 ```svelte
 <script>
@@ -154,8 +144,6 @@ Open it:
 <button on:click={handleClick}>Open Modal</button>
 ```
 
-Try it out!
-
 <ModalStack let:openModal>
   <div
     slot="backdrop"
@@ -164,11 +152,12 @@ Try it out!
     on:click={closeModal}
   />
   <button
+  class="mt-6"
     on:click={() => {
       openModal(AlertModal, { title: 'Alert', message: 'This is an alert' })
     }}
   >
-    Open Modal
+    Try it out!
   </button>
 </ModalStack>
 
@@ -187,157 +176,5 @@ You can use `useModals()` inside a modal as well, which means you can open modal
     }}
   >
     Yo dawg
-  </button>
-</ModalStack>
-
-## Animations
-
-Modals can use Svelte transitions:
-
-```svelte
-<script>
-  import { ModalStack } from 'svelte-modal-stack'
-  import { fade } from 'svelte/transition'
-</script>
-
-<ModalStack>
-  <div
-    slot="backdrop"
-    let:closeModal
-    class="backdrop"
-    transition:fade
-    on:click={closeModal}
-  />
-  <!-- ... -->
-</ModalStack>
-```
-
-```svelte
-<!-- Modal.svelte -->
-<script>
-  import { useModals } from 'svelte-modal-stack'
-  import { fade } from 'svelte/transition'
-
-  const { closeModal } = useModals()
-
-  export let isOpen
-  export let title
-  export let message
-
-</script>
-
-{#if isOpen}
-  <div role="dialog" class="modal" transition:fade>
-    <div class="contents">
-      <h2>{title}</h2>
-      <p>{message}</p>
-      <div class="actions">
-        <button on:click={closeModal}>OK</button>
-      </div>
-    </div>
-  </div>
-{/if}
-```
-
-Try it out!
-
-<ModalStack let:openModal>
-  <div
-    slot="backdrop"
-    let:closeModal
-    class="backdrop"
-    transition:fade
-    on:click={closeModal}
-  />
-  <button
-    on:click={() => {
-      openModal(AnimatedAlertModal, { title: 'Alert', message: 'This is an alert' })
-    }}
-  >
-    Open Modal
-  </button>
-</ModalStack>
-
-## Transitions between Modals
-
-By default, transitions of both the opening and closing Modal will play at the same time. Try opening a few modals and notice how the fades
-overlap.
-
-Depending on your transition, it might be desired:
-
-<ModalStack let:openModal>
-  <div
-    slot="backdrop"
-    let:closeModal
-    class="backdrop"
-    transition:fade
-    on:click={closeModal}
-  />
-  <button
-    on:click={() => {
-      openAnimatedInfiniteModal(openModal, { transition: 'fly' })
-    }}
-  >
-    Fly Transition
-  </button>
-</ModalStack>
-
-or not desired:
-
-<ModalStack let:openModal>
-  <div
-    slot="backdrop"
-    let:closeModal
-    class="backdrop"
-    transition:fade
-    on:click={closeModal}
-  />
-  <button
-    on:click={() => {
-      openAnimatedInfiniteModal(openModal)
-    }}
-  >
-    Fade Transition
-  </button>
-</ModalStack>
-
-`ModalStack` takes an `exitBeforeEnter` prop which will make modals transition one at a time
-
-```svelte
-<ModalStack exitBeforeEnter>
-  <!-- ... -->
-</ModalStack>
-```
-
-However, **this requires your modal components pass up the `on:outroend` event.** Otherwise, `ModalStack` won't be able to tell when your modal has finished transitioning.
-
-```svelte
-<script>
-  import { fade } from 'svelte/transition'
-
-  export let isOpen
-</script>
-
-{#if isOpen}
-  <div role="dialog" class="modal" transition:fade on:outroend>
-    <!-- ... -->
-  </div>
-{/if}
-```
-
-<ModalStack let:openModal exitBeforeEnter>
-  <div
-    slot="backdrop"
-    let:closeModal
-    class="backdrop"
-    transition:fade
-    on:click={closeModal}
-  />
-  <button
-    on:click={() => {
-      openAnimatedInfiniteModal(openModal)
-    }}
-  >
-    Better Fade Transition
   </button>
 </ModalStack>
