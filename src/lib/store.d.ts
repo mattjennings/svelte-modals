@@ -3,12 +3,17 @@ import { SvelteComponentDev } from 'svelte/internal'
 import { Writable } from 'svelte/store'
 
 /**
- * Adds a Modal component to the stack
+ * Opens a new modal
  */
 export const openModal: <T>(
   component: SvelteComponent | SvelteComponentTyped<T> | SvelteComponentDev,
   props?: T,
-  options?: { replace?: boolean }
+  options?: {
+    /**
+     * This modal will replace the last modal in the stack
+     */
+    replace?: boolean
+  }
 ) => void
 
 /**
@@ -37,9 +42,7 @@ export const stack: Writable<Array<{ component: SvelteComponent; props?: unknown
 export const transitioning: Writable<null | 'in' | 'out'>
 
 /**
- * A store describing how the current modal came to be active. "push" means it was
- * newly added (from openModal), "pop" means the modal ahead of it was closed (closeModal).
- *
- * This can be useful for animations
+ * A Svelte store describing how the current modal came to be active ("push" or "pop").
+ * This can be useful for transitions if they should animate differently based on the action.
  */
 export const action: Writable<null | 'push' | 'pop'>

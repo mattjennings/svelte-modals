@@ -12,7 +12,7 @@
   }
 </script>
 
-## Animations
+# Animations
 
 You can use Svelte transitions just like you would any other component.
 

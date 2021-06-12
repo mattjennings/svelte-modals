@@ -6,11 +6,13 @@
 
 # svelte-modal-stack
 
+A simple, flexible, zero-dependency modal stack manager for Svelte.
+
+## Getting Started
+
 ```
 npm install svelte-modal-stack
 ```
-
-## Basic Usage
 
 Add `ModalStack` at the root of your app (or in your \_\_layout if using SvelteKit)
 
