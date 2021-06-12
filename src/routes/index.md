@@ -313,30 +313,14 @@ However, **this requires your modal components pass up the `on:outroend` event.*
 
 ```svelte
 <script>
-  import { useModals } from 'svelte-modal-stack'
   import { fade } from 'svelte/transition'
 
-  const { closeModal, stack } = useModals()
-
   export let isOpen
-  export let title
-  export let message
-  export let openAnother
-
-  let index = $stack.length
-
 </script>
 
 {#if isOpen}
   <div role="dialog" class="modal" transition:fade on:outroend>
-    <div class="contents">
-      <h2>{title} #{index}</h2>
-      <p>{message}</p>
-      <div class="actions">
-        <button on:click={closeModal}>Close</button>
-        <button on:click={openAnother}>Open</button>
-      </div>
-    </div>
+    <!-- ... -->
   </div>
 {/if}
 ```
