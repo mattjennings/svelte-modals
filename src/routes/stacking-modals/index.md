@@ -1,8 +1,6 @@
 <script>
-  import { ModalStack, useModals } from 'svelte-modal-stack'
+  import { ModalStack, openModal } from 'svelte-modal-stack'
   import Step1 from './_Step1.svelte'
-
-  const { openModal } = useModals()
 </script>
 
 # Stacking Modals
@@ -11,11 +9,12 @@ Modals are managed using a LIFO (last in first out) stack. `openModal()` will ad
 
 ```svelte
 <script>
-  import { useModals } from 'svelte-modal-stack'
+  import { onMount } from 'svelte'
+  import { openModal } from 'svelte-modal-stack'
 
-  const { openModal } = useModals()
-
-  openModal(YourModalComponent, props)
+  onMount(() => {
+    openModal(YourModalComponent, props)
+  })
 </script>
 ```
 
@@ -38,10 +37,8 @@ Your modal components receive a boolean `isOpen` prop. It's up to you to impleme
 
 ```svelte
 <script>
-  import { useModals } from 'svelte-modal-stack'
+  import { openModal } from 'svelte-modal-stack'
   import Step2Modal from './Step2Modal.svelte'
-
-  const { openModal } = useModals()
 
   export let isOpen
 

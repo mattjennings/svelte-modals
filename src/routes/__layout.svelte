@@ -1,5 +1,5 @@
 <script>
-  import { ModalStack } from 'svelte-modal-stack'
+  import { ModalStack, closeModal } from 'svelte-modal-stack'
   import '../app.css'
   import '../prism.css'
   import Sidebar from './_components/Sidebar.svelte'
@@ -7,7 +7,7 @@
 </script>
 
 <ModalStack>
-  <div slot="backdrop" let:closeModal class="backdrop" on:click={closeModal} />
+  <div slot="backdrop" class="backdrop" on:click={closeModal} />
   <div class="h-screen bg-white overflow-hidden flex sm:max-w-6xl mx-auto">
     <Sidebar />
     <div class="flex-1 w-0 flex flex-col overflow-y-auto md:px-8 xl:px-0 ">

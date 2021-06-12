@@ -1,1 +1,2 @@
-export { default as ModalStack, useModals } from './ModalStack.svelte';
+export { default as ModalStack } from './ModalStack.svelte'
+export { action, stack, openModal, closeModal, closeModals, closeAllModals } from './store'

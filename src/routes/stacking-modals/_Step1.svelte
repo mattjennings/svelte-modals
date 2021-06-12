@@ -1,9 +1,7 @@
 <script>
+  import { openModal } from 'svelte-modal-stack'
   import BaseModal from './_BaseModal.svelte'
-  import { useModals } from 'svelte-modal-stack'
   import Step2 from './_Step2.svelte'
-
-  const { closeModal, openModal } = useModals()
 
   export let isOpen
 

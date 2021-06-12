@@ -1,5 +1,5 @@
 <script>
-  import { ModalStack, useModals } from 'svelte-modal-stack'
+  import { ModalStack, openModal, closeModal} from 'svelte-modal-stack'
   import AlertModal from './_AlertModal.svelte' 
   import { fade } from 'svelte/transition'
 </script>
@@ -16,13 +16,12 @@ Add `ModalStack` at the root of your app (or in your \_\_layout if using SvelteK
 
 ```svelte
 <script>
-  import { ModalStack } from 'svelte-modal-stack'
+  import { ModalStack, closeModal } from 'svelte-modal-stack'
 </script>
 
 <ModalStack>
   <div
     slot="backdrop"
-    let:closeModal
     class="backdrop"
     on:click={closeModal}
   />
@@ -47,9 +46,7 @@ Create your Modal component
 ```svelte
 <!-- Modal.svelte -->
 <script>
-  import { useModals } from 'svelte-modal-stack'
-
-  const { closeModal } = useModals()
+  import { closeModal } from 'svelte-modal-stack'
 
   // provided by ModalStack
   export let isOpen
@@ -120,10 +117,8 @@ Open it
 
 ```svelte
 <script>
-  import { useModals } from 'svelte-modal-stack'
+  import { openModal } from 'svelte-modal-stack'
   import Modal from './Modal.svelte'
-
-  const { openModal } = useModals()
 
   function handleClick() {
     openModal(Modal, { title: "Alert", message: "This is an alert" })
@@ -133,19 +128,8 @@ Open it
 <button on:click={handleClick}>Open Modal</button>
 ```
 
-<ModalStack let:openModal>
-  <div
-    slot="backdrop"
-    let:closeModal
-    class="backdrop"
-    on:click={closeModal}
-  />
-  <button
-  class="mt-6"
-    on:click={() => {
-      openModal(AlertModal, { title: 'Alert', message: 'This is an alert' })
-    }}
-  >
-    Try it out!
-  </button>
-</ModalStack>
+<button
+class="mt-6"
+on:click={() => {
+openModal(AlertModal, { title: 'Alert', message: 'This is an alert' })
+}}>Try it out!</button>

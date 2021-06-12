@@ -1,5 +1,5 @@
 <script>
-  import { ModalStack, useModals } from 'svelte-modal-stack'
+  import { ModalStack, openModal } from 'svelte-modal-stack'
   import AnimatedAlertModal from './_AnimatedAlertModal.svelte'
   import AnimatedInfiniteModal from './_AnimatedInfiniteModal.svelte'
   import { fade } from 'svelte/transition'
@@ -20,14 +20,13 @@ Let's add a fade to our backdrop by adding `transition:fade`
 
 ```svelte
 <script>
-  import { ModalStack } from 'svelte-modal-stack'
+  import { ModalStack, closeModal } from 'svelte-modal-stack'
   import { fade } from 'svelte/transition'
 </script>
 
 <ModalStack>
   <div
     slot="backdrop"
-    let:closeModal
     class="backdrop"
     transition:fade
     on:click={closeModal}
@@ -40,10 +39,8 @@ and let's do the same for the modal
 
 ```svelte
 <script>
-  import { useModals } from 'svelte-modal-stack'
+  import { closeModal } from 'svelte-modal-stack'
   import { fade } from 'svelte/transition'
-
-  const { closeModal } = useModals()
 
   export let isOpen
   export let title
@@ -64,29 +61,17 @@ and let's do the same for the modal
 {/if}
 ```
 
-<ModalStack let:openModal>
-  <div
-    slot="backdrop"
-    let:closeModal
-    class="backdrop"
-    transition:fade
-    on:click={closeModal}
-  />
-  <button
-    class="mt-6"
-    on:click={() => {
-      openModal(AnimatedAlertModal, { title: 'Alert', message: 'This is an alert' })
-    }}
-  >
-    Try it out
-  </button>
-</ModalStack>
+<button
+class="mt-6"
+on:click={() => {
+openModal(AnimatedAlertModal, { title: 'Alert', message: 'This is an alert' })
+}}> Try it out</button>
 
 ## Transitions between Modals
 
-If you are opening one modal after another, the transitions will overlap. Sometimes this is desired, but most times probably not.
+If you are opening one modal after another, the intro and outro transitions of both modals will overlap. Depending on your animation, this might be ok, but often it's cleaner to transition one at a time.
 
-To change this, modals can transition one at a time as long as they forward the `on:introstart` and `on:outroend` events.
+You can do this by forwarding the `on:introstart` and `on:outroend` events in your modal components.
 
 ```svelte
 <script>
@@ -102,38 +87,14 @@ To change this, modals can transition one at a time as long as they forward the 
 {/if}
 ```
 
-Let's see how they compare:
+Let's see how the transitions compare:
 
-<ModalStack let:openModal>
-  <div
-    slot="backdrop"
-    let:closeModal
-    class="backdrop"
-    transition:fade
-    on:click={closeModal}
-  />
-  <button
-    on:click={() => {
-      openAnimatedInfiniteModal(openModal)
-    }}
-  >
-    Before
-  </button>
-</ModalStack>
+<button
+on:click={() => {
+openAnimatedInfiniteModal(openModal)
+}}>Overlapped</button>
 
-<ModalStack let:openModal>
-  <div
-    slot="backdrop"
-    let:closeModal
-    class="backdrop"
-    transition:fade
-    on:click={closeModal}
-  />
-  <button
-    on:click={() => {
-      openAnimatedInfiniteModal(openModal, { exitBeforeEnter: true })
-    }}
-  >
-    After
-  </button>
-</ModalStack>
+<button
+on:click={() => {
+openAnimatedInfiniteModal(openModal, { exitBeforeEnter: true })
+}}>Deferred</button>
