@@ -1,19 +1,8 @@
 <script>
   import { ModalStack, useModals } from 'svelte-modal-stack'
-  import AlertModal from './_components/AlertModal.svelte' 
+  import AlertModal from './_AlertModal.svelte' 
   import { fade } from 'svelte/transition'
 </script>
-
-<style>
-  .backdrop {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    background: rgba(0,0,0,0.50)
-  }
-</style>
 
 # svelte-modal-stack
 
@@ -23,14 +12,14 @@ npm install svelte-modal-stack
 
 ## Basic Usage
 
-Add `ModalStack` at the root of your app (or \_\_layout if using SvelteKit)
+Add `ModalStack` at the root of your app (or in your \_\_layout if using SvelteKit)
 
 ```svelte
 <script>
   import { ModalStack } from 'svelte-modal-stack'
 </script>
 
-<ModalStack exitBeforeEnter>
+<ModalStack>
   <div
     slot="backdrop"
     let:closeModal
@@ -38,7 +27,7 @@ Add `ModalStack` at the root of your app (or \_\_layout if using SvelteKit)
     on:click={closeModal}
   />
 
-  <!-- rest of your app here, or <slot /> if using SvelteKit -->
+  <!-- rest of your app here, or <slot /> if using __layout -->
 </ModalStack>
 
 <style>
@@ -158,23 +147,5 @@ Open it
     }}
   >
     Try it out!
-  </button>
-</ModalStack>
-
-You can use `useModals()` inside a modal as well, which means you can open modals from within modals
-
-<ModalStack let:openModal>
-  <div
-    slot="backdrop"
-    let:closeModal
-    class="backdrop"
-    on:click={closeModal}
-  />
-  <button
-    on:click={() => {
-      openInfiniteModal(openModal)
-    }}
-  >
-    Yo dawg
   </button>
 </ModalStack>

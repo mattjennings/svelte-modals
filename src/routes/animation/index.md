@@ -1,9 +1,7 @@
 <script>
   import { ModalStack, useModals } from 'svelte-modal-stack'
-  import AlertModal from './_components/AlertModal.svelte' 
-  import AnimatedAlertModal from './_components/AnimatedAlertModal.svelte'
-  import InfiniteModal from './_components/InfiniteModal.svelte'
-  import AnimatedInfiniteModal from './_components/AnimatedInfiniteModal.svelte'
+  import AnimatedAlertModal from './_AnimatedAlertModal.svelte'
+  import AnimatedInfiniteModal from './_AnimatedInfiniteModal.svelte'
   import { fade } from 'svelte/transition'
 
   function openInfiniteModal(openModal, props) {
@@ -13,17 +11,6 @@
     openModal(AnimatedInfiniteModal, { title: 'Modal', message: 'Try opening another one', openAnother: () => openAnimatedInfiniteModal(openModal, props), ...props })
   }
 </script>
-
-<style>
-  .backdrop {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    background: rgba(0,0,0,0.50)
-  }
-</style>
 
 ## Animations
 

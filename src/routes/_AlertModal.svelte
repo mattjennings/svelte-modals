@@ -1,48 +1,66 @@
 <script>
   import { useModals } from 'svelte-modal-stack'
-  import { fade, fly } from 'svelte/transition'
-  import { cubicOut } from 'svelte/easing'
 
-  const { closeModal, stack, action } = useModals()
-
-  export let title
-  export let message
+  const { closeModal } = useModals()
 
   export let isOpen
-  export let openNewModal
+  export let title
+  export let message
 
 </script>
 
 {#if isOpen}
-  <div
-    in:fly={{
-      delay: 250,
-      duration: 500,
-      x: $action === 'push' ? 300 : -300,
-      opacity: 0,
-      easing: cubicOut
-    }}
-    out:fly={{
-      duration: 500,
-      x: $action === 'push' ? -300 : 300,
-      opacity: 0,
-      easing: cubicOut
-    }}
-    on:introstart
-    on:introend
-    on:outrostart
-    on:outroend
-    class="fixed inset-0 flex items-center justify-center pointer-events-none"
-  >
-    <div
-      class="w-60 bg-white rounded-md p-4 shadow-lg flex flex-col justify-between pointer-events-auto"
-    >
-      <h2 class="text-2xl text-center">{title} {$stack.length}</h2>
-      <p class="text-center mt-4">{message}</p>
-      <div class="mt-8 flex justify-between">
-        <button on:click={closeModal}>Close</button>
-        <button on:click={openNewModal}>Open</button>
+  <div role="dialog" class="modal">
+    <div class="contents">
+      <h2>{title}</h2>
+      <p>{message}</p>
+      <div class="actions">
+        <button on:click={closeModal}>OK</button>
       </div>
     </div>
   </div>
 {/if}
+
+<style>
+  .modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* allow click-through to backdrop */
+    pointer-events: none;
+  }
+
+  .contents {
+    min-width: 240px;
+    border-radius: 6px;
+    padding: 16px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: auto;
+  }
+
+  h2 {
+    text-align: center;
+    font-size: 24px;
+  }
+
+  p {
+    text-align: center;
+    margin-top: 16px;
+  }
+
+  .actions {
+    margin-top: 32px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+</style>
