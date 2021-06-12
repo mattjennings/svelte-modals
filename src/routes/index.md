@@ -46,7 +46,6 @@ Add `ModalStack` at the root of your app (or in your \_\_layout if using SvelteK
 Create your Modal component
 
 ```svelte
-<!-- Modal.svelte -->
 <script>
   import { closeModal } from 'svelte-modal-stack'
 

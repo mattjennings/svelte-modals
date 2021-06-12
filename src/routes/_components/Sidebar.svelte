@@ -11,7 +11,12 @@
 
 {#if isMenuOpen}
   <div class="fixed inset-0 z-40 flex md:hidden" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-600 bg-opacity-75" aria-hidden="true" transition:fade />
+    <div
+      class="fixed inset-0 bg-gray-600 bg-opacity-75"
+      aria-hidden="true"
+      transition:fade
+      on:click={() => (isMenuOpen = false)}
+    />
 
     <div
       class="relative max-w-xs w-full bg-white pb-4 flex-1 flex flex-col"
@@ -49,7 +54,7 @@
 {/if}
 
 <!-- Static sidebar for desktop -->
-<div class="hidden md:flex md:flex-shrink-0">
+<div class="hidden md:flex md:flex-shrink-0 h-screen sticky top-0">
   <div class="w-64 flex flex-col">
     <!-- Sidebar component, swap this element with another sidebar if you like -->
     <div class="border-r border-gray-200  pb-4 flex flex-col flex-grow overflow-y-auto">
