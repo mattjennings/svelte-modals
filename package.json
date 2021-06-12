@@ -1,6 +1,6 @@
 {
   "name": "svelte-modal-stack",
-  "version": "0.0.1-alpha.1",
+  "version": "1.0.0",
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
