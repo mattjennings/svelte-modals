@@ -52,6 +52,6 @@ export default class ModalStack extends SvelteComponentTyped<
 	{
 		backdrop: ModalStackContext
 		modals: ModalStackContext
-		default: Record<string, never>
+		default: ModalStackContext
 	}
 > {}

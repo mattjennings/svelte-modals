@@ -1,19 +1,15 @@
 <script>
 	import '../app.css'
+	import '../prism.css'
 	import { ModalStack } from '$lib/index'
 	import { fade } from 'svelte/transition'
 
+	import { page } from '$app/stores'
+
 </script>
 
-<ModalStack exitBeforeEnter={false}>
-	<div
-		transition:fade
-		slot="backdrop"
-		let:closeModal
-		class="absolute inset-0 opacity-50 bg-gray-900"
-		on:click={closeModal}
-	/>
-	<div class="container p-2">
+<div class="container mx-auto max-w-4xl p-4">
+	<main class="prose prose-sm sm:prose-lg">
 		<slot />
-	</div>
-</ModalStack>
+	</main>
+</div>

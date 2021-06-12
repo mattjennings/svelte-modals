@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+button {
+  @apply inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm sm:text-lg font-medium rounded-md text-gray-700 bg-gray-100;
+}
+
+.prose {
+  max-width: none;
+}
+
+/* disable prose styles on dialogs */
+[role='dialog'] h1,
+[role='dialog'] h2,
+[role='dialog'] h3,
+[role='dialog'] h4,
+[role='dialog'] h5,
+[role='dialog'] h6,
+[role='dialog'] p {
+  margin-top: initial !important;
+  margin-bottom: initial !important;
+}
