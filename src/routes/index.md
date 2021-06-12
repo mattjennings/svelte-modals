@@ -1,5 +1,5 @@
 <script>
-  import { ModalStack, useModals } from '$lib/index'
+  import { ModalStack, useModals } from 'svelte-modal-stack'
   import AlertModal from './_components/AlertModal.svelte' 
   import AnimatedAlertModal from './_components/AnimatedAlertModal.svelte'
   import InfiniteModal from './_components/InfiniteModal.svelte'
@@ -215,7 +215,7 @@ Modals can use Svelte transitions:
 ```svelte
 <!-- Modal.svelte -->
 <script>
-  import { useModals } from '$lib/index'
+  import { useModals } from 'svelte-modal-stack'
   import { fade } from 'svelte/transition'
 
   const { closeModal } = useModals()
@@ -313,7 +313,7 @@ However, **this requires your modal components pass up the `on:outroend` event.*
 
 ```svelte
 <script>
-  import { useModals } from '$lib/index'
+  import { useModals } from 'svelte-modal-stack'
   import { fade } from 'svelte/transition'
 
   const { closeModal, stack } = useModals()
