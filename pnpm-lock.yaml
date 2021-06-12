@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@mattjennings/heroicons-svelte': ^0.0.6
+  '@sveltejs/adapter-vercel': ^1.0.0-next.22
   '@sveltejs/kit': next
   '@tailwindcss/forms': ^0.3.3
   '@tailwindcss/typography': ^0.4.1
@@ -30,6 +31,7 @@ specifiers:
 
 dependencies:
   '@mattjennings/heroicons-svelte': 0.0.6_svelte@3.38.2+typescript@4.3.2
+  '@sveltejs/adapter-vercel': 1.0.0-next.22
   '@tailwindcss/forms': 0.3.3_tailwindcss@2.1.4
   '@tailwindcss/typography': 0.4.1_tailwindcss@2.1.4
 
@@ -144,6 +146,12 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.0
     dev: true
+
+  /@sveltejs/adapter-vercel/1.0.0-next.22:
+    resolution: {integrity: sha512-C9JL/4/CQR1BqEwyKFr6wCyejzIjwyC0nkA73TzGllIiPHxbJ3AykYZ4Ak7DFcZj9UNz8AmNbyzkuJTz3j2qJQ==}
+    dependencies:
+      esbuild: 0.12.8
+    dev: false
 
   /@sveltejs/kit/1.0.0-next.115_svelte@3.38.2:
     resolution: {integrity: sha512-XbkL9hI7LI0Dfum9crtBIeENqdJEjMfDaX3qQTTgdYkhlb4KNNYErmDWo8bJNJKEfdV0BJBVN/I0wiat3cd/yA==}
@@ -902,7 +910,6 @@ packages:
     resolution: {integrity: sha512-sx/LwlP/SWTGsd9G4RlOPrXnIihAJ2xwBUmzoqe2nWwbXORMQWtAGNJNYLBJJqa3e9PWvVzxdrtyFZJcr7D87g==}
     hasBin: true
     requiresBuild: true
-    dev: true
 
   /escalade/3.1.1:
     resolution: {integrity: sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==}

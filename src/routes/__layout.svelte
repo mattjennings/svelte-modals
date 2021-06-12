@@ -1,8 +1,18 @@
 <script>
+  import { browser } from '$app/env'
+  import { onMount } from 'svelte'
   import { ModalStack, closeModal } from 'svelte-modal-stack'
   import '../app.css'
   import '../prism.css'
   import Sidebar from './_components/Sidebar.svelte'
+
+  if (browser) {
+    onMount(() => {
+      if (self.location.hash) {
+        document.getElementById(self.location.hash.slice(1)).scrollIntoView()
+      }
+    })
+  }
 
 </script>
 
