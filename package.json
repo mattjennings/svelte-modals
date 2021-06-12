@@ -1,6 +1,6 @@
 {
 	"name": "svelte-modal-stack",
-	"version": "0.0.1",
+	"version": "0.0.1-alpha.0",
 	"scripts": {
 		"dev": "svelte-kit dev",
 		"build": "svelte-kit build",
@@ -9,7 +9,8 @@
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
-		"format": "prettier --write --plugin-search-dir=. ."
+		"format": "prettier --write --plugin-search-dir=. .",
+		"release": "npm run package && npm publish ./package --access public"
 	},
 	"devDependencies": {
 		"@sveltejs/kit": "next",
