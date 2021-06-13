@@ -22,7 +22,7 @@ const config = {
       },
       resolve: {
         alias: {
-          'svelte-modal-stack': path.resolve(process.cwd(), './src/lib/index.ts')
+          'svelte-modals': path.resolve(process.cwd(), './src/lib/index.ts')
         }
       }
     }

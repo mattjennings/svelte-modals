@@ -1,5 +1,5 @@
 <script>
-  import { ModalStack, openModal } from 'svelte-modal-stack'
+  import { Modals, openModal } from 'svelte-modals'
   import AnimatedAlertModal from './_AnimatedAlertModal.svelte'
   import AnimatedInfiniteModal from './_AnimatedInfiniteModal.svelte'
   import { fade } from 'svelte/transition'
@@ -20,25 +20,25 @@ Let's add a fade to our backdrop by adding `transition:fade`
 
 ```svelte
 <script>
-  import { ModalStack, closeModal } from 'svelte-modal-stack'
+  import { Modals, closeModal } from 'svelte-modals'
   import { fade } from 'svelte/transition'
 </script>
 
-<ModalStack>
+<Modals>
   <div
     slot="backdrop"
     class="backdrop"
     transition:fade
     on:click={closeModal}
   />
-</ModalStack>
+</Modals>
 ```
 
 and let's do the same for the modal
 
 ```svelte
 <script>
-  import { closeModal } from 'svelte-modal-stack'
+  import { closeModal } from 'svelte-modals'
   import { fade } from 'svelte/transition'
 
   export let isOpen

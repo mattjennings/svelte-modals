@@ -1,6 +1,6 @@
 import { SvelteComponentTyped } from 'svelte'
 
-export default class ModalStack extends SvelteComponentTyped<
+export default class Modals extends SvelteComponentTyped<
   {
     exitBeforeEnter?: boolean
   },

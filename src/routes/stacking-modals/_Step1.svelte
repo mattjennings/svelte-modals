@@ -1,5 +1,5 @@
 <script>
-  import { openModal } from 'svelte-modal-stack'
+  import { openModal } from 'svelte-modals'
   import BaseModal from './_BaseModal.svelte'
   import Step2 from './_Step2.svelte'
 

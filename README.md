@@ -1,29 +1,29 @@
-# svelte-modal-stack
+# svelte-modals
 
-A simple, flexible, zero-dependency modal stack manager for Svelte.
+A simple, flexible, zero-dependency modal manager for Svelte.
 
-[View documentation](https://svelte-modal-stack.mattjennings.io)
+[View documentation](https://svelte-modals.mattjennings.io)
 
 ## Getting Started
 
 ```
-npm install svelte-modal-stack
+npm install svelte-modals
 ```
 
-Add `ModalStack` somewhere in your app. This is where the modals will render.
+Add `Modals` somewhere in your app. This is where the modals will render.
 
 ```svelte
 <script>
-  import { ModalStack, closeModal } from 'svelte-modal-stack'
+  import { Modals, closeModal } from 'svelte-modals'
 </script>
 
-<ModalStack>
+<Modals>
   <div
     slot="backdrop"
     class="backdrop"
     on:click={closeModal}
   />
-</ModalStack>
+</Modals>
 
 <style>
   .backdrop {
@@ -41,9 +41,9 @@ Create your Modal component
 
 ```html
 <script>
-  import { closeModal } from 'svelte-modal-stack'
+  import { closeModal } from 'svelte-modals'
 
-  // provided by ModalStack
+  // provided by Modals
   export let isOpen
 
   export let title
@@ -110,7 +110,7 @@ Open it
 
 ```html
 <script>
-  import { openModal } from 'svelte-modal-stack'
+  import { openModal } from 'svelte-modals'
   import Modal from './Modal.svelte'
 
   function handleClick() {

@@ -1,7 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte'
 
-  import { closeModal, stack } from 'svelte-modal-stack'
+  import { closeModal, stack } from 'svelte-modals'
   import { fade, fly, blur, crossfade, scale, slide } from 'svelte/transition'
 
   const dispatch = createEventDispatcher()

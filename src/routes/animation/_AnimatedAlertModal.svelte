@@ -1,5 +1,5 @@
 <script>
-  import { closeModal } from 'svelte-modal-stack'
+  import { closeModal } from 'svelte-modals'
   import { fade } from 'svelte/transition'
 
   export let isOpen

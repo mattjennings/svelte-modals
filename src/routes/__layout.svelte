@@ -1,14 +1,14 @@
 <script>
-  import { ModalStack, closeModal } from 'svelte-modal-stack'
+  import { Modals, closeModal } from 'svelte-modals'
   import '../app.css'
   import '../prism.css'
   import Sidebar from './_components/Sidebar.svelte'
 
 </script>
 
-<ModalStack>
+<Modals>
   <div slot="backdrop" class="backdrop" on:click={closeModal} />
-</ModalStack>
+</Modals>
 
 <div class="bg-white flex sm:max-w-6xl mx-auto">
   <Sidebar />

@@ -7,7 +7,7 @@
   <slot name="backdrop" />
 {/if}
 
-<slot name="modals">
+<slot>
   {#each $stack as modal, i (i)}
     <svelte:component
       this={modal.component}

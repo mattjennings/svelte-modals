@@ -1,5 +1,5 @@
 <script>
-  import { closeModal } from 'svelte-modal-stack'
+  import { closeModal } from 'svelte-modals'
 
   export let isOpen
   export let title

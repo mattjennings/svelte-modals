@@ -6,7 +6,7 @@ h2 {
 }
 </style>
 
-## ModalStack
+## Modals
 
 Handles the rendering of your modals in the stack
 
@@ -18,16 +18,16 @@ Renders when any modals are open. The slot is empty by default.
 
 ```svelte
 <script>
-  import { ModalStack, closeModal } from 'svelte-modal-stack'
+  import { Modals, closeModal } from 'svelte-modals'
 </script>
 
-<ModalStack>
+<Modals>
   <div
     slot="backdrop"
     class="backdrop"
     on:click={closeModal}
   />
-</ModalStack>
+</Modals>
 
 <style>
   .backdrop {
@@ -43,27 +43,25 @@ Renders when any modals are open. The slot is empty by default.
 
 <br />
 
-#### `modals`
+#### `default`
 
-Renders all modals in the stack. If you want to take over how they're rendered yourself, you can
-do so here.
+Modals will render in the default slot. If you want to control yourself how modals are rendered,
+you can do so here.
 
 ```svelte
 <script>
-  import { ModalStack, stack } from 'svelte-modal-stack'
+  import { Modals, stack } from 'svelte-modals'
 </script>
 
-<ModalStack>
-  <slot name="modals">
-    {#each $stack as modal, i (i)}
-      <svelte:component
-        this={modal.component}
-        isOpen={i === $stack.length - 1}
-        {...modal.props || {}}
-      />
-    {/each}
-  </slot>
-</ModalStack>
+<Modals>
+  {#each $stack as modal, i (i)}
+    <svelte:component
+      this={modal.component}
+      isOpen={i === $stack.length - 1}
+      {...modal.props || {}}
+    />
+  {/each}
+</Modals>
 ```
 
 ## openModal
@@ -71,7 +69,7 @@ do so here.
 Opens a new modal
 
 ```js
-import { openModal } from 'svelte-modal-stack'
+import { openModal } from 'svelte-modals'
 
 openModal(component, props, options)
 ```
@@ -88,7 +86,7 @@ openModal(component, props, options)
 Closes the last modal in the stack
 
 ```js
-import { closeModal } from 'svelte-modal-stack'
+import { closeModal } from 'svelte-modals'
 
 closeModal()
 ```
@@ -98,7 +96,7 @@ closeModal()
 Closes the provided amount of modals
 
 ```js
-import { closeModals } from 'svelte-modal-stack'
+import { closeModals } from 'svelte-modals'
 
 closeModals(2)
 ```
@@ -112,7 +110,7 @@ closeModals(2)
 Closes all modals in the stack
 
 ```js
-import { closeAllModals } from 'svelte-modal-stack'
+import { closeAllModals } from 'svelte-modals'
 
 closeAllModals()
 ```
