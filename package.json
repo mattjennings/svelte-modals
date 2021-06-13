@@ -1,6 +1,6 @@
 {
   "name": "svelte-modals",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
@@ -42,5 +42,21 @@
     "tslib": "^2.0.0",
     "typescript": "^4.0.0"
   },
-  "type": "module"
+  "type": "module",
+  "keywords": [
+    "svelte",
+    "modal",
+    "stack",
+    "manager"
+  ],
+  "homepage": "https://svelte-modals.mattjennings.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattjennings/svelte-modal.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Matt Jennings",
+    "url": "https://github.com/mattjennings"
+  }
 }
