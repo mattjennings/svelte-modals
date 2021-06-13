@@ -31,7 +31,6 @@ Let's add a fade to our backdrop by adding `transition:fade`
     transition:fade
     on:click={closeModal}
   />
-  <!-- ... -->
 </ModalStack>
 ```
 

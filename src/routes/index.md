@@ -14,7 +14,7 @@ A simple, flexible, zero-dependency modal stack manager for Svelte.
 npm install svelte-modal-stack
 ```
 
-Add `ModalStack` at the root of your app (or in your \_\_layout if using SvelteKit)
+Add `ModalStack` somewhere in your app. This is where the modals will render.
 
 ```svelte
 <script>
@@ -27,8 +27,6 @@ Add `ModalStack` at the root of your app (or in your \_\_layout if using SvelteK
     class="backdrop"
     on:click={closeModal}
   />
-
-  <!-- rest of your app here, or <slot /> if using __layout -->
 </ModalStack>
 
 <style>
