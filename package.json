@@ -1,6 +1,6 @@
 {
   "name": "svelte-modals",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
@@ -52,7 +52,7 @@
   "homepage": "https://svelte-modals.mattjennings.io",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mattjennings/svelte-modal.git"
+    "url": "https://github.com/mattjennings/svelte-modals.git"
   },
   "license": "MIT",
   "author": {
