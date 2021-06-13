@@ -7,6 +7,29 @@
 
   $: $page.path, (isMenuOpen = false)
 
+  let links = [
+    {
+      href: '/',
+      label: 'Intro'
+    },
+    {
+      href: '/stacking-modals',
+      label: 'Stacking Modals'
+    },
+    {
+      href: '/animation',
+      label: 'Animation'
+    },
+    {
+      href: '/examples',
+      label: 'Examples'
+    },
+    {
+      href: '/api',
+      label: 'API'
+    }
+  ]
+
 </script>
 
 {#if isMenuOpen}
@@ -37,12 +60,9 @@
 
       <div class="mt-5 flex-1 h-0 overflow-y-auto">
         <nav class="px-2 space-y-1">
-          <a href="/" class:active={$page.path === '/'}>Intro</a>
-          <a href="/stacking-modals" class:active={$page.path === '/stacking-modals'}
-            >Stacking Modals</a
-          >
-          <a href="/animation" class:active={$page.path === '/animation'}>Animation</a>
-          <a href="/api" class:active={$page.path === '/api'}>API</a>
+          {#each links as { href, label }}
+            <a {href} class:active={$page.path === href}>{label}</a>
+          {/each}
         </nav>
       </div>
     </div>
@@ -60,12 +80,9 @@
     <div class="border-r border-gray-200  pb-4 flex flex-col flex-grow overflow-y-auto">
       <div class="flex-grow mt-5 flex flex-col">
         <nav class="flex-1 bg-white px-2 space-y-1">
-          <a href="/" class:active={$page.path === '/'}>Intro</a>
-          <a href="/stacking-modals" class:active={$page.path === '/stacking-modals'}
-            >Stacking Modals</a
-          >
-          <a href="/animation" class:active={$page.path === '/animation'}>Animation</a>
-          <a href="/api" class:active={$page.path === '/api'}>API</a>
+          {#each links as { href, label }}
+            <a {href} class:active={$page.path === href}>{label}</a>
+          {/each}
         </nav>
       </div>
     </div>
