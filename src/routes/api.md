@@ -122,7 +122,7 @@ closeAllModals()
 
 ## modals
 
-A Svelte store containing the modal components and their props
+A Svelte store containing the current stack of modal components and their props
 
 ## action
 
