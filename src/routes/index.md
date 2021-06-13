@@ -4,6 +4,10 @@
   import { fade } from 'svelte/transition'
 </script>
 
+<Modals>
+  <div slot="backdrop" class="backdrop" on:click={closeModal} />
+</Modals>
+
 # svelte-modals
 
 A simple, flexible, zero-dependency modal manager for Svelte.

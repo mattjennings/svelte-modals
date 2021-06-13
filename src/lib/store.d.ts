@@ -34,7 +34,7 @@ export const closeAllModals: () => void
 /**
  * A Svelte store containing the current modal stack
  */
-export const stack: Writable<Array<{ component: SvelteComponent; props?: unknown }>>
+export const modals: Writable<Array<{ component: SvelteComponent; props?: unknown }>>
 
 /**
  * The transition state of the modals

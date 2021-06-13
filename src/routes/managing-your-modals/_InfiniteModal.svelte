@@ -1,12 +1,12 @@
 <script>
-  import { closeModal, stack } from 'svelte-modals'
+  import { closeModal, modals } from 'svelte-modals'
 
   export let isOpen
   export let title
   export let message
   export let openAnother
 
-  let index = $stack.length
+  let index = $modals.length
 
 </script>
 

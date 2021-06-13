@@ -1,8 +1,8 @@
 <script>
   import { createEventDispatcher } from 'svelte'
 
-  import { closeModal, stack } from 'svelte-modals'
-  import { fade, fly, blur, crossfade, scale, slide } from 'svelte/transition'
+  import { closeModal, modals } from 'svelte-modals'
+  import { fade, fly } from 'svelte/transition'
 
   const dispatch = createEventDispatcher()
 
@@ -21,7 +21,7 @@
       : {
           y: 200
         }
-  let index = $stack.length
+  let index = $modals.length
 
 </script>
 

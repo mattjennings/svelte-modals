@@ -14,12 +14,12 @@
       label: 'Intro'
     },
     {
-      href: '/stacking-modals',
-      label: 'Stacking Modals'
+      href: '/managing-your-modals',
+      label: 'Managing your modals'
     },
     {
-      href: '/animation',
-      label: 'Animation'
+      href: '/transitions',
+      label: 'Transitions'
     },
     {
       href: '/examples',

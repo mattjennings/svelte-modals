@@ -6,16 +6,16 @@ import { get, writable } from 'svelte/store'
 export const exitBeforeEnter = writable(false)
 export const transitioning = writable(null)
 
-export const stack = writable<Array<{ component: SvelteComponent; props?: unknown }>>([])
+export const modals = writable<Array<{ component: SvelteComponent; props?: unknown }>>([])
 
 export const action = writable<null | 'push' | 'pop'>(null)
 
 function pop(amount = 1) {
-  stack.update((prev) => prev.slice(0, Math.max(0, prev.length - amount)))
+  modals.update((prev) => prev.slice(0, Math.max(0, prev.length - amount)))
 }
 
 export function closeAllModals(): void {
-  stack.set([])
+  modals.set([])
 }
 
 export function closeModals(amount = 1): void {
@@ -23,8 +23,8 @@ export function closeModals(amount = 1): void {
     return
   }
 
-  const stackLength = get(stack).length
-  if (get(exitBeforeEnter) && stackLength > 0) {
+  const modalsLength = get(modals).length
+  if (get(exitBeforeEnter) && modalsLength > 0) {
     transitioning.set(true)
   }
   exitBeforeEnter.set(false)
@@ -49,14 +49,14 @@ export function openModal<T>(
 
   action.set('push')
 
-  if (options?.replace) {
-    stack.update((prev) => prev.slice(0, prev.length - 1))
-  }
-
-  if (get(exitBeforeEnter) && get(stack).length) {
+  if (get(exitBeforeEnter) && get(modals).length) {
     transitioning.set(true)
   }
   exitBeforeEnter.set(false)
 
-  stack.update((prev) => [...prev, { component, props }])
+  if (options?.replace) {
+    modals.update((prev) => [...prev.slice(0, prev.length - 1), { component, props }])
+  } else {
+    modals.update((prev) => [...prev, { component, props }])
+  }
 }

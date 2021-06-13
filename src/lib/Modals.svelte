@@ -1,17 +1,17 @@
 <script>
-  import { stack, exitBeforeEnter, transitioning } from './store'
+  import { modals, exitBeforeEnter, transitioning } from './store'
 
 </script>
 
-{#if $stack.length > 0}
+{#if $modals.length > 0}
   <slot name="backdrop" />
 {/if}
 
 <slot>
-  {#each $stack as modal, i (i)}
+  {#each $modals as modal, i (i)}
     <svelte:component
       this={modal.component}
-      isOpen={i === $stack.length - 1 && !$transitioning}
+      isOpen={i === $modals.length - 1 && !$transitioning}
       on:introstart={() => {
         $exitBeforeEnter = true
       }}
@@ -23,4 +23,4 @@
   {/each}
 </slot>
 
-<slot stack={$stack} />
+<slot />

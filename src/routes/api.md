@@ -45,22 +45,27 @@ Renders when any modals are open. The slot is empty by default.
 
 #### `default`
 
-Modals will render in the default slot. If you want to control yourself how modals are rendered,
+Modals will render in the default slot. If you want to control how modals are rendered yourself,
 you can do so here.
 
 ```svelte
 <script>
-  import { Modals, stack } from 'svelte-modals'
+  import { Modals, modals } from 'svelte-modals'
+
+  $: activeModal = $modals[$modals.length-1]
 </script>
 
 <Modals>
-  {#each $stack as modal, i (i)}
+  <!--
+    only render the active modal, removing the need for isOpen props
+    (warning: modal state will be lost between transitions)
+  -->
+  {#if activeModal}
     <svelte:component
-      this={modal.component}
-      isOpen={i === $stack.length - 1}
-      {...modal.props || {}}
+      this={activeModal.component}
+      {...activeModal.props || {}}
     />
-  {/each}
+  {/if}
 </Modals>
 ```
 
@@ -115,7 +120,7 @@ import { closeAllModals } from 'svelte-modals'
 closeAllModals()
 ```
 
-## stack
+## modals
 
 A Svelte store containing the modal components and their props
 
