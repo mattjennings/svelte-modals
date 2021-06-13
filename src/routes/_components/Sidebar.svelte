@@ -1,7 +1,8 @@
 <script>
   import { page } from '$app/stores'
   import { fade, fly } from 'svelte/transition'
-  import { XIcon, MenuIcon } from '@mattjennings/heroicons-svelte/outline'
+  import XIcon from '@mattjennings/heroicons-svelte/outline/XIcon.svelte'
+  import MenuIcon from '@mattjennings/heroicons-svelte/outline/MenuIcon.svelte'
 
   let isMenuOpen = false
 

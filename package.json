@@ -1,6 +1,6 @@
 {
   "name": "svelte-modal-stack",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
@@ -35,13 +35,11 @@
     "svelte-preprocess": "^4.0.0",
     "tailwindcss": "^2.1.4",
     "tslib": "^2.0.0",
-    "typescript": "^4.0.0"
-  },
-  "type": "module",
-  "dependencies": {
-    "@mattjennings/heroicons-svelte": "^0.0.6",
+    "typescript": "^4.0.0",
     "@sveltejs/adapter-vercel": "^1.0.0-next.22",
     "@tailwindcss/forms": "^0.3.3",
-    "@tailwindcss/typography": "^0.4.1"
-  }
+    "@tailwindcss/typography": "^0.4.1",
+    "@mattjennings/heroicons-svelte": "^0.0.6"
+  },
+  "type": "module"
 }

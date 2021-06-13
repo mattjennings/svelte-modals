@@ -15,7 +15,11 @@ const config = {
     adapter: adapter(),
     // hydrate the <div id="svelte"> element in src/app.html
     target: '#svelte',
+
     vite: {
+      optimizeDeps: {
+        exclude: ['@mattjennings/heroicons-svelte/outline']
+      },
       resolve: {
         alias: {
           'svelte-modal-stack': path.resolve(process.cwd(), './src/lib/index.ts')

@@ -29,14 +29,12 @@ specifiers:
   tslib: ^2.0.0
   typescript: ^4.0.0
 
-dependencies:
+devDependencies:
   '@mattjennings/heroicons-svelte': 0.0.6_svelte@3.38.2+typescript@4.3.2
   '@sveltejs/adapter-vercel': 1.0.0-next.22
+  '@sveltejs/kit': 1.0.0-next.115_svelte@3.38.2
   '@tailwindcss/forms': 0.3.3_tailwindcss@2.1.4
   '@tailwindcss/typography': 0.4.1_tailwindcss@2.1.4
-
-devDependencies:
-  '@sveltejs/kit': 1.0.0-next.115_svelte@3.38.2
   '@typescript-eslint/eslint-plugin': 4.26.1_c8cbd5e7f5f92609ec78d991aced454b
   '@typescript-eslint/parser': 4.26.1_eslint@7.28.0+typescript@4.3.2
   autoprefixer: 10.2.6_postcss@8.3.2
@@ -114,7 +112,7 @@ packages:
       svelte2tsx: 0.2.1_svelte@3.38.2+typescript@4.3.2
     transitivePeerDependencies:
       - typescript
-    dev: false
+    dev: true
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -151,7 +149,7 @@ packages:
     resolution: {integrity: sha512-C9JL/4/CQR1BqEwyKFr6wCyejzIjwyC0nkA73TzGllIiPHxbJ3AykYZ4Ak7DFcZj9UNz8AmNbyzkuJTz3j2qJQ==}
     dependencies:
       esbuild: 0.12.8
-    dev: false
+    dev: true
 
   /@sveltejs/kit/1.0.0-next.115_svelte@3.38.2:
     resolution: {integrity: sha512-XbkL9hI7LI0Dfum9crtBIeENqdJEjMfDaX3qQTTgdYkhlb4KNNYErmDWo8bJNJKEfdV0BJBVN/I0wiat3cd/yA==}
@@ -196,7 +194,7 @@ packages:
     dependencies:
       mini-svg-data-uri: 1.3.3
       tailwindcss: 2.1.4_32565eec2408f3b70f749fe37ad22ae2
-    dev: false
+    dev: true
 
   /@tailwindcss/typography/0.4.1_tailwindcss@2.1.4:
     resolution: {integrity: sha512-ovPPLUhs7zAIJfr0y1dbGlyCuPhpuv/jpBoFgqAc658DWGGrOBWBMpAWLw2KlzbNeVk4YBJMzue1ekvIbdw6XA==}
@@ -208,7 +206,7 @@ packages:
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
       tailwindcss: 2.1.4_32565eec2408f3b70f749fe37ad22ae2
-    dev: false
+    dev: true
 
   /@trysound/sax/0.1.1:
     resolution: {integrity: sha512-Z6DoceYb/1xSg5+e+ZlPZ9v0N16ZvZ+wYMraFue4HYrE4ttONKtsvruIRf6t9TBR0YvSOfi1hUU0fJfBLCDYow==}
@@ -798,7 +796,7 @@ packages:
 
   /dedent-js/1.0.1:
     resolution: {integrity: sha1-vuX7fJ5yfYXf+iRZDRDsGrElUwU=}
-    dev: false
+    dev: true
 
   /deep-is/0.1.3:
     resolution: {integrity: sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=}
@@ -910,6 +908,7 @@ packages:
     resolution: {integrity: sha512-sx/LwlP/SWTGsd9G4RlOPrXnIihAJ2xwBUmzoqe2nWwbXORMQWtAGNJNYLBJJqa3e9PWvVzxdrtyFZJcr7D87g==}
     hasBin: true
     requiresBuild: true
+    dev: true
 
   /escalade/3.1.1:
     resolution: {integrity: sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==}
@@ -1466,7 +1465,7 @@ packages:
 
   /lodash.castarray/4.4.0:
     resolution: {integrity: sha1-wCUTUV4wna3dTCTGDP3c9ZdtkRU=}
-    dev: false
+    dev: true
 
   /lodash.clonedeep/4.5.0:
     resolution: {integrity: sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=}
@@ -1474,7 +1473,7 @@ packages:
 
   /lodash.isplainobject/4.0.6:
     resolution: {integrity: sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs=}
-    dev: false
+    dev: true
 
   /lodash.memoize/4.1.2:
     resolution: {integrity: sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=}
@@ -1482,6 +1481,7 @@ packages:
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
+    dev: true
 
   /lodash.toarray/4.4.0:
     resolution: {integrity: sha1-JMS/zWsvuji/0FlNsRedjptlZWE=}
@@ -1497,6 +1497,7 @@ packages:
 
   /lodash.uniq/4.5.0:
     resolution: {integrity: sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=}
+    dev: true
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
@@ -1506,7 +1507,7 @@ packages:
     resolution: {integrity: sha512-7fm3l3NAF9WfN6W3JOmf5drwpVqX78JtoGJ3A6W0a6ZnldM41w2fV5D490psKFTpMds8TJse/eHLFFsNHHjHgg==}
     dependencies:
       tslib: 2.3.0
-    dev: false
+    dev: true
 
   /lru-cache/6.0.0:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
@@ -1564,7 +1565,7 @@ packages:
   /mini-svg-data-uri/1.3.3:
     resolution: {integrity: sha512-+fA2oRcR1dJI/7ITmeQJDrYWks0wodlOz0pAEhKYJ2IVc1z0AnwJUsKY2fzFmPAM3Jo9J0rBx8JAA9QQSJ5PuA==}
     hasBin: true
-    dev: false
+    dev: true
 
   /minimatch/3.0.4:
     resolution: {integrity: sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==}
@@ -1605,7 +1606,7 @@ packages:
     dependencies:
       lower-case: 2.0.2
       tslib: 2.3.0
-    dev: false
+    dev: true
 
   /node-emoji/1.10.0:
     resolution: {integrity: sha512-Yt3384If5H6BYGVHiHwTL+99OzJKHhgp82S8/dktEK73T26BazdgZ4JZh92xSVtGNJvz9UbXdNAc5hcrXV42vw==}
@@ -1698,7 +1699,7 @@ packages:
     dependencies:
       no-case: 3.0.4
       tslib: 2.3.0
-    dev: false
+    dev: true
 
   /path-is-absolute/1.0.1:
     resolution: {integrity: sha1-F0uSaHNVNP+8es5r9TpanhtcX18=}
@@ -2494,7 +2495,7 @@ packages:
       pascal-case: 3.1.2
       svelte: 3.38.2
       typescript: 4.3.2
-    dev: false
+    dev: true
 
   /svgo/2.3.0:
     resolution: {integrity: sha512-fz4IKjNO6HDPgIQxu4IxwtubtbSfGEAJUq/IXyTPIkGhWck/faiiwfkvsB8LnBkKLvSoyNNIY6d13lZprJMc9Q==}
@@ -2591,7 +2592,7 @@ packages:
 
   /tslib/2.3.0:
     resolution: {integrity: sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==}
-    dev: false
+    dev: true
 
   /tsutils/3.21.0_typescript@4.3.2:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
