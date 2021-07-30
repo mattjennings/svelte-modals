@@ -1,6 +1,5 @@
 <script>
   import { modals, exitBeforeEnter, transitioning } from './store'
-
 </script>
 
 {#if $modals.length > 0}

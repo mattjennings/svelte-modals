@@ -1,6 +1,6 @@
 {
   "name": "svelte-modals",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
@@ -10,12 +10,13 @@
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
     "format": "prettier --write --plugin-search-dir=. .",
-    "release": "npm run package && npm publish ./package --access public"
+    "release": "npm run package && npm publish ./package --access public",
+    "prepare": "ts-patch install -s"
   },
   "devDependencies": {
     "@mattjennings/heroicons-svelte": "^0.0.6",
-    "@sveltejs/adapter-vercel": "^1.0.0-next.22",
-    "@sveltejs/kit": "next",
+    "@sveltejs/adapter-vercel": "^1.0.0-next.26",
+    "@sveltejs/kit": "^1.0.0-next.138",
     "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/typography": "^0.4.1",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
@@ -26,6 +27,7 @@
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-svelte3": "^3.2.0",
+    "fast-glob": "^3.2.7",
     "mdsvex": "^0.9.0",
     "postcss": "^8.3.0",
     "postcss-load-config": "^3.0.1",
@@ -38,9 +40,12 @@
     "svelte": "^3.34.0",
     "svelte-check": "^2.0.0",
     "svelte-preprocess": "^4.0.0",
+    "svelte2tsx": "^0.4.3",
     "tailwindcss": "^2.1.4",
+    "ts-patch": "^1.4.1",
     "tslib": "^2.0.0",
-    "typescript": "^4.0.0"
+    "typescript": "^4.3.0",
+    "typescript-transform-extensions": "^1.0.1"
   },
   "type": "module",
   "keywords": [

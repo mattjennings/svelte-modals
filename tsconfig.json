@@ -25,7 +25,13 @@
     "paths": {
       "$lib/*": ["src/lib/*"],
       "svelte-modals": ["src/lib/index.ts"]
-    }
+    },
+    "plugins": [
+      {
+        "transform": "typescript-transform-extensions",
+        "extensions": { ".ts": ".js" }
+      }
+    ]
   },
   "include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]
 }
