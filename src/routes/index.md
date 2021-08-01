@@ -18,6 +18,23 @@ A simple, flexible, zero-dependency modal manager for Svelte.
 npm install svelte-modals
 ```
 
+### SvelteKit
+
+If you are using SvelteKit, you will need to add this to your `svelte.config.js` under `kit`:
+
+```js
+
+vite: {
+  optimizeDeps: {
+    exclude: ['svelte-modals'],
+  }
+}
+```
+
+Additionally, **make sure** you have `svelte-modals` installed as a regular dependency and not as a dev dependency. Otherwise, you will encounter build errors.
+
+### Usage
+
 Add `Modals` somewhere in your app. This is where the modals will render.
 
 ```svelte
