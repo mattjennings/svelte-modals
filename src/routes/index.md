@@ -31,7 +31,7 @@ vite: {
 }
 ```
 
-Additionally, **make sure** you have `svelte-modals` installed as a regular dependency and not as a dev dependency. Otherwise, you will encounter build errors.
+_This works around a current bug in Vite that will cause modals not to open. See [this issue for more information](https://github.com/sveltejs/vite-plugin-svelte/issues/124)._
 
 ### Usage
 
