@@ -1,5 +1,4 @@
 import type { SvelteComponent, SvelteComponentTyped } from 'svelte'
-import type { SvelteComponentDev } from 'svelte/internal'
 
 import { get, writable } from 'svelte/store'
 
@@ -13,7 +12,9 @@ export const transitioning = writable(null)
 /**
  * A Svelte store containing the current modal stack
  */
-export const modals = writable<Array<{ component: SvelteComponent; props?: unknown }>>([])
+export const modals = writable<
+  Array<{ component: new (...args: any) => SvelteComponent; props?: unknown }>
+>([])
 
 /**
  * A Svelte store describing how the current modal came to be active ("push" or "pop").
@@ -58,8 +59,8 @@ export function closeModal(): void {
  * Opens a new modal
  */
 export function openModal<T>(
-  component: SvelteComponent | SvelteComponentTyped<T> | SvelteComponentDev,
-  props?: T,
+  component: new (...args: any) => SvelteComponentTyped<T>,
+  props?: Omit<T, 'isOpen'>,
   options?: {
     /**
      * This modal will replace the last modal in the stack

@@ -16,7 +16,7 @@
   "devDependencies": {
     "@mattjennings/heroicons-svelte": "^0.0.6",
     "@sveltejs/adapter-vercel": "^1.0.0-next.26",
-    "@sveltejs/kit": "^1.0.0-next.138",
+    "@sveltejs/kit": "^1.0.0-next.140",
     "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/typography": "^0.4.1",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
@@ -40,7 +40,7 @@
     "svelte": "^3.34.0",
     "svelte-check": "^2.0.0",
     "svelte-preprocess": "^4.0.0",
-    "svelte2tsx": "^0.4.3",
+    "svelte2tsx": "^0.4.4",
     "tailwindcss": "^2.1.4",
     "ts-patch": "^1.4.1",
     "tslib": "^2.0.0",

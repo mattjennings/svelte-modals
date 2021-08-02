@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@mattjennings/heroicons-svelte': ^0.0.6
   '@sveltejs/adapter-vercel': ^1.0.0-next.26
-  '@sveltejs/kit': ^1.0.0-next.138
+  '@sveltejs/kit': ^1.0.0-next.140
   '@tailwindcss/forms': ^0.3.3
   '@tailwindcss/typography': ^0.4.1
   '@typescript-eslint/eslint-plugin': ^4.19.0
@@ -27,7 +27,7 @@ specifiers:
   svelte: ^3.34.0
   svelte-check: ^2.0.0
   svelte-preprocess: ^4.0.0
-  svelte2tsx: ^0.4.3
+  svelte2tsx: ^0.4.4
   tailwindcss: ^2.1.4
   ts-patch: ^1.4.1
   tslib: ^2.0.0
@@ -37,7 +37,7 @@ specifiers:
 devDependencies:
   '@mattjennings/heroicons-svelte': 0.0.6_svelte@3.38.2+typescript@4.3.2
   '@sveltejs/adapter-vercel': 1.0.0-next.26
-  '@sveltejs/kit': 1.0.0-next.138_svelte@3.38.2
+  '@sveltejs/kit': 1.0.0-next.140_svelte@3.38.2
   '@tailwindcss/forms': 0.3.3_tailwindcss@2.1.4
   '@tailwindcss/typography': 0.4.1_tailwindcss@2.1.4
   '@typescript-eslint/eslint-plugin': 4.26.1_c8cbd5e7f5f92609ec78d991aced454b
@@ -61,7 +61,7 @@ devDependencies:
   svelte: 3.38.2
   svelte-check: 2.1.0_3250af0c1b02cf7302d0ddbf3f123017
   svelte-preprocess: 4.7.3_a99bde0fc6ea8bd641d9cff17ff4c808
-  svelte2tsx: 0.4.3_svelte@3.38.2+typescript@4.3.2
+  svelte2tsx: 0.4.4_svelte@3.38.2+typescript@4.3.2
   tailwindcss: 2.1.4_32565eec2408f3b70f749fe37ad22ae2
   ts-patch: 1.4.1_typescript@4.3.2
   tslib: 2.2.0
@@ -167,8 +167,8 @@ packages:
       esbuild: 0.12.8
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.138_svelte@3.38.2:
-    resolution: {integrity: sha512-ajJVravr/h0uWysyKyrdqOphNj1bgPZ7Ovgf6dv/L+ubE5LKA8ZgqqxgfmMHIwm9d66vcYU6TydaQOAGrlIGCA==}
+  /@sveltejs/kit/1.0.0-next.140_svelte@3.38.2:
+    resolution: {integrity: sha512-mNPtwItLU61JVpYXGAuDBEUlmenMs06lv6xxvhrdIgQlVlizNEebC9E27vdzPtcktxUZJGl4u/Fw3K1CG8Lk2A==}
     engines: {node: ^12.20 || >=14.13}
     hasBin: true
     peerDependencies:
@@ -2608,8 +2608,8 @@ packages:
       typescript: 4.3.2
     dev: true
 
-  /svelte2tsx/0.4.3_svelte@3.38.2+typescript@4.3.2:
-    resolution: {integrity: sha512-bbX1jrqz9Hih7GyeNrMex6HvSNguX+oorW3PPlNZk3hEgz7xXSO6f9Wuu+1dDacKt7GCEJdLjnq0wc1ZhyLqoQ==}
+  /svelte2tsx/0.4.4_svelte@3.38.2+typescript@4.3.2:
+    resolution: {integrity: sha512-BvARagYreupBS9rMSCa7aTH1m6qoU6OXtjouDrZggunW9hpyn9UpU0f1uw8loiCYbdE1LCNAK74Y6B2sIjevug==}
     peerDependencies:
       svelte: ^3.24
       typescript: ^4.1.2
