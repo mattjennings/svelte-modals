@@ -1,6 +1,7 @@
 {
   "name": "svelte-modals",
   "version": "1.0.3",
+  "svelte": "index.js",
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
