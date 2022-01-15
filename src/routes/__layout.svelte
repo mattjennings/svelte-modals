@@ -5,7 +5,6 @@
   import Sidebar from './_components/Sidebar.svelte'
   import { fade } from 'svelte/transition'
   import { page } from '$app/stores'
-
 </script>
 
 <Modals>
@@ -14,7 +13,7 @@
     class="backdrop"
     transition:fade={{
       // lazy way to only enable transitions on /transitions page
-      duration: $page.path === '/transitions' ? undefined : 0
+      duration: $page.url.pathname === '/transitions' ? undefined : 0
     }}
     on:click={closeModal}
   />

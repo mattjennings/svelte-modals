@@ -7,7 +7,7 @@
 
   let isMenuOpen = false
 
-  $: $page.path, (isMenuOpen = false)
+  $: $page.url.pathname, (isMenuOpen = false)
 
   let links = [
     {
@@ -31,7 +31,6 @@
       label: 'API'
     }
   ]
-
 </script>
 
 {#if isMenuOpen}
@@ -66,7 +65,7 @@
             <GitHub />
           </div>
           {#each links as { href, label }}
-            <a {href} class:active={$page.path === href}>{label}</a>
+            <a {href} class:active={$page.url.pathname === href}>{label}</a>
           {/each}
         </nav>
       </div>
@@ -89,7 +88,7 @@
             <GitHub />
           </div>
           {#each links as { href, label }}
-            <a {href} class:active={$page.path === href}>{label}</a>
+            <a {href} class:active={$page.url.pathname === href}>{label}</a>
           {/each}
         </nav>
       </div>
@@ -118,5 +117,4 @@
   a.active {
     @apply text-gray-900 bg-gray-200;
   }
-
 </style>
