@@ -1,4 +1,4 @@
-import type { SvelteComponent, SvelteComponentTyped } from 'svelte'
+import type { SvelteComponentTyped } from 'svelte'
 
 import { get, writable } from 'svelte/store'
 
@@ -12,9 +12,12 @@ export const transitioning = writable(null)
 /**
  * A Svelte store containing the current modal stack
  */
-export const modals = writable<
-  Array<{ component: new (...args: any) => SvelteComponent; props?: unknown }>
->([])
+export const modals = writable<StoredModal[]>([])
+
+interface StoredModal {
+  component: SvelteModalComponent<any> | LazySvelteModalComponent<any>
+  props?: Record<string, unknown>
+}
 
 /**
  * A Svelte store describing how the current modal came to be active ("push" or "pop").
@@ -59,7 +62,7 @@ export function closeModal(): void {
  * Opens a new modal
  */
 export function openModal<T>(
-  component: new (...args: any) => SvelteComponentTyped<T>,
+  component: SvelteModalComponent<T> | Array<SvelteModalComponent<T>>,
   props?: Omit<T, 'isOpen'>,
   options?: {
     /**
@@ -80,12 +83,17 @@ export function openModal<T>(
   exitBeforeEnter.set(false)
 
   if (options?.replace) {
-    modals.update((prev) => [...prev.slice(0, prev.length - 1), { component, props }])
+    modals.update(
+      (prev) => [...prev.slice(0, prev.length - 1), { component, props }] as StoredModal[]
+    )
   } else {
-    modals.update((prev) => [...prev, { component, props }])
+    modals.update((prev) => [...prev, { component, props }] as StoredModal[])
   }
 }
 
 function pop(amount = 1) {
   modals.update((prev) => prev.slice(0, Math.max(0, prev.length - amount)))
 }
+
+export type SvelteModalComponent<T> = new (...args: any) => SvelteComponentTyped<T>
+export type LazySvelteModalComponent<T> = () => Promise<{ default: SvelteModalComponent<T> }>

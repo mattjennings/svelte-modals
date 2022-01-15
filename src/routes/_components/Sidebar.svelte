@@ -23,6 +23,10 @@
       label: 'Transitions'
     },
     {
+      href: '/lazy-loading',
+      label: 'Lazy Loading'
+    },
+    {
       href: '/examples',
       label: 'Examples'
     },

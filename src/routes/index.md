@@ -18,45 +18,11 @@ A simple, flexible, zero-dependency modal manager for Svelte.
 npm install svelte-modals
 ```
 
-### SvelteKit / Vite
-
-If you are using SvelteKit or Vite, you will need to add the following to your vite config.
-
-For SvelteKit, add this to your `svelte.config.js` file:
-
-```js
-const config = {
-  kit: {
-    // ...
-
-    // add this
-    vite: {
-      optimizeDeps: {
-        exclude: ['svelte-modals']
-      }
-    }
-  }
-}
-```
-
-For regular Vite projects, add this to your `vite.config.js`
-
-```js
-export default {
-  // ...
-
-  // add this
-  optimizeDeps: {
-    exclude: ['svelte-modals']
-  }
-}
-```
-
-_This works around a current bug in Vite that will cause modals not to open. See [this issue for more information](https://github.com/sveltejs/vite-plugin-svelte/issues/124)._
-
 ### Usage
 
 Add `Modals` somewhere in your app. This is where the modals will render.
+
+(If you're using SvelteKit, `__layout.svelte` would be appropriate)
 
 ```svelte
 <script>
@@ -89,7 +55,7 @@ Create your Modal component
 <script>
   import { closeModal } from 'svelte-modals'
 
-  // provided by Modals
+  // provided by <Modals />
   export let isOpen
 
   export let title
