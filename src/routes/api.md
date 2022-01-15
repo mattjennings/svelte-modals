@@ -41,6 +41,39 @@ Renders when any modals are open. The slot is empty by default.
 </style>
 ```
 
+#### `loading`
+
+Rendered when the current modal is being lazy loaded (see [Lazy Loading](/lazy-loading)).
+
+```svelte
+<script>
+  import { Modals, closeModal } from 'svelte-modals'
+  import Spinner from './Spinner.svelte'
+</script>
+
+<Modals>
+  <div
+    slot="backdrop"
+    class="backdrop"
+    on:click={closeModal}
+  />
+  <div slot="loading">
+    <Spinner />
+  </div>
+</Modals>
+
+<style>
+  .backdrop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+</style>
+```
+
 <br />
 
 #### `default`
