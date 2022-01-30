@@ -21,9 +21,7 @@
 
 # Lazy Loading
 
-`openModal` supports lazy loading of your modal components using dynamic imports.
-
-The backdrop will be shown while the component loading.
+Modal components can be lazy loaded when using `openModals`
 
 ```js
 import { openModal } from 'svelte-modals'
@@ -35,3 +33,7 @@ openModal(() => import('./AlertModal.svelte'), {
 ```
 
 <button class="mt-6" on:click={handleAsync}>Open Modal</button>
+
+While the component is loading, the `<Modal />` component will render the `backdrop` and `loading` slots.
+
+[See Modal API](/api#modals)
