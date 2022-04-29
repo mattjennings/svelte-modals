@@ -6,7 +6,11 @@ h2 {
 }
 </style>
 
-## Modals
+<script>
+  const h_modals = '<Modals />'
+</script>
+
+## {h_modals}
 
 Handles the rendering of your modals in the stack
 
@@ -153,10 +157,33 @@ import { closeAllModals } from 'svelte-modals'
 closeAllModals()
 ```
 
-## modals
+## onBeforeClose
+
+Allows a Modal to prevent itself from being closed
+
+```svelte
+<script>
+import { onBeforeClose } from 'svelte-modals'
+
+let dirty = false
+
+onBeforeClose(() => {
+  if (dirty) {
+    alert('You have unsaved changes!')
+
+    // prevents modal from closing
+    return false
+  }
+})
+</script>
+
+<FancyForm bind:dirty />
+```
+
+## $modals
 
 A Svelte store containing the current stack of modal components and their props
 
-## action
+## $action
 
 A Svelte store describing how the current modal came to be active ("push" or "pop"). This can be useful for transitions if they should animate differently based on the action.

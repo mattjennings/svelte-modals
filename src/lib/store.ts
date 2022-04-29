@@ -17,6 +17,9 @@ export const modals = writable<StoredModal[]>([])
 interface StoredModal {
   component: SvelteModalComponent<any> | LazySvelteModalComponent<any>
   props?: Record<string, unknown>
+  callbacks?: {
+    onBeforeClose?: () => boolean | void
+  }
 }
 
 /**
@@ -26,21 +29,44 @@ interface StoredModal {
 export const action = writable<null | 'push' | 'pop'>(null)
 
 /**
- * Closes all modals in the stack
+ * Closes all modals in the stack.
+ *
+ * If closing was prevented by the current modal, it returns false
  */
-export function closeAllModals(): void {
+export function closeAllModals(): boolean {
+  const modalsLength = get(modals).length
+  const currentModal = get(modals)[modalsLength - 1]
+
+  if (currentModal?.callbacks?.onBeforeClose) {
+    if (currentModal?.callbacks?.onBeforeClose() === false) {
+      return false
+    }
+  }
+
   modals.set([])
+
+  return true
 }
 
 /**
  * Closes the last `amount` of modals in the stack
+ *
+ * If closing was prevented by the current modal, it returns false
  */
-export function closeModals(amount = 1): void {
+export function closeModals(amount = 1): boolean {
+  const modalsLength = get(modals).length
+  const currentModal = get(modals)[modalsLength - 1]
+
   if (get(transitioning)) {
-    return
+    return false
   }
 
-  const modalsLength = get(modals).length
+  if (currentModal?.callbacks?.onBeforeClose) {
+    if (currentModal?.callbacks?.onBeforeClose() === false) {
+      return false
+    }
+  }
+
   if (get(exitBeforeEnter) && modalsLength > 0) {
     transitioning.set(true)
   }
@@ -49,12 +75,16 @@ export function closeModals(amount = 1): void {
   action.set('pop')
 
   pop(amount)
+
+  return true
 }
 
 /**
  * Closes the current modal component
+ *
+ * If closing was prevented by the current modal, it returns false
  */
-export function closeModal(): void {
+export function closeModal(): boolean {
   return closeModals(1)
 }
 
@@ -89,6 +119,21 @@ export function openModal<T>(
   } else {
     modals.update((prev) => [...prev, { component, props }] as StoredModal[])
   }
+}
+
+/**
+ * Return false to prevent the current modal from being closed
+ */
+export function onBeforeClose(callback: () => boolean | void): void {
+  modals.update((prev) => {
+    const modal = prev[prev.length - 1]
+    modal.callbacks = {
+      ...modal.callbacks,
+      onBeforeClose: callback
+    }
+
+    return prev
+  })
 }
 
 function pop(amount = 1) {
