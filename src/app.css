@@ -6,6 +6,15 @@ button:not(.unstyled) {
   @apply inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm sm:text-lg font-medium rounded-md text-gray-700 bg-gray-100;
 }
 
+pre,
+pre code {
+  @apply !text-xs md:!text-sm;
+}
+
+pre code[class*='language-'] {
+  white-space: pre-wrap;
+}
+
 .prose {
   max-width: none;
 }

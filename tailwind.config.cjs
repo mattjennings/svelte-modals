@@ -1,6 +1,5 @@
-module.exports = {
-  darkMode: 'class',
-  content: ['./src/**/*.{html,js,svelte,ts,md,svx}'],
+const config = {
+  content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
     extend: {
       typography: ({ theme }) => {
@@ -15,14 +14,14 @@ module.exports = {
               },
               code: {
                 borderRadius: theme('borderRadius.md'),
-                paddingTop: theme('spacing.1'),
-                paddingBottom: theme('spacing.1'),
-                paddingLeft: theme('spacing.1'),
-                paddingRight: theme('spacing.1'),
+                paddingTop: '0.25rem',
+                paddingBottom: '0.25rem',
+                paddingLeft: '0.5rem',
+                paddingRight: '0.5rem',
                 fontFamily: 'inherit !important',
                 fontWeight: '500 !important',
-                color: theme('colors.slate.900'),
-                backgroundColor: theme('colors.slate.300')
+                color: theme('colors.slate.800'),
+                backgroundColor: theme('colors.slate.200')
               },
               'code::before': {
                 content: '""'
@@ -93,5 +92,7 @@ module.exports = {
       }
     }
   },
-  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')]
+  plugins: [require('@tailwindcss/typography')]
 }
+
+module.exports = config
