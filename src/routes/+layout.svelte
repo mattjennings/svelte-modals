@@ -2,7 +2,7 @@
   import { Modals, closeModal } from 'svelte-modals'
   import '../app.css'
   import '../prism.css'
-  import Sidebar from './_components/Sidebar.svelte'
+  import Sidebar from './Sidebar.svelte'
   import { fade } from 'svelte/transition'
   import { page } from '$app/stores'
 </script>

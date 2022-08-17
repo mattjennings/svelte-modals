@@ -1,7 +1,7 @@
 <script>
   import { Modals, openModal } from 'svelte-modals'
-  import AnimatedAlertModal from './_AnimatedAlertModal.svelte'
-  import AnimatedInfiniteModal from './_AnimatedInfiniteModal.svelte'
+  import AnimatedAlertModal from './AnimatedAlertModal.svelte'
+  import AnimatedInfiniteModal from './AnimatedInfiniteModal.svelte'
   import { fade } from 'svelte/transition'
 
   function openInfiniteModal(openModal, props) {

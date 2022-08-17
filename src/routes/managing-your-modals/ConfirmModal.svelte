@@ -1,13 +1,12 @@
 <script>
   import { closeModal } from 'svelte-modals'
-  import BaseModal from './_BaseModal.svelte'
+  import BaseModal from './BaseModal.svelte'
 
   export let isOpen
 
   export let message
   export let onConfirm
   export let labels = { cancel: 'Cancel', confirm: 'OK' }
-
 </script>
 
 <BaseModal {isOpen}>

@@ -52,7 +52,7 @@ Rendered when the current modal is being lazy loaded (see [Lazy Loading](/lazy-l
 ```svelte
 <script>
   import { Modals, closeModal } from 'svelte-modals'
-  import Spinner from './Spinner.svelte'
+  import Spinner from '../Spinner.svelte'
 </script>
 
 <Modals>

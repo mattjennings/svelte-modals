@@ -2,7 +2,7 @@
   import { Modals, openModal, closeAllModals } from 'svelte-modals'
 
   function handleAsync() {
-    openModal(() => import('../_AlertModal.svelte'), {
+    openModal(() => import('../AlertModal.svelte'), {
         title: "Lazy Modal",
         message: "This modal was loaded lazily"
     })
@@ -11,7 +11,7 @@
   function handleAsyncSlow() {
     openModal(async () => {
         await new Promise(resolve => setTimeout(resolve, 1000))
-        return import('../_AlertModal.svelte')
+        return import('../AlertModal.svelte')
     }, {
         title: "Lazy Modal",
         message: "This modal was loaded lazily"
