@@ -1,6 +1,6 @@
 <script>
   import { Modals, openModal, closeModal} from 'svelte-modals'
-  import AlertModal from './_AlertModal.svelte' 
+  import AlertModal from './AlertModal.svelte' 
   import { fade } from 'svelte/transition'
 </script>
 
@@ -22,7 +22,7 @@ npm install svelte-modals
 
 Add `Modals` somewhere in your app. This is where the modals will render.
 
-(If you're using SvelteKit, `__layout.svelte` would be appropriate)
+(If you're using SvelteKit, `+layout.svelte` would be appropriate)
 
 ```svelte
 <script>

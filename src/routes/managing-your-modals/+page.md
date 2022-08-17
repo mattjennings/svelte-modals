@@ -1,8 +1,8 @@
 <script>
   import { Modals, openModal, closeAllModals } from 'svelte-modals'
-  import ConfirmModal from './_ConfirmModal.svelte'
+  import ConfirmModal from './ConfirmModal.svelte'
   import confetti from 'canvas-confetti';
-  import Step1 from './_Step1.svelte'
+  import Step1 from './Step1.svelte'
 
   function handleDelete() {
     openModal(ConfirmModal, {
