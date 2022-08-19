@@ -7,3 +7,5 @@
 [Random Transitions](https://svelte.dev/repl/2e52b3c0c49b479a8f7be24dedce670a)
 
 [Async Modals](https://svelte.dev/repl/6c777499c64d412d82a86bd5351a5ca6)
+
+[Event Handling](https://svelte.dev/repl/40c3ee5b548f4c75bacf88b088259c66)
