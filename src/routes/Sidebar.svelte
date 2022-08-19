@@ -19,6 +19,10 @@
       label: 'Managing your modals'
     },
     {
+      href: '/communicating-with-your-modals',
+      label: 'Communicating with your Modals'
+    },
+    {
       href: '/transitions',
       label: 'Transitions'
     },

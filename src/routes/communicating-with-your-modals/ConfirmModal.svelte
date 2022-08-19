@@ -1,12 +1,9 @@
 <script>
   import { closeModal } from 'svelte-modals'
-  import BaseModal from './BaseModal.svelte'
+  import BaseModal from '$lib/site/BaseModal.svelte'
 
   export let isOpen
-
   export let message
-  export let onConfirm
-  export let labels = { cancel: 'Cancel', confirm: 'OK' }
 </script>
 
 <BaseModal {isOpen}>
@@ -16,7 +13,7 @@
   </p>
 
   <svelte:fragment slot="actions">
-    <button type="button" on:click={closeModal}> {labels?.cancel} </button>
-    <button type="button" on:click={onConfirm}> {labels?.confirm} </button>
+    <button type="button" on:click={() => closeModal(false)}> No </button>
+    <button type="button" on:click={() => closeModal(true)}> Yes </button>
   </svelte:fragment>
 </BaseModal>

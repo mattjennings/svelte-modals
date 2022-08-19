@@ -15,7 +15,7 @@
 {/if}
 
 <slot>
-  {#each $modals as modal, i (i)}
+  {#each $modals as modal, i (modal.id)}
     <!-- lazy modal -->
     {#if isLazyModal(modal.component)}
       {#await getComponent(modal.component)}

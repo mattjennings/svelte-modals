@@ -15,6 +15,11 @@ pre code[class*='language-'] {
   white-space: pre-wrap;
 }
 
+.example-wrapper + pre {
+  margin-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
 .prose {
   max-width: none;
 }

@@ -1,6 +1,8 @@
-import type { SvelteComponentTyped } from 'svelte'
+import { createEventDispatcher, SvelteComponentTyped } from 'svelte'
 
 import { get, writable } from 'svelte/store'
+
+let ids = 0
 
 export const exitBeforeEnter = writable(false)
 
@@ -15,11 +17,14 @@ export const transitioning = writable(null)
 export const modals = writable<StoredModal[]>([])
 
 interface StoredModal {
+  id: number
   component: SvelteModalComponent<any> | LazySvelteModalComponent<any>
   props?: Record<string, unknown>
   callbacks?: {
     onBeforeClose?: () => boolean | void
   }
+  eventHandlers?: Record<string, (event: Event) => void>
+  result?: unknown
 }
 
 /**
@@ -53,13 +58,15 @@ export function closeAllModals(): boolean {
  *
  * If closing was prevented by the current modal, it returns false
  */
-export function closeModals(amount = 1): boolean {
+export function closeModals(amount = 1, result?: unknown): boolean {
   const modalsLength = get(modals).length
   const currentModal = get(modals)[modalsLength - 1]
 
   if (get(transitioning)) {
     return false
   }
+
+  currentModal.result = result
 
   if (currentModal?.callbacks?.onBeforeClose) {
     if (currentModal?.callbacks?.onBeforeClose() === false) {
@@ -84,14 +91,14 @@ export function closeModals(amount = 1): boolean {
  *
  * If closing was prevented by the current modal, it returns false
  */
-export function closeModal(): boolean {
-  return closeModals(1)
+export function closeModal(result?: unknown): boolean {
+  return closeModals(1, result)
 }
 
 /**
  * Opens a new modal
  */
-export function openModal<T>(
+export async function openModal<T, Result = void>(
   component: SvelteModalComponent<T> | Array<SvelteModalComponent<T>>,
   props?: Omit<T, 'isOpen'>,
   options?: {
@@ -99,12 +106,14 @@ export function openModal<T>(
      * This modal will replace the last modal in the stack
      */
     replace?: boolean
+    on?: Record<string, (event: Event) => void>
   }
-): void {
+): Promise<Result> {
   if (get(transitioning)) {
     return
   }
 
+  const id = ids++
   action.set('push')
 
   if (get(exitBeforeEnter) && get(modals).length) {
@@ -112,13 +121,30 @@ export function openModal<T>(
   }
   exitBeforeEnter.set(false)
 
-  if (options?.replace) {
-    modals.update(
-      (prev) => [...prev.slice(0, prev.length - 1), { component, props }] as StoredModal[]
-    )
-  } else {
-    modals.update((prev) => [...prev, { component, props }] as StoredModal[])
+  // this object will be mutated by other functions
+  const modal = {
+    id,
+    component,
+    props,
+    eventHandlers: options?.on,
+    result: undefined
   }
+
+  if (options?.replace) {
+    modals.update((prev) => [...prev.slice(0, prev.length - 1), modal] as StoredModal[])
+  } else {
+    modals.update((prev) => [...prev, modal] as StoredModal[])
+  }
+
+  return new Promise((resolve) => {
+    modals.subscribe((value) => {
+      const closed = value.every((m) => m.id !== id)
+
+      if (closed) {
+        resolve(modal.result)
+      }
+    })
+  })
 }
 
 /**
@@ -134,6 +160,23 @@ export function onBeforeClose(callback: () => boolean | void): void {
 
     return prev
   })
+}
+
+export function createModalEventDispatcher<T>(): <EventKey extends Extract<keyof T, string>>(
+  type: EventKey,
+  detail?: T[EventKey]
+) => void {
+  const dispatch = createEventDispatcher<T>()
+
+  const allModals = get(modals)
+  const modal = allModals[allModals.length - 1]
+
+  return (type, detail) => {
+    dispatch(type, detail)
+
+    const event = new CustomEvent(type, { detail })
+    modal.eventHandlers?.[type]?.(event)
+  }
 }
 
 function pop(amount = 1) {

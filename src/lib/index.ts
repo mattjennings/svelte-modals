@@ -6,5 +6,6 @@ export {
   closeModal,
   closeModals,
   closeAllModals,
-  onBeforeClose
+  onBeforeClose,
+  createModalEventDispatcher
 } from './store'
