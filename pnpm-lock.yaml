@@ -4,6 +4,7 @@ specifiers:
   '@mattjennings/heroicons-svelte': ^0.0.6
   '@sveltejs/adapter-vercel': 1.0.0-next.66
   '@sveltejs/kit': 1.0.0-next.419
+  '@sveltejs/package': 1.0.0-next.1
   '@tailwindcss/forms': ^0.4.0
   '@tailwindcss/typography': ^0.5.0
   '@typescript-eslint/eslint-plugin': ^4.33.0
@@ -40,6 +41,7 @@ devDependencies:
   '@mattjennings/heroicons-svelte': 0.0.6_uslzfc62di2n2otc2tvfklnwji
   '@sveltejs/adapter-vercel': 1.0.0-next.66
   '@sveltejs/kit': 1.0.0-next.419_svelte@3.49.0+vite@3.0.8
+  '@sveltejs/package': 1.0.0-next.1_uslzfc62di2n2otc2tvfklnwji
   '@tailwindcss/forms': 0.4.0_tailwindcss@3.0.15
   '@tailwindcss/typography': 0.5.0_tailwindcss@3.0.15
   '@typescript-eslint/eslint-plugin': 4.33.0_3ekaj7j3owlolnuhj3ykrb7u7i
@@ -256,6 +258,22 @@ packages:
     transitivePeerDependencies:
       - diff-match-patch
       - supports-color
+    dev: true
+
+  /@sveltejs/package/1.0.0-next.1_uslzfc62di2n2otc2tvfklnwji:
+    resolution: {integrity: sha512-U8XBk6Cfy8MjKG41Uyo+fqBpdhu7xUSnhiCNoODRaAtWV02RZoLh+McXrsxEvqi/ycgymctlhJhssqDnD+E+FA==}
+    engines: {node: '>=16.9'}
+    hasBin: true
+    peerDependencies:
+      svelte: ^3.44.0
+    dependencies:
+      chokidar: 3.5.3
+      kleur: 4.1.5
+      sade: 1.8.1
+      svelte: 3.49.0
+      svelte2tsx: 0.5.14_uslzfc62di2n2otc2tvfklnwji
+    transitivePeerDependencies:
+      - typescript
     dev: true
 
   /@sveltejs/vite-plugin-svelte/1.0.1_svelte@3.49.0+vite@3.0.8:
