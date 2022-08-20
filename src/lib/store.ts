@@ -25,6 +25,7 @@ interface StoredModal {
   }
   eventHandlers?: Record<string, (event: Event) => void>
   result?: unknown
+  close: (result?: unknown) => void
 }
 
 /**
@@ -38,9 +39,9 @@ export const action = writable<null | 'push' | 'pop'>(null)
  *
  * If closing was prevented by any modal, it returns false
  */
-export function closeAllModals(result?: unknown): boolean {
+export function closeAllModals(): boolean {
   const modalsLength = get(modals).length
-  return closeModals(modalsLength, result)
+  return closeModals(modalsLength)
 }
 
 /**
@@ -48,7 +49,7 @@ export function closeAllModals(result?: unknown): boolean {
  *
  * If closing was prevented by any modal, it returns false
  */
-export function closeModals(amount = 1, result?: unknown): boolean {
+export function closeModals(amount = 1): boolean {
   const modalsLength = get(modals).length
 
   if (get(transitioning)) {
@@ -62,7 +63,7 @@ export function closeModals(amount = 1, result?: unknown): boolean {
   let closedAmount = 0
 
   for (const modal of closedModals) {
-    modal.result = result
+    modal.result = undefined
 
     if (modal?.callbacks?.onBeforeClose) {
       if (modal?.callbacks?.onBeforeClose() === false) {
@@ -89,8 +90,8 @@ export function closeModals(amount = 1, result?: unknown): boolean {
  *
  * If closing was prevented by the current modal, it returns false
  */
-export function closeModal(result?: unknown): boolean {
-  return closeModals(1, result)
+export function closeModal(): boolean {
+  return closeModals(1)
 }
 
 /**
@@ -100,7 +101,7 @@ export async function openModal<
   Props extends Record<string, any> = any,
   Events extends Record<string, any> = any,
   Slots extends Record<string, any> = any,
-  Result = void
+  Result = FirstParam<Props['close']>
 >(
   component:
     | SvelteModalComponent<Props, Events, Slots>
@@ -134,7 +135,16 @@ export async function openModal<
     component,
     props,
     eventHandlers: options?.on,
-    result: undefined
+    result: undefined,
+    close: (result?: any) => {
+      const all = get(modals)
+      if (all[all.length - 1].id === id) {
+        modal.result = result
+        pop()
+      } else {
+        console.warn('This modal is not currently open and cannot be closed')
+      }
+    }
   }
 
   if (options?.replace) {
@@ -197,8 +207,13 @@ export type SvelteModalComponent<
   Events extends Record<string, any> = any,
   Slots extends Record<string, any> = any
 > = new (...args: any) => SvelteComponentTyped<Props, Events, Slots>
+
 export type LazySvelteModalComponent<
   Props extends Record<string, any> = any,
   Events extends Record<string, any> = any,
   Slots extends Record<string, any> = any
 > = () => Promise<{ default: SvelteModalComponent<Props, Events, Slots> }>
+
+type FirstParam<T> = T extends (arg: infer P) => any ? P : never
+
+export type CloseProp<T = unknown> = (result: T) => void

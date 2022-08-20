@@ -1,4 +1,12 @@
-import { openModal, modals, closeModal, closeModals, closeAllModals, onBeforeClose } from './store'
+import {
+  openModal,
+  modals,
+  closeModal,
+  closeModals,
+  closeAllModals,
+  onBeforeClose,
+  createModalEventDispatcher
+} from './store'
 import { get } from 'svelte/store'
 
 const FakeComponent = class {} as any
@@ -40,6 +48,16 @@ describe('openModal', () => {
     expect(get(modals)).toHaveLength(1)
     expect(get(modals)[0].props).toEqual({ foo: 'bar' })
   })
+
+  test('returns the value from modal.close()', async () => {
+    const promise = openModal(FakeComponent)
+    const modal = get(modals)[0]
+    modal.close('foo')
+
+    const result = await promise
+
+    expect(result).toBe('foo')
+  })
 })
 
 describe('closeModal', () => {
@@ -47,12 +65,6 @@ describe('closeModal', () => {
     openModal(FakeComponent)
     closeModal()
     expect(get(modals)).toHaveLength(0)
-  })
-
-  test('returns a value to openModal', async () => {
-    const [result] = await Promise.all([openModal(FakeComponent), closeModal(true)])
-
-    expect(result).toBe(true)
   })
 })
 
@@ -63,18 +75,6 @@ describe('closeModals', () => {
     openModal(FakeComponent)
     closeModals(2)
     expect(get(modals)).toHaveLength(1)
-  })
-
-  test('returns same value to each openModal', async () => {
-    const [result1, result2] = await Promise.all([
-      openModal(FakeComponent),
-      openModal(FakeComponent),
-
-      closeModals(2, true)
-    ])
-
-    expect(result1).toBe(true)
-    expect(result2).toBe(true)
   })
 
   describe('onBeforeClose', () => {
@@ -134,18 +134,6 @@ describe('closeAllModals', () => {
     closeAllModals()
     expect(get(modals)).toHaveLength(0)
   })
-
-  test('returns same value to each openModal', async () => {
-    const [result1, result2] = await Promise.all([
-      openModal(FakeComponent),
-      openModal(FakeComponent),
-
-      closeAllModals(true)
-    ])
-
-    expect(result1).toBe(true)
-    expect(result2).toBe(true)
-  })
 })
 
 describe('onBeforeClose', () => {
@@ -160,3 +148,13 @@ describe('onBeforeClose', () => {
     expect(currentModal.callbacks!.onBeforeClose).toBe(fn)
   })
 })
+
+// describe('createModalEventDispatcher', async () => {
+//   test('creates a dispatcher', () => {
+//     const fn = vi.fn().mockImplementation(() => true)
+
+//     openModal(FakeComponent)
+
+//     const dispatch = createModalEventDispatcher()
+//   })
+// })

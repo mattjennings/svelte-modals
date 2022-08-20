@@ -38,6 +38,7 @@
       <svelte:component
         this={modal.component}
         isOpen={i === $modals.length - 1 && !$transitioning}
+        close={modal.close}
         {...modal.props}
         on:introstart={() => {
           $exitBeforeEnter = true
