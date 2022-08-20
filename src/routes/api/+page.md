@@ -116,12 +116,13 @@ import { openModal } from 'svelte-modals'
 openModal(component, props, options)
 ```
 
-| Param           | Type                         | Required | Description                                         |
-| --------------- | ---------------------------- | -------- | --------------------------------------------------- |
-| component       | <code>SvelteComponent</code> | Yes      | Your Svelte modal component                         |
-| props           | <code>any</code>             | No       | Props for the modal                                 |
-| options         | <code>object</code>          | No       |                                                     |
-| options.replace | <code>boolean</code>         | No       | This modal will replace the last modal in the stack |
+| Param           | Type                         | Required | Description                                                                                                                     |
+| --------------- | ---------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| component       | <code>SvelteComponent</code> | Yes      | Your Svelte modal component                                                                                                     |
+| props           | <code>any</code>             | No       | Props for the modal                                                                                                             |
+| options         | <code>object</code>          | No       |                                                                                                                                 |
+| options.replace | <code>boolean</code>         | No       | This modal will replace the last modal in the stack                                                                             |
+| options.on      | <code>object</code>          | No       | Event handlers for events dispatched by the modal. See [Communicating with your Modals](/communicating-with-your-modals#events) |
 
 ## closeModal
 
@@ -133,6 +134,10 @@ import { closeModal } from 'svelte-modals'
 closeModal()
 ```
 
+| Param | Type             | Required | Description                                                                      |
+| ----- | ---------------- | -------- | -------------------------------------------------------------------------------- |
+| value | <code>any</code> | No       | If passed in, the promise returned by `openModal()` will resolve with this value |
+
 ## closeModals
 
 Closes the provided amount of modals
@@ -143,9 +148,10 @@ import { closeModals } from 'svelte-modals'
 closeModals(2)
 ```
 
-| Param  | Type                | Required | Description                   |
-| ------ | ------------------- | -------- | ----------------------------- |
-| amount | <code>number</code> | Yes      | The number of modals to close |
+| Param  | Type                | Required | Description                                                                                            |
+| ------ | ------------------- | -------- | ------------------------------------------------------------------------------------------------------ |
+| amount | <code>number</code> | Yes      | The number of modals to close                                                                          |
+| value  | <code>any</code>    | No       | If passed in, the promise returned by `openModal()` for each closed modal will resolve with this value |
 
 ## closeAllModals
 
@@ -157,28 +163,21 @@ import { closeAllModals } from 'svelte-modals'
 closeAllModals()
 ```
 
+| Param | Type             | Required | Description                                                                            |
+| ----- | ---------------- | -------- | -------------------------------------------------------------------------------------- |
+| value | <code>any</code> | No       | If passed in, the promise returned for all `openModal()`s will resolve with this value |
+
 ## onBeforeClose
 
 Allows a Modal to prevent itself from being closed
 
-```svelte
-<script>
-import { onBeforeClose } from 'svelte-modals'
+| Param | Type                       | Required | Description                                                 |
+| ----- | -------------------------- | -------- | ----------------------------------------------------------- |
+| fn    | <code>() => boolean</code> | Yes      | If the function returns false, the modal will not be closed |
 
-let dirty = false
+## createModalEventDispatcher
 
-onBeforeClose(() => {
-  if (dirty) {
-    alert('You have unsaved changes!')
-
-    // prevents modal from closing
-    return false
-  }
-})
-</script>
-
-<FancyForm bind:dirty />
-```
+Creates a custom event dispatcher that allows events to be handled by `openModal`. It will also emit events through Svelte's regular dispatcher.
 
 ## $modals
 

@@ -10,6 +10,9 @@ const config = {
   // for more information about preprocessors
   preprocess: [mdsvex(mdsvexConfig), preprocess()],
 
+  package: {
+    files: (file) => !file.includes('site') && !file.includes('test')
+  },
   kit: {
     adapter: adapter()
   }
