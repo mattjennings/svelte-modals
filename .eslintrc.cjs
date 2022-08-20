@@ -9,7 +9,8 @@ module.exports = {
     'svelte3/typescript': () => require('typescript')
   },
   rules: {
-    '@typescript-eslint/no-explicit-any': 'off'
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off'
   },
   parserOptions: {
     sourceType: 'module',

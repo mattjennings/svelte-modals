@@ -9,7 +9,7 @@ export const exitBeforeEnter = writable(false)
 /**
  * The transition state of the modals
  */
-export const transitioning = writable(null)
+export const transitioning = writable(false)
 
 /**
  * A Svelte store containing the current modal stack
@@ -18,7 +18,7 @@ export const modals = writable<StoredModal[]>([])
 
 interface StoredModal {
   id: number
-  component: SvelteModalComponent<any> | LazySvelteModalComponent<any>
+  component: SvelteModalComponent | LazySvelteModalComponent
   props?: Record<string, unknown>
   callbacks?: {
     onBeforeClose?: () => boolean | void
@@ -36,42 +36,40 @@ export const action = writable<null | 'push' | 'pop'>(null)
 /**
  * Closes all modals in the stack.
  *
- * If closing was prevented by the current modal, it returns false
+ * If closing was prevented by any modal, it returns false
  */
-export function closeAllModals(): boolean {
+export function closeAllModals(result?: unknown): boolean {
   const modalsLength = get(modals).length
-  const currentModal = get(modals)[modalsLength - 1]
-
-  if (currentModal?.callbacks?.onBeforeClose) {
-    if (currentModal?.callbacks?.onBeforeClose() === false) {
-      return false
-    }
-  }
-
-  modals.set([])
-
-  return true
+  return closeModals(modalsLength, result)
 }
 
 /**
  * Closes the last `amount` of modals in the stack
  *
- * If closing was prevented by the current modal, it returns false
+ * If closing was prevented by any modal, it returns false
  */
 export function closeModals(amount = 1, result?: unknown): boolean {
   const modalsLength = get(modals).length
-  const currentModal = get(modals)[modalsLength - 1]
 
   if (get(transitioning)) {
     return false
   }
 
-  currentModal.result = result
+  const closedModals = get(modals)
+    .slice(modalsLength - amount)
+    .reverse()
 
-  if (currentModal?.callbacks?.onBeforeClose) {
-    if (currentModal?.callbacks?.onBeforeClose() === false) {
-      return false
+  let closedAmount = 0
+
+  for (const modal of closedModals) {
+    modal.result = result
+
+    if (modal?.callbacks?.onBeforeClose) {
+      if (modal?.callbacks?.onBeforeClose() === false) {
+        break
+      }
     }
+    closedAmount++
   }
 
   if (get(exitBeforeEnter) && modalsLength > 0) {
@@ -81,9 +79,9 @@ export function closeModals(amount = 1, result?: unknown): boolean {
 
   action.set('pop')
 
-  pop(amount)
+  pop(closedAmount)
 
-  return true
+  return amount === closedAmount
 }
 
 /**
@@ -98,9 +96,16 @@ export function closeModal(result?: unknown): boolean {
 /**
  * Opens a new modal
  */
-export async function openModal<T, Result = void>(
-  component: SvelteModalComponent<T> | Array<SvelteModalComponent<T>>,
-  props?: Omit<T, 'isOpen'>,
+export async function openModal<
+  Props extends Record<string, any> = any,
+  Events extends Record<string, any> = any,
+  Slots extends Record<string, any> = any,
+  Result = void
+>(
+  component:
+    | SvelteModalComponent<Props, Events, Slots>
+    | Array<SvelteModalComponent<Props, Events, Slots>>,
+  props?: Omit<Props, 'isOpen'>,
   options?: {
     /**
      * This modal will replace the last modal in the stack
@@ -108,7 +113,7 @@ export async function openModal<T, Result = void>(
     replace?: boolean
     on?: Record<string, (event: Event) => void>
   }
-): Promise<Result> {
+): Promise<Result | undefined> {
   if (get(transitioning)) {
     return
   }
@@ -166,7 +171,7 @@ export function createModalEventDispatcher<T>(): <EventKey extends Extract<keyof
   type: EventKey,
   detail?: T[EventKey]
 ) => void {
-  const dispatch = createEventDispatcher<T>()
+  const dispatch = createEventDispatcher()
 
   const allModals = get(modals)
   const modal = allModals[allModals.length - 1]
@@ -183,5 +188,13 @@ function pop(amount = 1) {
   modals.update((prev) => prev.slice(0, Math.max(0, prev.length - amount)))
 }
 
-export type SvelteModalComponent<T> = new (...args: any) => SvelteComponentTyped<T>
-export type LazySvelteModalComponent<T> = () => Promise<{ default: SvelteModalComponent<T> }>
+export type SvelteModalComponent<
+  Props extends Record<string, any> = any,
+  Events extends Record<string, any> = any,
+  Slots extends Record<string, any> = any
+> = new (...args: any) => SvelteComponentTyped<Props, Events, Slots>
+export type LazySvelteModalComponent<
+  Props extends Record<string, any> = any,
+  Events extends Record<string, any> = any,
+  Slots extends Record<string, any> = any
+> = () => Promise<{ default: SvelteModalComponent<Props, Events, Slots> }>

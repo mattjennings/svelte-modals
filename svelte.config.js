@@ -11,7 +11,7 @@ const config = {
   preprocess: [mdsvex(mdsvexConfig), preprocess()],
 
   package: {
-    files: (file) => !file.includes('site')
+    files: (file) => !file.includes('site') && !file.includes('test')
   },
   kit: {
     adapter: adapter()
