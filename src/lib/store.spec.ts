@@ -1,4 +1,4 @@
-import { openModal, modals, closeModal, closeModals, closeAllModals } from './store'
+import { openModal, modals, closeModal, closeModals, closeAllModals, onBeforeClose } from './store'
 import { get } from 'svelte/store'
 
 const FakeComponent = class {} as any
@@ -77,35 +77,52 @@ describe('closeModals', () => {
     expect(result2).toBe(true)
   })
 
-  test('current modal prevents closing', async () => {
-    const onBeforeClose = vi.fn().mockImplementation(() => false)
+  describe('onBeforeClose', () => {
+    test('current modal prevents closing', async () => {
+      const onBeforeClose = vi.fn().mockImplementation(() => false)
 
-    openModal(FakeComponent)
-    openModal(FakeComponent)
+      openModal(FakeComponent)
+      openModal(FakeComponent)
 
-    const currentModal = get(modals)[1]
-    currentModal.callbacks = {
-      onBeforeClose
-    }
+      const currentModal = get(modals)[1]
+      currentModal.callbacks = {
+        onBeforeClose
+      }
 
-    expect(closeModals(1)).toBe(false)
-    expect(onBeforeClose).toHaveBeenCalled()
-    expect(get(modals)).toHaveLength(2)
-  })
+      expect(closeModals(1)).toBe(false)
+      expect(onBeforeClose).toHaveBeenCalled()
+      expect(get(modals)).toHaveLength(2)
+    })
 
-  test('current modal closes, but next one prevents closing', async () => {
-    const onBeforeClose = vi.fn().mockImplementation(() => false)
+    test('current modal closes, but next one prevents closing', async () => {
+      const onBeforeClose = vi.fn().mockImplementation(() => false)
 
-    openModal(FakeComponent)
-    openModal(FakeComponent)
+      openModal(FakeComponent)
+      openModal(FakeComponent)
 
-    const currentModal = get(modals)[0]
-    currentModal.callbacks = {
-      onBeforeClose
-    }
+      const currentModal = get(modals)[0]
+      currentModal.callbacks = {
+        onBeforeClose
+      }
 
-    expect(closeModals(2)).toBe(false)
-    expect(get(modals)).toHaveLength(1)
+      expect(closeModals(2)).toBe(false)
+      expect(get(modals)).toHaveLength(1)
+    })
+
+    test('allows modal to close', async () => {
+      const onBeforeClose = vi.fn().mockImplementation(() => true)
+
+      openModal(FakeComponent)
+
+      const currentModal = get(modals)[0]
+      currentModal.callbacks = {
+        onBeforeClose
+      }
+
+      expect(closeModals(1)).toBe(true)
+      expect(onBeforeClose).toHaveBeenCalled()
+      expect(get(modals)).toHaveLength(0)
+    })
   })
 })
 
@@ -128,5 +145,18 @@ describe('closeAllModals', () => {
 
     expect(result1).toBe(true)
     expect(result2).toBe(true)
+  })
+})
+
+describe('onBeforeClose', () => {
+  test('sets onBeforeClose callback for current modal', () => {
+    const fn = vi.fn().mockImplementation(() => true)
+
+    openModal(FakeComponent)
+    onBeforeClose(fn)
+
+    const currentModal = get(modals)[0]
+
+    expect(currentModal.callbacks!.onBeforeClose).toBe(fn)
   })
 })
