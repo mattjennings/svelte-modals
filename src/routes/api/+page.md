@@ -171,24 +171,13 @@ closeAllModals()
 
 Allows a Modal to prevent itself from being closed
 
-```svelte
-<script>
-import { onBeforeClose } from 'svelte-modals'
+| Param | Type                       | Required | Description                                                 |
+| ----- | -------------------------- | -------- | ----------------------------------------------------------- |
+| fn    | <code>() => boolean</code> | Yes      | If the function returns false, the modal will not be closed |
 
-let dirty = false
+## createModalEventDispatcher
 
-onBeforeClose(() => {
-  if (dirty) {
-    alert('You have unsaved changes!')
-
-    // prevents modal from closing
-    return false
-  }
-})
-</script>
-
-<FancyForm bind:dirty />
-```
+Creates a custom event dispatcher that allows events to be handled by `openModal`. It will also emit events through Svelte's regular dispatcher.
 
 ## $modals
 

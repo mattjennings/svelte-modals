@@ -15,12 +15,12 @@
       label: 'Intro'
     },
     {
-      href: '/managing-your-modals',
-      label: 'Managing your modals'
+      href: '/modal-components',
+      label: 'Modal Components'
     },
     {
-      href: '/communicating-with-your-modals',
-      label: 'Communicating with your Modals'
+      href: '/events',
+      label: 'Dispatching Events'
     },
     {
       href: '/transitions',

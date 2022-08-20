@@ -25,7 +25,7 @@ interface StoredModal {
   }
   eventHandlers?: Record<string, (event: Event) => void>
   result?: unknown
-  close: (result?: unknown) => void
+  close: CloseProp<unknown>
 }
 
 /**
@@ -140,7 +140,7 @@ export async function openModal<
       const all = get(modals)
       if (all[all.length - 1].id === id) {
         modal.result = result
-        pop()
+        return closeModal()
       } else {
         console.warn('This modal is not currently open and cannot be closed')
       }
@@ -216,4 +216,9 @@ export type LazySvelteModalComponent<
 
 type FirstParam<T> = T extends (arg: infer P) => any ? P : never
 
-export type CloseProp<T = unknown> = (result: T) => void
+/**
+ * Closes the modal and resolves the corresponding `openModal` promise with the given result.
+ *
+ * If the modal was prevented from closing via onBeforeClose, it will return false.
+ */
+export type CloseProp<T = unknown> = (result: T) => boolean

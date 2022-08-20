@@ -1,9 +1,10 @@
-<script>
-  import { closeModal } from 'svelte-modals'
+<script lang="ts">
+  import type { CloseProp } from 'svelte-modals'
   import BaseModal from '$lib/site/BaseModal.svelte'
 
-  export let isOpen
-  export let message
+  export let close: CloseProp<boolean>
+  export let isOpen: boolean
+  export let message: string
 </script>
 
 <BaseModal {isOpen}>
@@ -13,7 +14,7 @@
   </p>
 
   <svelte:fragment slot="actions">
-    <button type="button" on:click={() => closeModal(false)}> No </button>
-    <button type="button" on:click={() => closeModal(true)}> Yes </button>
+    <button type="button" on:click={() => close(false)}> No </button>
+    <button type="button" on:click={() => close(true)}> Yes </button>
   </svelte:fragment>
 </BaseModal>

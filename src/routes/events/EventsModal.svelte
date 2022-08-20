@@ -1,13 +1,18 @@
-<script>
+<script lang="ts">
   import { createModalEventDispatcher } from 'svelte-modals'
   import BaseModal from '$lib/site/BaseModal.svelte'
 
-  export let isOpen
-  export let title
-  export let message
-  export let options
+  export let isOpen: boolean
+
+  export let title: string
+  export let message: string
+  export let options: any[]
 
   const dispatch = createModalEventDispatcher()
+
+  interface $$Events {
+    select: CustomEvent<{ value: string }>
+  }
 </script>
 
 <BaseModal {isOpen}>
