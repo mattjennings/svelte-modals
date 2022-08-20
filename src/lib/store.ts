@@ -111,7 +111,9 @@ export async function openModal<
      * This modal will replace the last modal in the stack
      */
     replace?: boolean
-    on?: Record<string, (event: Event) => void>
+    on?: {
+      [K in keyof Events]?: (event: Events[K]) => void
+    }
   }
 ): Promise<Result | undefined> {
   if (get(transitioning)) {
@@ -167,9 +169,11 @@ export function onBeforeClose(callback: () => boolean | void): void {
   })
 }
 
-export function createModalEventDispatcher<T>(): <EventKey extends Extract<keyof T, string>>(
+export function createModalEventDispatcher<EventMap extends {} = any>(): <
+  EventKey extends Extract<keyof EventMap, string>
+>(
   type: EventKey,
-  detail?: T[EventKey]
+  detail?: EventMap[EventKey]
 ) => void {
   const dispatch = createEventDispatcher()
 
