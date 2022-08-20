@@ -6,10 +6,10 @@
   $: src, meta
 </script>
 
-<div class="root">
+<div class="my-2">
   <div class="container">
     <pre class="language-svelte"><slot name="code" /></pre>
-    <div class="example-wrapper">
+    <div class="example-wrapper shadow-sm">
       <div class="example">
         <slot name="example" />
       </div>
@@ -18,39 +18,22 @@
 </div>
 
 <style>
-  .root {
-    margin: 0.5rem 0;
-  }
-
   .container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    overflow: hidden;
-    border-bottom-left-radius: var(--example-border-radius, 0.25rem);
-    border-bottom-right-radius: var(--example-border-radius, 0.25rem);
+    @apply flex flex-col w-full overflow-hidden rounded;
   }
 
   .example-wrapper {
-    display: flex;
-    justify-content: center;
-    background: var(--example-background, #fafafa);
-    border: var(--example-border, 1px solid #ddd);
-    overflow: hidden;
-    border-bottom: none;
-    border-top-left-radius: var(--example-border-radius, 0.25rem);
-    border-top-right-radius: var(--example-border-radius, 0.25rem);
+    @apply flex justify-center border-2 border-dashed border-[#19212e]/25 border-t-0 mb-1 rounded-b py-8;
   }
 
   .example {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.75rem 0;
+    @apply flex justify-center items-center px-1;
+
     min-height: 3rem;
   }
 
   pre {
-    margin: 0;
+    margin: 0 !important;
+    border-radius: 0 !important;
   }
 </style>
