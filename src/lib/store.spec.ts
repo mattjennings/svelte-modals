@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import {
   openModal,
   modals,
@@ -8,6 +9,19 @@ import {
   createModalEventDispatcher
 } from './store'
 import { get } from 'svelte/store'
+
+global.CustomEvent = class CustomEvent {
+  detail: any
+  constructor(public type: string, public options: any) {
+    this.detail = options?.detail
+  }
+} as any
+
+vi.mock('svelte', () => {
+  return {
+    createEventDispatcher: () => () => {}
+  }
+})
 
 const FakeComponent = class {} as any
 
@@ -149,12 +163,25 @@ describe('onBeforeClose', () => {
   })
 })
 
-// describe('createModalEventDispatcher', async () => {
-//   test('creates a dispatcher', () => {
-//     const fn = vi.fn().mockImplementation(() => true)
+describe('events', async () => {
+  test('dispatches an event', () => {
+    const fn = vi.fn()
 
-//     openModal(FakeComponent)
+    openModal(
+      FakeComponent,
+      {},
+      {
+        on: {
+          foo: fn
+        }
+      }
+    )
 
-//     const dispatch = createModalEventDispatcher()
-//   })
-// })
+    const dispatch = createModalEventDispatcher()
+    dispatch('foo', 'bar')
+    const event = fn.mock.lastCall?.[0]
+
+    expect(fn).toHaveBeenCalled()
+    expect(event.detail).toBe('bar')
+  })
+})
