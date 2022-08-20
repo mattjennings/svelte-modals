@@ -63,8 +63,6 @@ export function closeModals(amount = 1): boolean {
   let closedAmount = 0
 
   for (const modal of closedModals) {
-    modal.result = undefined
-
     if (modal?.callbacks?.onBeforeClose) {
       if (modal?.callbacks?.onBeforeClose() === false) {
         break
