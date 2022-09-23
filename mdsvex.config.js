@@ -11,7 +11,17 @@ export default defineConfig({
     dashes: 'oldschool'
   },
 
-  remarkPlugins: [require('remark-abbr'), examples],
+  remarkPlugins: [
+    require('remark-abbr'),
+    [
+      examples,
+      {
+        defaults: {
+          Wrapper: '/src/lib/site/Example.svelte'
+        }
+      }
+    ]
+  ],
   rehypePlugins: [
     require('rehype-slug'),
     [

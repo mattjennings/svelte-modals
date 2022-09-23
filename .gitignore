@@ -5,3 +5,9 @@ node_modules
 
 .vercel
 .vercel_build_output
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/test-results/
+/playwright-report/
+/playwright/.cache/

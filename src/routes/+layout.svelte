@@ -4,7 +4,6 @@
   import '../prism.css'
   import Sidebar from './Sidebar.svelte'
   import { fade } from 'svelte/transition'
-  import { page } from '$app/stores'
 </script>
 
 <Modals>
@@ -12,8 +11,7 @@
     slot="backdrop"
     class="backdrop"
     transition:fade={{
-      // lazy way to only enable transitions on /transitions page
-      duration: $page.url.pathname === '/transitions' ? undefined : 0
+      duration: 150
     }}
     on:click={closeModal}
   />
