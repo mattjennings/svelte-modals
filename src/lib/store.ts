@@ -7,7 +7,7 @@ export const exitBeforeEnter = writable(false)
 /**
  * The transition state of the modals
  */
-export const transitioning = writable(null)
+export const transitioning = writable<boolean | null>(null)
 
 /**
  * A Svelte store containing the current modal stack
@@ -91,9 +91,9 @@ export function closeModal(): boolean {
 /**
  * Opens a new modal
  */
-export function openModal<T>(
-  component: SvelteModalComponent<T> | Array<SvelteModalComponent<T>>,
-  props?: Omit<T, 'isOpen'>,
+export function openModal<Props extends Record<string, any> = any>(
+  component: SvelteModalComponent<Props, any, any> | LazySvelteModalComponent<Props, any, any>,
+  props?: Omit<Props, 'isOpen'>,
   options?: {
     /**
      * This modal will replace the last modal in the stack
@@ -140,5 +140,13 @@ function pop(amount = 1) {
   modals.update((prev) => prev.slice(0, Math.max(0, prev.length - amount)))
 }
 
-export type SvelteModalComponent<T> = new (...args: any) => SvelteComponentTyped<T>
-export type LazySvelteModalComponent<T> = () => Promise<{ default: SvelteModalComponent<T> }>
+export type SvelteModalComponent<
+  Props extends Record<string, any> = any,
+  Events extends Record<string, any> = any,
+  Slots extends Record<string, any> = any
+> = new (...args: any) => SvelteComponentTyped<Props, Events, Slots>
+export type LazySvelteModalComponent<
+  Props extends Record<string, any> = any,
+  Events extends Record<string, any> = any,
+  Slots extends Record<string, any> = any
+> = () => Promise<{ default: SvelteModalComponent<Props, Events, Slots> }>
