@@ -10,12 +10,12 @@
   }
 </script>
 
-{#if $modals.length > 0}
-  <slot name="backdrop" />
-{/if}
 
 <slot>
   {#each $modals as modal, i (i)}
+    {#if $modals.length - 1 === i}
+      <slot name="backdrop" />
+    {/if}
     <!-- lazy modal -->
     {#if isLazyModal(modal.component)}
       {#await getComponent(modal.component)}
