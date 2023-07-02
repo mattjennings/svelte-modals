@@ -2,6 +2,11 @@
   "name": "svelte-modals",
   "version": "1.2.1",
   "svelte": "./dist/index.js",
+  "exports": {
+    ".": {
+      "svelte": "./dist/index.js"
+    }
+  },
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
