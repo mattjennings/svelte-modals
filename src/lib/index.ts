@@ -7,4 +7,4 @@ export {
   closeModals,
   closeAllModals,
   onBeforeClose
-} from './store'
+} from './store.js'
