@@ -22,14 +22,13 @@
           y: 200
         }
   let index = $modals.length
-
 </script>
 
 {#if isOpen}
   <div
     role="dialog"
     class="modal"
-    transition:_transition={transitionArgs}
+    transition:_transition|global={transitionArgs}
     on:introstart={() => {
       if (exitBeforeEnter) {
         dispatch('introstart')
@@ -93,5 +92,4 @@
     display: flex;
     justify-content: space-between;
   }
-
 </style>

@@ -5,11 +5,10 @@
   export let isOpen
   export let title
   export let message
-
 </script>
 
 {#if isOpen}
-  <div role="dialog" class="modal" transition:fade on:introstart on:outroend>
+  <div role="dialog" class="modal" transition:fade|global on:introstart on:outroend>
     <div class="contents">
       <h2>{title}</h2>
       <p>{message}</p>
@@ -61,5 +60,4 @@
     display: flex;
     justify-content: flex-end;
   }
-
 </style>

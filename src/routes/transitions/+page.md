@@ -48,7 +48,7 @@ and let's do the same for the modal
 </script>
 
 {#if isOpen}
-  <div role="dialog" class="modal" transition:fade>
+  <div role="dialog" class="modal" transition:fade|global>
     <div class="contents">
       <h2>{title}</h2>
       <p>{message}</p>
@@ -66,6 +66,8 @@ on:click={() => {
 openModal(AnimatedAlertModal, { title: 'Alert', message: 'This is an alert' })
 }}> Try it out</button>
 
+**Note:** As of Svelte 4 the `|global` modifier is necessary for the transition to work on the modal. [See Svelte docs for more information](https://svelte.dev/docs/element-directives#transition-fn).
+
 ## Transitions between Modals
 
 If you are opening one modal after another, the intro and outro transitions of both modals will overlap. Depending on your animation, this might be ok, but often it's cleaner to transition one at a time.
@@ -80,7 +82,7 @@ You can do this by forwarding the `on:introstart` and `on:outroend` events in yo
 </script>
 
 {#if isOpen}
-  <div role="dialog" class="modal" transition:fade on:introstart on:outroend>
+  <div role="dialog" class="modal" transition:fade|global on:introstart on:outroend>
     <!-- ... -->
   </div>
 {/if}
