@@ -19,8 +19,8 @@
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
     "format": "prettier --write --plugin-search-dir=. .",
-    "release": "npm run package && npm publish ./package --access public",
-    "release:next": "npm run package && npm publish ./package --access public --tag next"
+    "release": "npm run package && npm publish ./dist --access public",
+    "release:next": "npm run package && npm publish ./dist --access public --tag next"
   },
   "devDependencies": {
     "@mattjennings/heroicons-svelte": "^0.0.6",
