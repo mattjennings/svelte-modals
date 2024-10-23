@@ -1,6 +1,7 @@
-import type { SvelteComponentTyped } from 'svelte'
+import type { Component } from 'svelte'
 
 import { get, writable } from 'svelte/store'
+import type { ModalProps } from './Modals.svelte'
 
 export const exitBeforeEnter = writable(false)
 
@@ -15,8 +16,8 @@ export const transitioning = writable<boolean | null>(null)
 export const modals = writable<StoredModal[]>([])
 
 interface StoredModal {
-  component: SvelteModalComponent<any> | LazySvelteModalComponent<any>
-  props?: Record<string, unknown>
+  component: ModalComponent<any> | LazyModalComponent<any>
+  props?: ModalProps & Record<string, any>
   callbacks?: {
     onBeforeClose?: () => boolean | void
   }
@@ -92,7 +93,7 @@ export function closeModal(): boolean {
  * Opens a new modal
  */
 export function openModal<Props extends Record<string, any> = any>(
-  component: SvelteModalComponent<Props, any, any> | LazySvelteModalComponent<Props, any, any>,
+  component: ModalComponent<Props, any, any> | LazyModalComponent<Props, any, any>,
   props?: Omit<Props, 'isOpen'>,
   options?: {
     /**
@@ -110,6 +111,7 @@ export function openModal<Props extends Record<string, any> = any>(
   if (get(exitBeforeEnter) && get(modals).length) {
     transitioning.set(true)
   }
+
   exitBeforeEnter.set(false)
 
   if (options?.replace) {
@@ -140,13 +142,16 @@ function pop(amount = 1) {
   modals.update((prev) => prev.slice(0, Math.max(0, prev.length - amount)))
 }
 
-export type SvelteModalComponent<
-  Props extends Record<string, any> = any,
-  Events extends Record<string, any> = any,
-  Slots extends Record<string, any> = any
-> = new (...args: any) => SvelteComponentTyped<Props, Events, Slots>
-export type LazySvelteModalComponent<
-  Props extends Record<string, any> = any,
-  Events extends Record<string, any> = any,
-  Slots extends Record<string, any> = any
-> = () => Promise<{ default: SvelteModalComponent<Props, Events, Slots> }>
+export type ModalComponent<
+  Props extends Record<string, any> = {},
+  Exports extends Record<string, any> = {},
+  Bindings extends keyof Props | '' = string
+> = Component<Props, Exports, Bindings>
+
+export type LazyModalComponent<
+  Props extends Record<string, any> = {},
+  Exports extends Record<string, any> = {},
+  Bindings extends keyof Props | '' = string
+> = () => Promise<{
+  default: ModalComponent<Props, Exports, Bindings>
+}>

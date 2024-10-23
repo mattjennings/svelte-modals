@@ -5,18 +5,27 @@
   import Sidebar from './Sidebar.svelte'
   import { fade } from 'svelte/transition'
   import { page } from '$app/stores'
+  /**
+   * @typedef {Object} Props
+   * @property {import('svelte').Snippet} [children]
+   */
+
+  /** @type {Props} */
+  let { children } = $props();
 </script>
 
 <Modals>
-  <div
-    slot="backdrop"
-    class="backdrop"
-    transition:fade={{
-      // lazy way to only enable transitions on /transitions page
-      duration: $page.url.pathname === '/transitions' ? undefined : 0
-    }}
-    on:click={closeModal}
-  />
+  {#snippet backdrop()}
+    <div    
+      class="backdrop"
+      transition:fade={{
+        // lazy way to only enable transitions on /transitions page
+        duration: $page.url.pathname === '/transitions' ? undefined : 0
+      }}
+      onclick={closeModal}
+>
+</div>
+  {/snippet}
 </Modals>
 
 <div class="bg-white flex sm:max-w-6xl mx-auto">
@@ -24,7 +33,7 @@
   <main class="flex-1 w-0 flex flex-col md:px-8 xl:px-0">
     <div class="max-w-full flex-1 relative focus:outline-none">
       <div class="py-6 pb-24 px-4 sm:px-6 prose">
-        <slot />
+        {@render children?.()}
       </div>
     </div>
   </main>

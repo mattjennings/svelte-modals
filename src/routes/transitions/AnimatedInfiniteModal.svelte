@@ -1,18 +1,17 @@
 <script>
-  import { createEventDispatcher } from 'svelte'
-
   import { closeModal, modals } from 'svelte-modals'
   import { fade, fly } from 'svelte/transition'
 
-  const dispatch = createEventDispatcher()
-
-  export let isOpen
-  export let title
-  export let message
-  export let openAnother
-
-  export let transition = 'fade'
-  export let exitBeforeEnter = false
+  let {
+    isOpen,
+    title,
+    message,
+    openAnother,
+    transition = 'fade',
+    exitBeforeEnter = false,
+    onintrostart = () => {},
+    onoutroend = () => {}
+  } = $props()
 
   let _transition = transition === 'fade' ? fade : fly
   let transitionArgs =
@@ -29,14 +28,14 @@
     role="dialog"
     class="modal"
     transition:_transition|global={transitionArgs}
-    on:introstart={() => {
+    onintrostart={() => {
       if (exitBeforeEnter) {
-        dispatch('introstart')
+        onintrostart()
       }
     }}
-    on:outroend={() => {
+    onoutroend={() => {
       if (exitBeforeEnter) {
-        dispatch('outroend')
+        onoutroend()
       }
     }}
   >
@@ -44,8 +43,8 @@
       <h2>{title} #{index}</h2>
       <p>{message}</p>
       <div class="actions">
-        <button on:click={closeModal}>Close</button>
-        <button on:click={openAnother}>Open</button>
+        <button onclick={closeModal}>Close</button>
+        <button onclick={openAnother}>Open</button>
       </div>
     </div>
   </div>

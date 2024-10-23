@@ -2,18 +2,16 @@
   import { closeModal } from 'svelte-modals'
   import { fade } from 'svelte/transition'
 
-  export let isOpen
-  export let title
-  export let message
+  let { isOpen, title, message, ...props } = $props()
 </script>
 
 {#if isOpen}
-  <div role="dialog" class="modal" transition:fade|global on:introstart on:outroend>
+  <div role="dialog" class="modal" transition:fade|global {...props}>
     <div class="contents">
       <h2>{title}</h2>
       <p>{message}</p>
       <div class="actions">
-        <button on:click={closeModal}>OK</button>
+        <button onclick={closeModal}>OK</button>
       </div>
     </div>
   </div>

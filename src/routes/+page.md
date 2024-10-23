@@ -5,7 +5,7 @@
 </script>
 
 <Modals>
-  <div slot="backdrop" class="backdrop" on:click={closeModal} />
+  <div slot="backdrop" class="backdrop" onclick={closeModal} />
 </Modals>
 
 # svelte-modals
@@ -30,11 +30,12 @@ Add `Modals` somewhere in your app. This is where the modals will render.
 </script>
 
 <Modals>
-  <div
-    slot="backdrop"
-    class="backdrop"
-    on:click={closeModal}
-  />
+  {#snippet backdrop()}
+    <div
+      class="backdrop"
+      onclick={closeModal}
+    />
+  {/snippet}
 </Modals>
 
 <style>
@@ -55,11 +56,12 @@ Create your Modal component
 <script>
   import { closeModal } from 'svelte-modals'
 
-  // provided by <Modals />
-  export let isOpen
-
-  export let title
-  export let message
+  const {
+    // provided by <Modals />
+    isOpen,
+    title,
+    message
+  } = $props()
 
 </script>
 
@@ -69,7 +71,7 @@ Create your Modal component
       <h2>{title}</h2>
       <p>{message}</p>
       <div class="actions">
-        <button on:click={closeModal}>OK</button>
+        <button onclick={closeModal}>OK</button>
       </div>
     </div>
   </div>
@@ -132,11 +134,11 @@ Open it
   }
 </script>
 
-<button on:click={handleClick}>Open Modal</button>
+<button onclick={handleClick}>Open Modal</button>
 ```
 
 <button
 class="mt-6"
-on:click={() => {
+onclick={() => {
 openModal(AlertModal, { title: 'Alert', message: 'This is an alert' })
 }}>Try it out!</button>

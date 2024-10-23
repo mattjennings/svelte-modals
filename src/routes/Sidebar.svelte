@@ -1,13 +1,17 @@
 <script>
+  import { run } from 'svelte/legacy';
+
   import { page } from '$app/stores'
   import { fade, fly } from 'svelte/transition'
   import XIcon from '@mattjennings/heroicons-svelte/outline/XIcon.svelte'
   import MenuIcon from '@mattjennings/heroicons-svelte/outline/MenuIcon.svelte'
   import GitHub from './GitHub.svelte'
 
-  let isMenuOpen = false
+  let isMenuOpen = $state(false)
 
-  $: $page.url.pathname, (isMenuOpen = false)
+  run(() => {
+    $page.url.pathname, (isMenuOpen = false)
+  });
 
   let links = [
     {
@@ -43,8 +47,8 @@
       class="fixed inset-0 bg-gray-600 bg-opacity-75"
       aria-hidden="true"
       transition:fade
-      on:click={() => (isMenuOpen = false)}
-    />
+      onclick={() => (isMenuOpen = false)}
+></div>
 
     <div
       class="relative max-w-xs w-full bg-white pb-4 flex-1 flex flex-col"
@@ -55,7 +59,7 @@
     >
       <div class="absolute top-0 right-0 -mr-12 pt-2" transition:fade>
         <button
-          on:click={() => (isMenuOpen = false)}
+          onclick={() => (isMenuOpen = false)}
           class="unstyled ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
         >
           <span class="sr-only">Close sidebar</span>
@@ -103,13 +107,13 @@
 {#if !isMenuOpen}
   <div class="sm:hidden fixed bottom-0 right-4 z-10 flex-shrink-0 h-16 flex">
     <button
-      on:click={() => (isMenuOpen = true)}
+      onclick={() => (isMenuOpen = true)}
       class="unstyled bg-white rounded-full h-10 w-10 flex items-center justify-center shadow border border-gray-200 text-gray-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
     >
       <span class="sr-only">Open sidebar</span>
       <MenuIcon class="h-[1.25rem] w-[1.25rem]" />
     </button>
-    <div />
+    <div></div>
   </div>
 {/if}
 

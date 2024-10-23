@@ -1,10 +1,7 @@
 <script>
   import { closeModal } from 'svelte-modals'
 
-  export let isOpen
-  export let title
-  export let message
-
+  let { isOpen, title, message } = $props()
 </script>
 
 {#if isOpen}
@@ -13,7 +10,7 @@
       <h2>{title}</h2>
       <p>{message}</p>
       <div class="actions">
-        <button on:click={closeModal}>OK</button>
+        <button onclick={closeModal}>OK</button>
       </div>
     </div>
   </div>
@@ -60,5 +57,4 @@
     display: flex;
     justify-content: flex-end;
   }
-
 </style>

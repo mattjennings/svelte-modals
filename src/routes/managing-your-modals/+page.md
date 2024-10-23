@@ -59,17 +59,33 @@ Modals are managed using a LIFO (last in first out) stack. `openModal()` will ad
   }
 </script>
 
-<button on:click={handleDelete}>Delete Important Data</button>
+<button onclick={handleDelete}>Delete Important Data</button>
 ```
 
-<button class="mt-6 !bg-red-600 !text-white !border-red-50" on:click={handleDelete}>Delete Important Data</button>
+<button class="mt-6 !bg-red-600 !text-white !border-red-50" onclick={handleDelete}>Delete Important Data</button>
 
 Your modal components will receive an `isOpen` prop. Modals stay mounted regardless if they are showing or not, so you'll need to wrap your contents in an `if` block to hide them.
 
 ```svelte
 <!-- MyModal.svelte -->
 <script>
-  export let isOpen
+  const { isOpen } = $props()
+</script>
+
+{#if isOpen}
+  <div role="dialog">
+    <!-- ... -->
+  </div>
+{/if}
+```
+
+If you are using Typescript, you can use the `ModalProps` type for $props
+
+```svelte
+<!-- MyModal.svelte -->
+<script lang="ts">
+  import type { ModalProps } from 'svelte-modals'
+  const { isOpen } = $props<ModalProps>()
 </script>
 
 {#if isOpen}

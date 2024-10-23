@@ -2,11 +2,13 @@
   import { closeModal } from 'svelte-modals'
   import BaseModal from './BaseModal.svelte'
 
-  export let isOpen
 
-  export let message
-  export let onConfirm
-  export let labels = { cancel: 'Cancel', confirm: 'OK' }
+  let {
+    isOpen,
+    message,
+    onConfirm,
+    labels = { cancel: 'Cancel', confirm: 'OK' }
+  } = $props();
 </script>
 
 <BaseModal {isOpen}>
@@ -15,8 +17,8 @@
     {message}
   </p>
 
-  <svelte:fragment slot="actions">
-    <button type="button" on:click={closeModal}> {labels?.cancel} </button>
-    <button type="button" on:click={onConfirm}> {labels?.confirm} </button>
-  </svelte:fragment>
+  {#snippet actions()}
+      <button type="button" onclick={closeModal}> {labels?.cancel} </button>
+      <button type="button" onclick={onConfirm}> {labels?.confirm} </button>
+  {/snippet}
 </BaseModal>

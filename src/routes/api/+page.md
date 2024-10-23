@@ -14,7 +14,7 @@ h2 {
 
 Handles the rendering of your modals in the stack
 
-### Slots
+### Snippets
 
 #### `backdrop`
 
@@ -26,12 +26,14 @@ Renders when any modals are open. The slot is empty by default.
 </script>
 
 <Modals>
-  <div
-    slot="backdrop"
-    class="backdrop"
-    on:click={closeModal}
-  />
+  {#snippet backdrop()}
+    <div
+      class="backdrop"
+      onclick={closeModal}
+    />
+  {/snippet}
 </Modals>
+
 
 <style>
   .backdrop {
@@ -51,19 +53,14 @@ Rendered when the current modal is being lazy loaded (see [Lazy Loading](/lazy-l
 
 ```svelte
 <script>
-  import { Modals, closeModal } from 'svelte-modals'
+  import { Modals } from 'svelte-modals'
   import Spinner from '../Spinner.svelte'
 </script>
 
 <Modals>
-  <div
-    slot="backdrop"
-    class="backdrop"
-    on:click={closeModal}
-  />
-  <div slot="loading">
+  {#snippet loading()}
     <Spinner />
-  </div>
+  {/snippet}
 </Modals>
 
 <style>
@@ -80,30 +77,25 @@ Rendered when the current modal is being lazy loaded (see [Lazy Loading](/lazy-l
 
 <br />
 
-#### `default`
+#### `modals`
 
-Modals will render in the default slot. If you want to control how modals are rendered yourself,
-you can do so here.
+Renders the current stack of modals. If you wish to modify the behaviour of how the stack is rendered, you can override this
+snippet.
 
 ```svelte
 <script>
-  import { Modals, modals } from 'svelte-modals'
-
-  $: activeModal = $modals[$modals.length-1]
+  import { Modals } from 'svelte-modals'
 </script>
 
 <Modals>
-  <!--
-    only render the active modal, removing the need for isOpen props
-    (warning: modal state will be lost between transitions)
-  -->
-  {#if activeModal}
-    <svelte:component
-      this={activeModal.component}
-      {...activeModal.props || {}}
-    />
-  {/if}
+  <!-- always show all modals in the stack -->
+  {#snippet modals(modals)}
+    {#each modals as modal}
+      <modal.component isOpen {...modal.props || {}} />
+    {/each}
+  {/snippet}
 </Modals>
+
 ```
 
 ## openModal

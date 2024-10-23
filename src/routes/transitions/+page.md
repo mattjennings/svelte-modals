@@ -25,12 +25,13 @@ Let's add a fade to our backdrop by adding `transition:fade`
 </script>
 
 <Modals>
-  <div
-    slot="backdrop"
-    class="backdrop"
-    transition:fade
-    on:click={closeModal}
-  />
+  {#snippet backdrop()}
+    <div
+      class="backdrop"
+      transition:fade
+      onclick={closeModal}
+    />
+  {/snippet}
 </Modals>
 ```
 
@@ -41,10 +42,7 @@ and let's do the same for the modal
   import { closeModal } from 'svelte-modals'
   import { fade } from 'svelte/transition'
 
-  export let isOpen
-  export let title
-  export let message
-
+  const { isOpen, title, message } = $props()
 </script>
 
 {#if isOpen}
@@ -62,27 +60,25 @@ and let's do the same for the modal
 
 <button
 class="mt-6"
-on:click={() => {
+onclick={() => {
 openModal(AnimatedAlertModal, { title: 'Alert', message: 'This is an alert' })
 }}> Try it out</button>
-
-**Note:** As of Svelte 4 the `|global` modifier is necessary for the transition to work on the modal. [See Svelte docs for more information](https://svelte.dev/docs/element-directives#transition-fn).
 
 ## Transitions between Modals
 
 If you are opening one modal after another, the intro and outro transitions of both modals will overlap. Depending on your animation, this might be ok, but often it's cleaner to transition one at a time.
 
-You can do this by forwarding the `on:introstart` and `on:outroend` events in your modal components.
+You can do this by forwarding the `onintrostart` and `onoutroend` props in your modal components.
 
 ```svelte
 <script>
   import { fade } from 'svelte/transition'
 
-  export let isOpen
+  const { isOpen, onintrostart, onoutroend } = $props()
 </script>
 
 {#if isOpen}
-  <div role="dialog" class="modal" transition:fade|global on:introstart on:outroend>
+  <div role="dialog" class="modal" transition:fade|global {onintrostart} {onoutroend}>
     <!-- ... -->
   </div>
 {/if}
@@ -91,11 +87,11 @@ You can do this by forwarding the `on:introstart` and `on:outroend` events in yo
 Let's see how the transitions compare:
 
 <button
-on:click={() => {
+onclick={() => {
 openAnimatedInfiniteModal(openModal)
 }}>Overlapped</button>
 
 <button
-on:click={() => {
+onclick={() => {
 openAnimatedInfiniteModal(openModal, { exitBeforeEnter: true })
 }}>Deferred</button>

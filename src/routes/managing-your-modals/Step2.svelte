@@ -2,7 +2,7 @@
   import BaseModal from './BaseModal.svelte'
   import { closeAllModals, closeModal } from 'svelte-modals'
 
-  export let isOpen
+  let { isOpen } = $props();
 </script>
 
 <BaseModal {isOpen}>
@@ -12,8 +12,10 @@
     pariatur iste dolorem animi vitae error totam. At sapiente aliquam accusamus facere veritatis.
   </p>
 
-  <svelte:fragment slot="actions">
-    <button type="button" on:click={closeModal}> Back </button>
-    <button type="button" on:click={closeAllModals}> Done </button>
-  </svelte:fragment>
+  {#snippet actions()}
+  
+      <button type="button" onclick={closeModal}> Back </button>
+      <button type="button" onclick={closeAllModals}> Done </button>
+    
+  {/snippet}
 </BaseModal>

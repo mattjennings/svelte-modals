@@ -3,7 +3,7 @@
   import BaseModal from './BaseModal.svelte'
   import Step2 from './Step2.svelte'
 
-  export let isOpen
+  let { isOpen } = $props();
 </script>
 
 <BaseModal {isOpen}>
@@ -13,15 +13,17 @@
     pariatur iste dolorem animi vitae error totam. At sapiente aliquam accusamus facere veritatis.
   </p>
 
-  <svelte:fragment slot="actions">
-    <div />
-    <button
-      type="button"
-      on:click={() => {
+  {#snippet actions()}
+  
+      <div></div>
+      <button
+        type="button"
+        onclick={() => {
         openModal(Step2)
       }}
-    >
-      Next
-    </button>
-  </svelte:fragment>
+      >
+        Next
+      </button>
+    
+  {/snippet}
 </BaseModal>

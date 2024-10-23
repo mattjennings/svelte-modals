@@ -1,10 +1,12 @@
 <script>
   import { closeModal, modals } from 'svelte-modals'
 
-  export let isOpen
-  export let title
-  export let message
-  export let openAnother
+  let {
+    isOpen,
+    title,
+    message,
+    openAnother
+  } = $props();
 
   let index = $modals.length
 
@@ -16,8 +18,8 @@
       <h2>{title} #{index}</h2>
       <p>{message}</p>
       <div class="actions">
-        <button on:click={closeModal}>Close</button>
-        <button on:click={openAnother}>Open</button>
+        <button onclick={closeModal}>Close</button>
+        <button onclick={openAnother}>Open</button>
       </div>
     </div>
   </div>
