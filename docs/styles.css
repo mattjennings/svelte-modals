@@ -1,0 +1,8 @@
+:root {
+  --sl-z-index-backdrop: 999;
+  --sl-z-index-modal: 1000;
+}
+
+button:not([disabled]) {
+  cursor: pointer;
+}

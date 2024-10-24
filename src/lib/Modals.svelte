@@ -1,6 +1,9 @@
-<script lang="ts" module>
+<script lang="ts" module>  
   export interface ModalProps {
     isOpen: boolean
+
+    onintrostart?: () => void
+    onoutroend?: () => void
   }
 </script>
 
@@ -15,7 +18,7 @@
 </script>
 
 {#if $modals.length > 0}
-  {@render props.backdrop()}
+  {@render props.backdrop?.()}
 {/if}
 
 {#if props.children}
@@ -45,17 +48,17 @@
       <modal.component
         isOpen={i === $modals.length - 1 && !$transitioning}
         {...modal.props}
-        onintrostart={(...args: any[]) => {          
+        onintrostart={() => {          
           $exitBeforeEnter = true
-          modal.props?.onintrostart?.(...args)
+          modal.props?.onintrostart?.()
         }}
-        onoutroend={(...args: any[]) => {
+        onoutroend={() => {
           // unsure why, but without this timeout sometimes the modal is briefly shown before being removed
           // started happening with svelte 5
           setTimeout(() => {         
             $transitioning = false  
           })
-          modal.props?.onoutroend?.(...args)
+          modal.props?.onoutroend?.()
         }}
       />
     {/if}
