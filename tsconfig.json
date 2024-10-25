@@ -10,11 +10,11 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "paths": {
-      "$lib": ["./src/lib"],
-      "$lib/*": ["./src/lib/*"],
-      "svelte-modals": ["./src/lib/index.ts"]
-    }
+    "lib": ["esnext", "DOM", "DOM.Iterable"],
+    "moduleResolution": "bundler",
+    "module": "esnext",
+    "noEmit": true,
+    "target": "esnext"
   },
   "include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]
 }
