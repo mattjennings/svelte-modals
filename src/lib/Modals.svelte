@@ -21,8 +21,8 @@
   {@render props.backdrop?.()}
 {/if}
 
-{#if props.children}
-  {@render props.children($modals)}
+{#if props.modals}
+  {@render props.modals($modals)}
 {:else}
   {#each $modals as modal, i (i)}
     <!-- lazy modal -->

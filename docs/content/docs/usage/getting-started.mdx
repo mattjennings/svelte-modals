@@ -42,13 +42,19 @@ This is where the opened modals will render. If you're using SvelteKit, `+layout
 
 ## Create your Modal component
 
-```svelte title="Modal.svelte"
+Svelte Modals does not provide any Modal components. All styling and functionality is up to you.
+
+Let's create a basic modal component:
+
+```svelte title="MyModal.svelte"
 <script>
   import { closeModal } from 'svelte-modals'
 
   const {
-    // provided by <Modals />
+    // provided by <Modals />, true when it is the top-most modal in the stack
     isOpen,
+
+    // custom props that will be defined when calling openModal()
     title,
     message
   } = $props()
@@ -117,10 +123,10 @@ This is where the opened modals will render. If you're using SvelteKit, `+layout
 ```svelte live 
 <script>
   import { openModal } from 'svelte-modals'  
-  import Modal from '../components/Modal.svelte'
+  import MyModal from '../components/MyModal.svelte'
 
   function handleClick() {     
-    openModal(Modal, { title: "Alert", message: "This is an alert" })
+    openModal(MyModal, { title: "Alert", message: "This is an alert" })
   }
 </script>
 

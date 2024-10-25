@@ -28,7 +28,9 @@ export default defineConfig({
           items: [
             // Each item here is one entry in the navigation menu.
             { label: 'Getting Started', slug: 'usage/getting-started' },
-            { label: 'Making Modals', slug: 'usage/making-modals' }
+            { label: 'The Modal Stack', slug: 'usage/the-modal-stack' },
+            { label: 'Modal Components', slug: 'usage/modal-components' },
+            { label: 'API Reference', slug: 'usage/api' }
           ]
         }
       ],

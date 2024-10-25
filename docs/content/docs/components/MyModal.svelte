@@ -1,5 +1,6 @@
 <script>
   import { closeModal } from 'svelte-modals'
+  import { fade } from 'svelte/transition'
 
   const {
     // provided by <Modals />

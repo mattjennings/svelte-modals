@@ -12,7 +12,10 @@
 
   {#snippet actions()}
     <div />
-    <button type="button" onclick={onconfirm}> OK </button>
+    <button type="button" onclick={() => {
+      closeModal()
+      onconfirm()
+    }}> OK </button>
   {/snippet}
 </BaseModal>
 

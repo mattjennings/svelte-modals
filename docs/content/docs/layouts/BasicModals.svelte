@@ -1,6 +1,8 @@
 <script>
   import { Modals, closeModal, modals } from 'svelte-modals'
+  import { fade } from 'svelte/transition'
 
+  const props = $props()
   function portal(node) {    
     document.body.appendChild(node);
     return {
@@ -9,6 +11,8 @@
       }
     }
   }
+
+  let _transition = props.fade ? fade : undefined
 </script>
 
 <div use:portal>
@@ -16,6 +20,7 @@
     {#snippet backdrop()}
       <div
         class="backdrop"
+        transition:_transition
         onclick={closeModal}
       ></div>
     {/snippet}

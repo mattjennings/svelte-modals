@@ -1,0 +1,239 @@
+---
+title: Modal Component
+layout: ../layouts/AnimatedBackdropLayout.astro
+---
+import { Aside } from '@astrojs/starlight/components';
+import { openModal } from 'svelte-modals'
+import AnimatedAlertModal from '../components/AnimatedAlertModal.svelte'
+
+## Props
+
+Modal components receive the following props:
+
+```ts
+interface ModalProps {
+  isOpen: boolean
+}
+```
+
+Your modal components should use this to determine if it should be visible or not.
+
+
+```svelte title="MyModal.svelte"
+<script>
+  const { isOpen } = $props()  
+</script>
+
+{#if isOpen}
+  <div role="dialog">
+    <!-- ... -->
+  </div>
+{/if}
+```
+
+<Aside>
+If you are using Typescript, you can get the modal prop types with `ModalProps`
+</Aside>
+
+```svelte title="MyModal.svelte"
+<script lang="ts">
+  import type { ModalProps } from 'svelte-modals'
+
+  interface MyModalProps extends ModalProps {
+    title: string
+  }
+
+  const { isOpen, title } = $props<MyModalProps>()
+</script>
+
+{#if isOpen}
+  <div role="dialog">
+    <!-- ... -->
+  </div>
+{/if}
+```
+
+### Callback Props
+
+Use callback props to communicate with the caller of `openModal()`
+
+
+```svelte title="MyModal.svelte"
+<script>
+  const { isOpen, onconfirm } = $props()
+</script>
+
+{#if isOpen}
+  <div role="dialog">
+    <!-- ... -->
+    <button onclick={onconfirm}>Confirm</button>
+  </div>
+{/if}
+```
+
+```js
+import MyModal from './MyModal.svelte'
+import { openModal } from 'svelte-modals'
+
+openModal(MyModal, {
+  onconfirm: () => {
+    console.log('Confirmed')
+  }
+}) 
+```
+
+## Transitions
+
+Transitions can be added to your modal components just like any other Svelte component. Let's add a fade 
+transition to both our backdrop and our modal.
+
+First, the backdrop:
+
+```svelte {10}
+<script>
+  import { Modals, closeModal } from 'svelte-modals'
+  import { fade } from 'svelte/transition'
+</script>
+
+<Modals>
+  {#snippet backdrop()}
+    <div
+      class="backdrop"
+      transition:fade
+      onclick={closeModal}
+    />
+  {/snippet}
+</Modals>
+```
+
+and the modal:
+
+
+```svelte {12}
+<script>
+  import { closeModal } from 'svelte-modals'
+  import { fade } from 'svelte/transition'
+
+  const { isOpen, title, message } = $props()
+</script>
+
+{#if isOpen}
+  <div 
+    role="dialog"
+    class="modal-container"
+    transition:fade|global
+  >
+    <div class="modal-content">
+      <h2>{title}</h2>
+      <p>{message}</p>
+
+      <div class="modal-actions">
+        <button onclick={closeModal}>OK</button>
+      </div>
+    </div>
+  </div>
+{/if}
+```
+
+<Aside>
+`|global` is required in the transition as this modal can be unmounted by its parent. See the
+[Svelte transition docs](https://svelte.dev/docs/svelte/transition#Local-vs-global) for more info.
+</Aside>
+
+
+```svelte live layout="../layouts/code/NoCode.astro"
+<script>
+  import { openModal } from 'svelte-modals'
+  import AnimatedAlertModal from '../components/AnimatedAlertModal.svelte'
+
+  const onclick = () => {
+    openModal(AnimatedAlertModal, {
+      title: 'Hello',
+      message: 'This is a message'
+    })
+  }
+</script>
+
+<button onclick={onclick}>
+  Open Modal
+</button>
+```
+
+### Between Modals
+
+When opening one modal after another the transitions for both will play at the same time. 
+Depending on your animation this might be ok, but often it’s cleaner to transition one at a time.
+
+To control this behaviour, you can forward on the `onintrostart` and `onoutroend` props to your modal.
+This allows `<Modals />` to wait for the transition to finish before opening the next modal.
+
+```svelte {11-12}
+<script>
+  import { fade } from 'svelte/transition'
+
+  const { isOpen, onintrostart, onoutroend } = $props()
+</script>
+
+{#if isOpen}
+  <div 
+    role="dialog" 
+    transition:fade|global 
+    {onintrostart} 
+    {onoutroend}
+  >
+    <!-- ... -->
+  </div>
+{/if}
+```
+
+```svelte live layout="../layouts/code/NoCode.astro"
+<script>
+  import { openModal } from 'svelte-modals'
+  import AnimatedInfiniteModal from '../components/AnimatedInfiniteModal.svelte'
+
+  function openInfiniteModal(openModal, props) {
+    openModal(InfiniteModal, { title: 'Modal', message: 'Try opening another one', openAnother: () => openInfiniteModal(openModal, props), ...props })
+  }
+  function openAnimatedInfiniteModal(openModal, props) {
+    openModal(AnimatedInfiniteModal, { title: 'Modal', message: 'Try opening another one', openAnother: () => openAnimatedInfiniteModal(openModal, props), ...props })
+  }
+
+</script>
+
+<p>
+See how they compare
+</p>
+
+<button onclick={() => openAnimatedInfiniteModal(openModal)}>Overlapped</button>
+<button onclick={() => openAnimatedInfiniteModal(openModal, { exitBeforeEnter: true })}>Deferred</button>
+```
+
+## Lazy Loading
+
+Modal components can be lazy loaded with dynamic imports
+
+```js
+import { openModal } from 'svelte-modals'
+
+openModal(() => import('./AlertModal.svelte'), {
+  title: 'Lazy Modal',
+  message: 'This modal was loaded lazily'
+})
+```
+
+```svelte live layout="../layouts/code/NoCode.astro" 
+<script>
+  import { openModal } from 'svelte-modals'
+
+  function onclick() {
+    openModal(() => import('../components/AlertModal.svelte'), {
+      title: 'Lazy Modal',
+      message: 'This modal was loaded lazily'
+    })
+  }
+</script>
+
+<button onclick={onclick}>Open Modal</button>
+```
+
+While the component is being imported, the `<Modals />` component will render the `backdrop` and `loading` snippets.
