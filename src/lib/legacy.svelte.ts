@@ -1,22 +1,33 @@
 import { writable } from 'svelte/store'
-import { modals as modalStack } from './modal-stack.svelte'
-import { default as Modals } from './Modals.svelte'
-import { StackedModal } from './stacked-modal.svelte'
+import { modals } from './modals.svelte'
+import { default as Modals } from './ModalStack.svelte'
+import { Modal } from './modal.svelte'
 
-const modals = writable<StackedModal[]>([])
+const modalsStore = writable<Modal[]>([])
 
 // sync rune to modals store
 $effect.root(() => {
-  modals.set(modalStack.stack)
+  modalsStore.set(modals.stack)
 })
 
-const openModal = modalStack.open.bind(modalStack)
-const closeModal = () => modalStack.close(1)
-const closeModals = modalStack.close.bind(modalStack)
-const closeAllModals = modalStack.closeAll.bind(modalStack)
+const openModal: (typeof modals)['open'] = async (...args) => {
+  try {
+    return await modals.open(...args)
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Current modal prevented closing') {
+      console.error(e)
+    } else {
+      throw e
+    }
+  }
+}
+
+const closeModal = () => modals.close(1)
+const closeModals = modals.close.bind(modals)
+const closeAllModals = modals.closeAll.bind(modals)
 
 function onBeforeClose(fn: () => void) {
-  const modal = modalStack.stack[modalStack.stack.length - 1]
+  const modal = modals.stack[modals.stack.length - 1]
 
   if (!modal) {
     return
@@ -25,4 +36,12 @@ function onBeforeClose(fn: () => void) {
   modal.onBeforeClose = fn
 }
 
-export { openModal, closeModal, closeModals, closeAllModals, modals, Modals, onBeforeClose }
+export {
+  openModal,
+  closeModal,
+  closeModals,
+  closeAllModals,
+  modalsStore as modals,
+  Modals,
+  onBeforeClose
+}

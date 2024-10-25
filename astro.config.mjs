@@ -31,7 +31,8 @@ export default defineConfig({
             { label: 'Getting Started', slug: 'usage/getting-started' },
             { label: 'The Modal Stack', slug: 'usage/the-modal-stack' },
             { label: 'Modal Components', slug: 'usage/modal-components' },
-            { label: 'API Reference', slug: 'usage/api' }
+            { label: 'API Reference', slug: 'usage/api' },
+            { label: 'v2 Migration', slug: 'usage/v2-migration' }
           ]
         }
       ],

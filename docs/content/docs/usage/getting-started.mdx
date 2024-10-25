@@ -10,23 +10,24 @@ layout: ../layouts/BaseLayout.astro
 npm install svelte-modals
 ```
 
-## Add \<Modals /> to your app
+## Add \<ModalStack /> to your app
 
 This is where the opened modals will render. If you're using SvelteKit, `+layout.svelte` would be appropriate.
 
 ```svelte title="App.svelte"
 <script>
-  import { Modals, closeModal } from 'svelte-modals'
+  import { ModalStack } from 'svelte-modals'
 </script>
 
-<Modals>
-  {#snippet backdrop()}
+<ModalStack>
+  <!-- shown when any modal is opened -->
+  {#snippet backdrop({ close })}
     <div
       class="backdrop"
-      onclick={closeModal}
+      onclick={() => close()}
     />
   {/snippet}
-</Modals>
+</ModalStack>
 
 <style>
   .backdrop {
@@ -42,32 +43,32 @@ This is where the opened modals will render. If you're using SvelteKit, `+layout
 
 ## Create your Modal component
 
-Svelte Modals does not provide any Modal components. All styling and functionality is up to you.
+Svelte Modals does not provide any Modal components. All styling and functionality is up to you, it just
+renders your component with some props.
 
 Let's create a basic modal component:
 
 ```svelte title="MyModal.svelte"
 <script>
-  import { closeModal } from 'svelte-modals'
-
   const {
-    // provided by <Modals />, true when it is the top-most modal in the stack
-    isOpen,
+    // provided by <ModalStack />
+    isActive, // is it currently being shown?
+    close,    // closes the modal
 
-    // custom props that will be defined when calling openModal()
+    // your props
     title,
     message
   } = $props()
 
 </script>
 
-{#if isOpen}
+{#if isActive}
   <div role="dialog" class="modal">
     <div class="contents">
       <h2>{title}</h2>
       <p>{message}</p>
       <div class="actions">
-        <button onclick={closeModal}>OK</button>
+        <button onclick={() => close()}>OK</button>
       </div>
     </div>
   </div>
@@ -122,11 +123,11 @@ Let's create a basic modal component:
 
 ```svelte live 
 <script>
-  import { openModal } from 'svelte-modals/legacy'  
+  import { modals } from 'svelte-modals'
   import MyModal from '../components/MyModal.svelte'
 
   function handleClick() {     
-    openModal(MyModal, { title: "Alert", message: "This is an alert" })
+    modals.open(MyModal, { title: "Alert", message: "This is an alert" })
   }
 </script>
 

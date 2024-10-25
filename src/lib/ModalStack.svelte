@@ -1,20 +1,8 @@
-<script lang="ts" module>
-  export interface ModalProps {
-    /**
-     * @deprecated - use isActive prop or getModal().isActive
-     */
-    isOpen: boolean
-
-    onintrostart?: () => void
-    onoutroend?: () => void
-  }
-</script>
-
 <script lang="ts">
   import ModalContext from './ModalContext.svelte'
-  import type { StackedModal } from './stacked-modal.svelte'
+  import type { Modal } from './modal.svelte'
   import type { LazyModalComponent, ModalComponent } from './types'
-  import { modals } from './modal-stack.svelte'
+  import { modals } from './modals.svelte'
 
   function isLazyModal(
     component: ModalComponent | LazyModalComponent
@@ -26,7 +14,7 @@
 </script>
 
 {#if modals.stack.length > 0}
-  {@render props.backdrop?.()}
+  {@render props.backdrop?.({ close: modals.close.bind(modals) })}
 {/if}
 
 {#if props.modals}
@@ -37,7 +25,7 @@
   {/each}
 {/if}
 
-{#snippet modal(m: StackedModal)}
+{#snippet modal(m: Modal)}
   <ModalContext modal={m}>
     <!-- lazy modal -->
     {#if isLazyModal(m.component)}

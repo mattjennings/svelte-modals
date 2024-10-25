@@ -1,8 +1,8 @@
-import { StackedModal } from './stacked-modal.svelte'
-import type { FirstParam, LazyModalComponent, ModalComponent } from './types'
+import { Modal, type ModalProps } from './modal.svelte'
+import type { LazyModalComponent, ModalComponent } from './types'
 
-export class ModalStack {
-  stack = $state<StackedModal[]>([])
+export class Modals {
+  stack = $state<Modal[]>([])
   action = $state<null | 'push' | 'pop'>(null)
 
   exitBeforeEnter = $state(false)
@@ -12,24 +12,33 @@ export class ModalStack {
    * Opens a new modal
    */
   async open<
-    Props extends Record<string, any> = {},
+    Props extends ModalProps = ModalProps,
     Exports extends Record<string, any> = {},
-    Bindings extends keyof Props | '' = string,
-    Result = FirstParam<Props['close']>
+    Bindings extends keyof ModalProps | '' = string,
+    Result = Props extends ModalProps<infer R> ? R : unknown
   >(
     component:
       | ModalComponent<Props, Exports, Bindings>
       | LazyModalComponent<Props, Exports, Bindings>,
     props?: Omit<Props, 'isOpen'>,
     options?: {
+      id?: string
+
       /**
-       * This modal will replace the last modal in the stack
+       * This modal will close and replace the last modal in the stack. If the current modal prevents closing it will throw
        */
       replace?: boolean
     }
   ): Promise<Result | undefined> {
     if (this.transitioning) {
       return
+    }
+
+    if (options?.replace) {
+      const closed = this.stack[this.stack.length - 1]?.close()
+      if (!closed) {
+        throw new Error('Current modal prevented closing')
+      }
     }
 
     this.action = 'push'
@@ -40,18 +49,19 @@ export class ModalStack {
 
     this.exitBeforeEnter = false
 
-    // this object will be mutated by other functions
-    const modal = new StackedModal({
-      modalStack: this,
+    const modal = new Modal(this, {
+      id: options?.id,
       component,
       props
     })
 
-    if (options?.replace) {
-      this.stack.pop()
-    }
-
     this.stack.push(modal)
+
+    modal.onclose = () => {
+      if (this.stack.indexOf(modal) > -1) {
+        this.stack.splice(this.stack.indexOf(modal), 1)
+      }
+    }
 
     return modal.promise
   }
@@ -74,10 +84,9 @@ export class ModalStack {
 
     let closedAmount = 0
     for (const modal of closedModals) {
-      if (modal?.onBeforeClose) {
-        if (modal?.onBeforeClose() === false) {
-          break
-        }
+      const closed = modal.close()
+      if (!closed) {
+        break
       }
       closedAmount++
     }
@@ -91,11 +100,16 @@ export class ModalStack {
       this.action = 'pop'
     }
 
-    for (let i = 0; i < closedAmount; i++) {
-      this.stack.pop()
+    return amount === closedAmount
+  }
+
+  closeById(id: string): boolean {
+    const modal = this.stack.find((modal) => modal.id === id)
+    if (!modal) {
+      return false
     }
 
-    return amount === closedAmount
+    return modal.close()
   }
 
   /**
@@ -108,6 +122,6 @@ export class ModalStack {
   }
 }
 
-const modals = new ModalStack()
+const modals = new Modals()
 
 export { modals }

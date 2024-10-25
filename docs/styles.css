@@ -17,6 +17,9 @@ button:not([disabled]) {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  /* allow click-through to backdrop */
+  pointer-events: none;
 }
 
 .modal-content {

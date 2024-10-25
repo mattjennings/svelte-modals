@@ -1,3 +1,6 @@
+import type { Component } from 'svelte'
+import type { ModalProps } from './modal.svelte'
+
 export type FirstParam<T> = T extends (arg: infer P) => any ? P : never
 
 /**
@@ -8,13 +11,13 @@ export type FirstParam<T> = T extends (arg: infer P) => any ? P : never
 export type CloseProp<T = unknown> = (result: T) => boolean
 
 export type ModalComponent<
-  Props extends Record<string, any> = {},
+  Props extends ModalProps<any> = ModalProps<any>,
   Exports extends Record<string, any> = {},
   Bindings extends keyof Props | '' = string
 > = Component<Props, Exports, Bindings>
 
 export type LazyModalComponent<
-  Props extends Record<string, any> = {},
+  Props extends ModalProps<any> = ModalProps<any>,
   Exports extends Record<string, any> = {},
   Bindings extends keyof Props | '' = string
 > = () => Promise<{

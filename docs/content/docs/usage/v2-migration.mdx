@@ -1,0 +1,28 @@
+---
+title: v2 Migration
+description: Migration guide from v1 to v2
+layout: ../layouts/LegacyBaseLayout.astro
+---
+
+v2 introduces Svelte 5 support and an API overhaul to better solve the community requests during v1. To make the migration
+easier, you can change all of your `svelte-modals` imports to `svelte-modals/legacy` which is a v1 wrapper around the new APIs. 
+This should hopefully have no breaking changes, but please report any issues you find.
+
+```svelte live 
+<script>
+  import { openModal, closeModal } from 'svelte-modals/legacy'  
+  import MyModal from '../components/MyModal.svelte'
+
+  function handleClick() {     
+    openModal(MyModal, { title: "Alert", message: "This is an alert" })
+  }
+</script>
+
+<button onclick={handleClick}>Open Modal</button>
+```
+
+{/* TODO: link v1 docs */}
+{/* TODO: do slots work with snippets? */}
+
+
+## What's new?
