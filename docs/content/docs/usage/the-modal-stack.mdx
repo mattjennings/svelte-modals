@@ -16,7 +16,7 @@ If a modal is dismissed the component unmounts and the next one in the stack wil
   
   function openInfiniteModal() {
     openModal(ConfirmModal, {
-      message: 'Open another modal? This is modal #' + (modals.length + 1),
+      message: 'Open another modal? This is modal #' + ($modals.length + 1),
       oncancel: () => closeModal(),
       onconfirm: () => openInfiniteModal()
     })

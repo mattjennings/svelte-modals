@@ -2,7 +2,6 @@ import { writable } from 'svelte/store'
 import { modals as modalStack } from './modal-stack.svelte'
 import { default as Modals } from './Modals.svelte'
 import { StackedModal } from './stacked-modal.svelte'
-import { getModal } from './ModalContext.svelte'
 
 const modals = writable<StackedModal[]>([])
 
