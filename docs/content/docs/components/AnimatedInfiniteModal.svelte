@@ -1,5 +1,5 @@
 <script>
-  import { closeModal, modals } from 'svelte-modals'
+  import { closeModal, modals } from 'svelte-modals/legacy'
   import { fade, fly } from 'svelte/transition'
 
   let {
@@ -12,7 +12,6 @@
     onoutroend = () => {}
   } = $props()
 
-  console.log(exitBeforeEnter)
   let index = $modals.length
 </script>
 

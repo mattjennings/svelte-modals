@@ -11,12 +11,12 @@ If a modal is dismissed the component unmounts and the next one in the stack wil
 
 ```svelte live
 <script>  
-  import { openModal, closeModal, modals } from 'svelte-modals'
+  import { openModal, closeModal, modals } from 'svelte-modals/legacy'
   import ConfirmModal from '../components/ConfirmModal.svelte'
   
   function openInfiniteModal() {
     openModal(ConfirmModal, {
-      message: 'Open another modal? This is modal #' + ($modals.length + 1),
+      message: 'Open another modal? This is modal #' + (modals.length + 1),
       oncancel: () => closeModal(),
       onconfirm: () => openInfiniteModal()
     })
@@ -32,7 +32,7 @@ Modals can be opened by calling `openModal(YourModalComponent, props)`. The `pro
 
 ```svelte
 <script>
-  import { openModal } from 'svelte-modals'
+  import { openModal } from 'svelte-modals/legacy'
   import MyModal from '../components/MyModal.svelte'
 
   function openMyModal() {
@@ -50,7 +50,7 @@ The top modal can be dismissed with `closeModal()`, or all modals can be dismiss
 
 ```svelte
 <script>
-  import { closeModal, closeAllModals } from 'svelte-modals'
+  import { closeModal, closeAllModals } from 'svelte-modals/legacy'
 
   // close 1 modal
   closeModal()
@@ -67,7 +67,7 @@ These can be called anywhere in your app, but it's also OK to call from within a
 
 ```svelte
 <script>
-  import { closeModal } from 'svelte-modals'
+  import { closeModal } from 'svelte-modals/legacy'
 
   const { isOpen, message } = $props()
 </script>

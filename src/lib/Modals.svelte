@@ -1,5 +1,8 @@
-<script lang="ts" module>  
+<script lang="ts" module>
   export interface ModalProps {
+    /**
+     * @deprecated - use isActive prop or getModal().isActive
+     */
     isOpen: boolean
 
     onintrostart?: () => void
@@ -8,60 +11,44 @@
 </script>
 
 <script lang="ts">
-  import type { LazyModalComponent, ModalComponent } from './store'
-  import { modals, exitBeforeEnter, transitioning, } from './store'
+  import ModalContext from './ModalContext.svelte'
+  import type { StackedModal } from './stacked-modal.svelte'
+  import type { LazyModalComponent, ModalComponent } from './types'
+  import { modals } from './modal-stack.svelte'
 
-  function isLazyModal(component: ModalComponent | LazyModalComponent): component is LazyModalComponent {
+  function isLazyModal(
+    component: ModalComponent | LazyModalComponent
+  ): component is LazyModalComponent {
     return typeof component.prototype === 'undefined'
   }
 
   const props = $props()
 </script>
 
-{#if $modals.length > 0}
+{#if modals.stack.length > 0}
   {@render props.backdrop?.()}
 {/if}
 
 {#if props.modals}
-  {@render props.modals($modals)}
+  {@render props.modals({ modal, modals })}
 {:else}
-  {#each $modals as modal, i (i)}
+  {#each modals.stack as m, i (i)}
+    {@render modal(m)}
+  {/each}
+{/if}
+
+{#snippet modal(m: StackedModal)}
+  <ModalContext modal={m}>
     <!-- lazy modal -->
-    {#if isLazyModal(modal.component)}
-      {#await modal.component()}
+    {#if isLazyModal(m.component)}
+      {#await m.component()}
         {@render props.loading?.()}
       {:then component}
-        <component.default
-          isOpen={i === $modals.length - 1 && !$transitioning}
-          {...modal.props}
-          onintrostart={() => {
-            $exitBeforeEnter = true
-            modal.props?.onintrostart?.()
-          }}
-          onoutroend={() => {
-            $transitioning = false
-            modal.props?.onoutroend?.()
-          }}
-        />
+        <component.default {...m.props} />
       {/await}
     {:else}
       <!-- normal modal -->
-      <modal.component
-        isOpen={i === $modals.length - 1 && !$transitioning}
-        {...modal.props}
-        onintrostart={() => {          
-          $exitBeforeEnter = true
-          modal.props?.onintrostart?.()
-        }}
-        onoutroend={() => {
-          // unsure why, but without this timeout sometimes the modal is briefly shown before being removed
-          // started happening with svelte 5
-          setTimeout(() => {         
-            $transitioning = false  
-          })
-          modal.props?.onoutroend?.()
-        }}
-      />
+      <m.component {...m.props} />
     {/if}
-  {/each}
-{/if}
+  </ModalContext>
+{/snippet}

@@ -18,11 +18,7 @@ Add `Modals` somewhere in your app. This is where the modals will render.
 </script>
 
 <Modals>
-  <div
-    slot="backdrop"
-    class="backdrop"
-    on:click={closeModal}
-  />
+  <div slot="backdrop" class="backdrop" on:click={closeModal} />
 </Modals>
 
 <style>
@@ -32,7 +28,7 @@ Add `Modals` somewhere in your app. This is where the modals will render.
     bottom: 0;
     right: 0;
     left: 0;
-    background: rgba(0,0,0,0.50)
+    background: rgba(0, 0, 0, 0.5);
   }
 </style>
 ```
@@ -110,7 +106,7 @@ Open it
 
 ```html
 <script>
-  import { openModal } from 'svelte-modals'
+  import { openModal } from 'svelte-modals/legacy'
   import Modal from './Modal.svelte'
 
   function handleClick() {

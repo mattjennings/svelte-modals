@@ -1,5 +1,5 @@
 <script>
-  import { closeModal } from 'svelte-modals'
+  import { closeModal } from 'svelte-modals/legacy'
   import { fade } from 'svelte/transition'
 
   let { isOpen, title, message } = $props()

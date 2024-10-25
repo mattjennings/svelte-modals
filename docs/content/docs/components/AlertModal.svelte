@@ -1,5 +1,5 @@
 <script>
-  import { closeModal } from 'svelte-modals'
+  import { closeModal } from 'svelte-modals/legacy'
   import BaseModal from './BaseModal.svelte'
 
   let { isOpen, message, onconfirm } = $props()
@@ -11,11 +11,15 @@
   </h3>
 
   {#snippet actions()}
-    <div />
-    <button type="button" onclick={() => {
-      closeModal()
-      onconfirm()
-    }}> OK </button>
+    <button
+      type="button"
+      onclick={() => {
+        closeModal()
+        onconfirm()
+      }}
+    >
+      OK
+    </button>
   {/snippet}
 </BaseModal>
 

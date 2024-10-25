@@ -14,7 +14,8 @@
     "moduleResolution": "bundler",
     "module": "esnext",
     "noEmit": true,
-    "target": "esnext"
+    "target": "esnext",
+    "types": ["vitest/globals"]
   },
   "include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]
 }

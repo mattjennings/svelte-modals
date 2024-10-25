@@ -1,5 +1,5 @@
 <script>
-  import { closeModal } from 'svelte-modals'
+  import { closeModal } from 'svelte-modals/legacy'
   import BaseModal from './BaseModal.svelte'
 
   let {
@@ -8,7 +8,7 @@
     onconfirm,
     oncancel = closeModal,
     labels = { cancel: 'Cancel', confirm: 'OK' }
-  } = $props();
+  } = $props()
 </script>
 
 <BaseModal {isOpen}>
@@ -18,8 +18,8 @@
   </p>
 
   {#snippet actions()}
-      <button type="button" onclick={oncancel}> {labels?.cancel} </button>
-      <button type="button" onclick={onconfirm}> {labels?.confirm} </button>
+    <button type="button" onclick={onconfirm}> {labels?.confirm} </button>
+    <button type="button" onclick={oncancel}> {labels?.cancel} </button>
   {/snippet}
 </BaseModal>
 
@@ -33,4 +33,4 @@
     text-align: center;
     margin-top: 16px;
   }
-  </style>
+</style>

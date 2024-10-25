@@ -1,28 +1,24 @@
 <script>
-  import { Modals, closeModal, modals } from 'svelte-modals'
+  import { Modals, closeModal, modals } from 'svelte-modals/legacy'
   import { fade } from 'svelte/transition'
 
   const props = $props()
-  function portal(node) {    
-    document.body.appendChild(node);
+  function portal(node) {
+    document.body.appendChild(node)
     return {
       destroy() {
-        node.remove();
+        node.remove()
       }
     }
   }
 
-  let _transition = props.fade ? fade : undefined
+  let _transition = props.fade ? fade : () => {}
 </script>
 
 <div use:portal>
   <Modals>
     {#snippet backdrop()}
-      <div
-        class="backdrop"
-        transition:_transition
-        onclick={closeModal}
-      ></div>
+      <div class="backdrop" transition:_transition onclick={closeModal}></div>
     {/snippet}
   </Modals>
 </div>

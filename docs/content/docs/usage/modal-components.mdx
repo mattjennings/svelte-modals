@@ -143,7 +143,7 @@ and the modal:
 
 ```svelte live layout="../layouts/code/NoCode.astro"
 <script>
-  import { openModal } from 'svelte-modals'
+  import { openModal } from 'svelte-modals/legacy'
   import AnimatedAlertModal from '../components/AnimatedAlertModal.svelte'
 
   const onclick = () => {
@@ -188,7 +188,7 @@ This allows `<Modals />` to wait for the transition to finish before opening the
 
 ```svelte live layout="../layouts/code/NoCode.astro"
 <script>
-  import { openModal } from 'svelte-modals'
+  import { openModal } from 'svelte-modals/legacy'
   import AnimatedInfiniteModal from '../components/AnimatedInfiniteModal.svelte'
 
   function openInfiniteModal(openModal, props) {
@@ -223,7 +223,7 @@ openModal(() => import('./AlertModal.svelte'), {
 
 ```svelte live layout="../layouts/code/NoCode.astro" 
 <script>
-  import { openModal } from 'svelte-modals'
+  import { openModal } from 'svelte-modals/legacy'
 
   function onclick() {
     openModal(() => import('../components/AlertModal.svelte'), {

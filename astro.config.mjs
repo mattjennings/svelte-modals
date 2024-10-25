@@ -11,6 +11,7 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
+        'svelte-modals/legacy': '/src/lib/legacy.svelte.ts',
         'svelte-modals': '/src/lib/index.ts'
       },
       dedupe: ['svelte-modals']
