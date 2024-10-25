@@ -7,8 +7,9 @@
   }
 </script>
 
-<script>
-  import { modals, exitBeforeEnter, transitioning, type LazyModalComponent, type ModalComponent } from './store'
+<script lang="ts">
+  import type { LazyModalComponent, ModalComponent } from './store'
+  import { modals, exitBeforeEnter, transitioning, } from './store'
 
   function isLazyModal(component: ModalComponent | LazyModalComponent): component is LazyModalComponent {
     return typeof component.prototype === 'undefined'

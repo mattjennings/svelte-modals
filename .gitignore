@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 /.svelte-kit
+/dist
 /package
 .astro/
 .vercel

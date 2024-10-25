@@ -18,9 +18,9 @@ export default defineConfig({
   },
   integrations: [
     starlight({
-      title: 'My Docs',
+      title: 'Svelte Modals',
       social: {
-        github: 'https://github.com/withastro/starlight'
+        github: 'https://github.com/mattjennings/svelte-modals'
       },
       sidebar: [
         {
