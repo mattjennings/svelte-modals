@@ -37,6 +37,7 @@
     "astro-live-code": "^0.0.3",
     "eslint": "^9.13.0",
     "eslint-plugin-svelte": "^2.46.0",
+    "jsdom": "^25.0.1",
     "prettier": "^3.1.0",
     "prettier-plugin-svelte": "^3.2.6",
     "sharp": "^0.32.5",

@@ -59,7 +59,7 @@ export class ModalStack {
   /**
    * Closes the last `amount` of modals in the stack
    *
-   * If closing was prevented by any modal, it returns false and no modals are closed
+   * If closing was prevented by any modal it returns false
    */
   close(amount = 1): boolean {
     if (typeof amount !== 'number' || amount < 1) {
@@ -72,32 +72,30 @@ export class ModalStack {
 
     const closedModals = this.stack.slice(this.stack.length - amount).reverse()
 
-    let shouldClose = true
+    let closedAmount = 0
     for (const modal of closedModals) {
       if (modal?.onBeforeClose) {
         if (modal?.onBeforeClose() === false) {
-          shouldClose = false
           break
         }
       }
+      closedAmount++
     }
 
-    if (shouldClose) {
+    if (closedAmount > 0) {
       if (this.exitBeforeEnter && this.stack.length > 0) {
         this.transitioning = true
       }
 
       this.exitBeforeEnter = false
       this.action = 'pop'
-
-      for (let i = 0; i < amount; i++) {
-        this.stack.pop()
-      }
-
-      return true
     }
 
-    return false
+    for (let i = 0; i < closedAmount; i++) {
+      this.stack.pop()
+    }
+
+    return amount === closedAmount
   }
 
   /**

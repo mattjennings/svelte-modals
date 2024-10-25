@@ -2,7 +2,7 @@ import type { ModalProps } from './Modals.svelte'
 import type { ModalStack } from './modal-stack.svelte'
 import type { LazyModalComponent, ModalComponent } from './types'
 
-export class StackedModal<R = undefined> {
+export class StackedModal<R = any> {
   private static _idCounter = 0
   private modalStack: ModalStack
   private _props: Record<string, any>

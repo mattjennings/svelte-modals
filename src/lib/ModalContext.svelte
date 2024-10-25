@@ -6,7 +6,7 @@
     setContext(key, modal)
   }
 
-  export function getModal() {
+  export function getModal(): StackedModal {
     return getContext(key)
   }
 </script>

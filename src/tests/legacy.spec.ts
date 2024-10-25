@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+import { modals as modalStack } from '../lib'
 import {
   openModal,
   modals,
@@ -6,13 +7,13 @@ import {
   closeModals,
   closeAllModals,
   onBeforeClose
-} from '../lib/store'
+} from '../lib/legacy.svelte'
 import { get } from 'svelte/store'
 
 const FakeComponent = class {} as any
 
 afterEach(() => {
-  modals.set([])
+  modalStack.stack.length = 0
 })
 
 describe('openModal', () => {
@@ -20,7 +21,7 @@ describe('openModal', () => {
     openModal(FakeComponent)
     const $modals = get(modals)
     expect($modals).toHaveLength(1)
-    expect(get($modals[0].isActive)).toBe(true)
+    expect($modals[0].isActive()).toBe(true)
   })
 
   test('adds a 2nd modal to the stack', () => {
@@ -28,8 +29,8 @@ describe('openModal', () => {
     openModal(FakeComponent)
     const $modals = get(modals)
     expect($modals).toHaveLength(2)
-    expect(get($modals[0].isActive)).toBe(false)
-    expect(get($modals[1].isActive)).toBe(true)
+    expect($modals[0].isActive()).toBe(false)
+    expect($modals[1].isActive()).toBe(true)
   })
 
   test('adds a modal to the stack with props', () => {
