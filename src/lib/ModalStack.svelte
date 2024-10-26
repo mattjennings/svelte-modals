@@ -3,6 +3,7 @@
   import type { Modal } from './modal.svelte'
   import type { LazyModalComponent, ModalComponent } from './types'
   import { modals } from './modals.svelte'
+  import type { Snippet } from 'svelte'
 
   function isLazyModal(
     component: ModalComponent | LazyModalComponent
@@ -10,7 +11,11 @@
     return typeof component.prototype === 'undefined'
   }
 
-  const props = $props()
+  const props: {
+    modals?: Snippet<[{ modal: Snippet<[Modal]>; modals: typeof modals }]>
+    backdrop?: Snippet<[{ close: typeof modals.close }]>
+    loading?: Snippet
+  } = $props()
 </script>
 
 {#if modals.stack.length > 0}
@@ -20,7 +25,7 @@
 {#if props.modals}
   {@render props.modals({ modal, modals })}
 {:else}
-  {#each modals.stack as m, i (i)}
+  {#each modals.stack as m, i (m.id)}
     {@render modal(m)}
   {/each}
 {/if}

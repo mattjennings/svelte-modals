@@ -1,5 +1,5 @@
 ---
-title: Modal Component
+title: Modal Components
 layout: ../layouts/AnimatedBackdropLayout.astro
 ---
 import { Aside } from '@astrojs/starlight/components';
@@ -7,8 +7,33 @@ import { openModal } from 'svelte-modals'
 import AnimatedAlertModal from '../components/AnimatedAlertModal.svelte'
 
 Modals are opened using a "last in first out" stack. If multiple modals are opened,
-only the top one is shown and the others will be hidden (by providing an `isActive` prop to the modal).
-When a modal is closed, it unmounts and shows the next modal in the stack (if there is one).
+the top modal receives an `isActive` prop of `true` and the rest receive `false`. Use this
+in your modal component to conditionally render or display the modal.
+
+When a modal is closed it is unmounted and removed from the stack.
+
+```svelte title="MyModal.svelte"
+<script>
+  const { isActive } = $props()
+</script>
+
+{#if isActive}
+  <div>
+    <!-- ... -->
+  </div>
+{/if}
+
+<!-- or if you need to preserve state of child components -->
+<div class:hidden={!isActive} aria-hidden={!isActive}>
+  <!-- ... -->
+</div>
+
+<style>
+  .hidden {
+    display: none;
+  }
+</style>
+```
 
 ## Opening Modals
 
@@ -130,7 +155,7 @@ If you are using Typescript, you can define the type of the value by using the `
 
   type Result = 'cancel' | 'confirm'
   
-  const { isActive, close } = $props<ModalProps<Result>>()
+  const { isActive, close }: ModalProps<Result> = $props()
 </script>
 
 {#if isActive}
@@ -148,56 +173,12 @@ const result = await modals.open(ConfirmModal, { message: 'Are you sure?' })
 result // 'cancel' | 'confirm'
 ```
 
-## Props
-
-Modal components receive the following props:
-
-```ts
-interface ModalProps<ReturnValue = any> extends Record<string, any> {
-  // whether the modal is currently open
-  isActive: boolean
-
-  // the unique id of the modal
-  id: string
-
-  // the index of the modal in the stack
-  index: number
-
-  // closes the modal with an optional return value
-  close: (value?: ReturnValue) => void
-
-  // for transitions, see Transitions section
-  onintrostart: () => void
-  onoutroend: () => void
-}
-```
-
-If you're using Typescript, you should use this interface to define the props of your modal components.
-
-```svelte title="MyModal.svelte"
-<script lang="ts">
-  import type { ModalProps } from 'svelte-modals'
-  
-  interface MyModalProps extends ModalProps {
-    title: string
-  }
-
-  const { isActive, title, close } = $props<MyModalProps>()
-</script>
-
-{#if isActive}
-  <div role="dialog">
-    <!-- ... -->
-  </div>
-{/if}
-```
-
 ## Transitions
 
 Transitions can be added to your modal components just like any other Svelte component. They
 **must be global transitions** because they are mounted and unmounted by the `<ModalStack />` component.
 
-```svelte {11}
+```svelte title="MyModal.svelte" {11}
 <script>  
   import { fade } from 'svelte/transition'
 
@@ -248,7 +229,7 @@ Depending on your animation this might be ok, but often it’s cleaner to transi
 To control this behaviour, you can forward on the `onintrostart` and `onoutroend` props to your modal.
 This tells `<ModalStack />` to wait for the transition to finish before opening the next modal.
 
-```svelte {11-12}
+```svelte title="MyModal.svelte" {11-12}
 <script>
   import { fade } from 'svelte/transition'
 
@@ -280,10 +261,6 @@ This tells `<ModalStack />` to wait for the transition to finish before opening 
   }
 
 </script>
-
-<p>
-See how they compare
-</p>
 
 <button onclick={() => openAnimatedInfiniteModal({ exitBeforeEnter: true })}>With forwarding</button>
 <button onclick={() => openAnimatedInfiniteModal()}>Without forwarding</button>
@@ -318,3 +295,85 @@ modals.open(() => import('./AlertModal.svelte'), {
 ```
 
 While the component is being imported, the `<ModalStack />` component will render `backdrop` and `loading` snippets.
+
+## Snippets
+
+Snippets can be passed in as props the same way you would with a regular Svelte 5 component.
+
+```svelte title="SnippetModal.svelte"
+<script>
+  const { isActive, close, content } = $props()
+</script>
+
+{#if isActive}
+  <div>
+    <!-- ... -->    
+    {@render content()}
+  </div>
+{/if}
+```
+
+```svelte live 
+<script>
+  import { modals } from 'svelte-modals'
+  import SnippetModal from '../components/SnippetModal.svelte'
+
+  function onclick() {
+    modals.open(SnippetModal, {
+      content
+    })
+  }
+</script>
+
+{#snippet content()}
+  <div>Snippet content</div>
+{/snippet}
+
+<button onclick={onclick}>Open Modal</button>
+```
+
+## Props
+
+Modal components receive the following props:
+
+```ts
+interface ModalProps<ReturnValue = any> extends Record<string, any> {
+  // whether the modal is currently open
+  isActive: boolean
+
+  // the unique id of the modal
+  id: string
+
+  // the index of the modal in the stack
+  index: number
+
+  // closes the modal with an optional return value
+  close: (value?: ReturnValue) => void
+
+  // for transitions, see Transitions section
+  onintrostart: () => void
+  onoutroend: () => void
+}
+```
+
+If you're using Typescript, you should use this interface to define the props of your modal components.
+
+```svelte title="MyModal.svelte"
+<script lang="ts">
+  import type { ModalProps } from 'svelte-modals'
+  
+  // optional
+  type CloseValue = 'cancel' | 'confirm'
+
+  interface MyModalProps extends ModalProps<CloseValue> {
+    title: string
+  }
+
+  const { isActive, title, close }: MyModalProps = $props()
+
+  function handleConfirm() {
+    // uses CloseValue
+    close('confirm')
+  }
+</script>
+```

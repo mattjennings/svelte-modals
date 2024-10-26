@@ -1,13 +1,19 @@
 import { writable } from 'svelte/store'
-import { modals } from './modals.svelte'
-import { default as Modals } from './ModalStack.svelte'
+import { modals, Modals } from './modals.svelte'
+import ModalStack from './ModalStack.svelte'
 import { Modal } from './modal.svelte'
 
 const modalsStore = writable<Modal[]>([])
+const actionStore = writable<Modals['action']>(null)
 
 // sync rune to modals store
 $effect.root(() => {
   modalsStore.set(modals.stack)
+})
+
+// sync action to action store
+$effect.root(() => {
+  actionStore.set(modals.action)
 })
 
 const openModal: (typeof modals)['open'] = async (...args) => {
@@ -42,6 +48,7 @@ export {
   closeModals,
   closeAllModals,
   modalsStore as modals,
-  Modals,
+  actionStore as action,
+  ModalStack as Modals,
   onBeforeClose
 }

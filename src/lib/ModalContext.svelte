@@ -24,7 +24,7 @@
 <script lang="ts">
   import type { Modal } from './modal.svelte'
 
-  const { modal, children } = $props<{ modal: Modal; children: any }>()
+  const { modal, children }: { modal: Modal; children: any } = $props()
 
   setModal(modal)
 </script>

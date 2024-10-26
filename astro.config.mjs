@@ -42,6 +42,7 @@ export default defineConfig({
       preprocess: []
     }),
     liveCode({
+      layout: '/docs/content/docs/layouts/code/Code.astro',
       defaultProps: {
         'client:load': true
       }
