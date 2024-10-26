@@ -1,36 +1,46 @@
 <script>
-  import { closeModal } from 'svelte-modals/legacy'
   import BaseModal from './BaseModal.svelte'
 
   let {
-    isOpen,
+    isActive,
+    close,
     message,
     onconfirm,
-    oncancel = closeModal,
+    oncancel,
     labels = { cancel: 'Cancel', confirm: 'OK' }
   } = $props()
 </script>
 
-<BaseModal {isOpen}>
+<BaseModal {isActive}>
   <h3>Confirm</h3>
   <p>
     {message}
   </p>
 
   {#snippet actions()}
-    <button type="button" onclick={onconfirm}> {labels?.confirm} </button>
-    <button type="button" onclick={oncancel}> {labels?.cancel} </button>
+    <button
+      type="button"
+      onclick={() => {
+        if (onconfirm) {
+          onconfirm?.()
+        } else {
+          close('confirm')
+        }
+      }}
+    >
+      {labels?.confirm}
+    </button>
+    <button
+      type="button"
+      onclick={() => {
+        if (oncancel) {
+          oncancel?.()
+        } else {
+          close('cancel')
+        }
+      }}
+    >
+      {labels?.cancel}
+    </button>
   {/snippet}
 </BaseModal>
-
-<style>
-  h3 {
-    text-align: center;
-    font-size: 24px;
-  }
-
-  p {
-    text-align: center;
-    margin-top: 16px;
-  }
-</style>

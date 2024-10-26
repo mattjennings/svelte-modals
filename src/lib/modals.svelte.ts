@@ -73,7 +73,7 @@ export class Modals {
    */
   close(amount = 1): boolean {
     if (typeof amount !== 'number' || amount < 1) {
-      throw new Error('Amount must be a number greater than 0')
+      throw new Error(`amount must be a number greater than 0. Received ${amount}`)
     }
 
     if (this.transitioning) {

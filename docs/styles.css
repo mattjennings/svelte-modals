@@ -35,6 +35,8 @@ button:not([disabled]) {
   margin: 2rem auto;
   min-width: 240px;
   padding: 1rem;
+
+  pointer-events: auto;
 }
 
 .modal-body {

@@ -1,31 +1,22 @@
 <script>
-  import { closeModal } from 'svelte-modals/legacy'
   import BaseModal from './BaseModal.svelte'
 
-  let { isOpen, message, onconfirm } = $props()
+  let { isActive, message, close } = $props()
 </script>
 
-<BaseModal {isOpen}>
-  <h3>
+<BaseModal {isActive}>
+  <h3>Alert</h3>
+  <p>
     {message}
-  </h3>
-
+  </p>
   {#snippet actions()}
     <button
       type="button"
       onclick={() => {
-        closeModal()
-        onconfirm()
+        close()
       }}
     >
       OK
     </button>
   {/snippet}
 </BaseModal>
-
-<style>
-  h3 {
-    text-align: center;
-    font-size: 24px;
-  }
-</style>

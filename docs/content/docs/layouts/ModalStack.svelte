@@ -18,13 +18,7 @@
 <div use:portal>
   <ModalStack>
     {#snippet backdrop({ close })}
-      <div
-        class="backdrop"
-        transition:_transition
-        onclick={() => {
-          close()
-        }}
-      ></div>
+      <div class="backdrop" transition:_transition onclick={() => close()}></div>
     {/snippet}
   </ModalStack>
 </div>

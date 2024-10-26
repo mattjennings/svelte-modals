@@ -12,7 +12,8 @@ npm install svelte-modals
 
 ## Add \<ModalStack /> to your app
 
-This is where the opened modals will render. If you're using SvelteKit, `+layout.svelte` would be appropriate.
+All opened modals will be rendered in this component. If you're using SvelteKit, `+layout.svelte` would be appropriate
+place to put this. Otherwise, wherever you want the modals to be rendered.
 
 ```svelte title="App.svelte"
 <script>
@@ -43,8 +44,8 @@ This is where the opened modals will render. If you're using SvelteKit, `+layout
 
 ## Create your Modal component
 
-Svelte Modals does not provide any Modal components. All styling and functionality is up to you, it just
-renders your component with some props.
+Svelte Modals does not provide any modal components, it is only responsible for
+managing what is opened and closed. All other functionality and styling is up to you.
 
 Let's create a basic modal component:
 
@@ -52,8 +53,8 @@ Let's create a basic modal component:
 <script>
   const {
     // provided by <ModalStack />
-    isActive, // is it currently being shown?
-    close,    // closes the modal
+    isActive,
+    close,
 
     // your props
     title,
