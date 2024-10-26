@@ -6,6 +6,7 @@
   "exports": {
     "./legacy": {
       "types": "./dist/legacy.svelte.d.ts",
+      "svelte": "./dist/legacy.svelte.js",
       "import": "./dist/legacy.svelte.js",
       "default": "./dist/legacy.svelte.js"
     },
