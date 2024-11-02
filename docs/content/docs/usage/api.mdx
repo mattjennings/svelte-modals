@@ -2,15 +2,15 @@
 title: API Reference
 layout: ../../layouts/BaseLayout.astro
 ---
-import { Code } from 'astro:components';
-import ModalsDTS from '../../../../dist/modals.svelte.d.ts?raw'
+import { Code } from '@astrojs/starlight/components';
+import ModalsDTS from '../../../../dist/modals-context.svelte.d.ts?raw'
 
-## \<ModalStack />
+## \<Modals />
 
 Render the current stack of modals. [See full documentation](/usage/modal-stack).
 
 ## modals
 
-A global instance of the Modals class, which is responsible for managing the stack of modals. 
+A global instance of the ModalContext class and is responsible for managing modals. 
 
-<Code code={`// modals.svelte.d.ts\n${ModalsDTS}`} lang="ts" />
+<Code code={ModalsDTS} lang="ts" title="svelte-modals/modal-context.svelte.d.ts" />

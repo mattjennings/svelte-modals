@@ -1,5 +1,5 @@
 <script>
-  import { ModalStack } from 'svelte-modals'
+  import { Modals } from 'svelte-modals'
   import { fade } from 'svelte/transition'
 
   const props = $props()
@@ -16,9 +16,9 @@
 </script>
 
 <div use:portal>
-  <ModalStack>
+  <Modals>
     {#snippet backdrop({ close })}
       <div class="backdrop" transition:_transition onclick={() => close()}></div>
     {/snippet}
-  </ModalStack>
+  </Modals>
 </div>

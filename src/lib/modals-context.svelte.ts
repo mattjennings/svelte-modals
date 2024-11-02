@@ -1,7 +1,11 @@
 import { Modal, type ModalProps } from './modal.svelte'
 import type { LazyModalComponent, ModalComponent } from './types'
 
-export class Modals {
+export class ModalsContext {
+  // if/when https://github.com/sveltejs/svelte/issues/14124 is fixed, we can
+  // just have transitioning and update it in the appropriate intro/outro events
+  private exitBeforeEnter = $state(false)
+
   /**
    * The current stack of modals
    */
@@ -13,9 +17,10 @@ export class Modals {
    */
   action = $state<null | 'push' | 'pop'>(null)
 
-  // if/when https://github.com/sveltejs/svelte/issues/14124 is fixed, we can
-  // just have transitioning and update it in the appropriate intro/outro events
-  private exitBeforeEnter = $state(false)
+  /**
+   * Whether we're currently waiting for transitions to finish
+   * before opening the next modal
+   */
   transitioning = $state(false)
 
   /**
@@ -139,7 +144,3 @@ export class Modals {
     return this.close(this.stack.length)
   }
 }
-
-const modals = new Modals()
-
-export { modals }

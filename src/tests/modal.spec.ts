@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Modal, Modals, type ModalComponent, type ModalProps } from '../lib'
+import { Modal, ModalsContext, type ModalComponent, type ModalProps } from '../lib'
 
 const FakeComponent = class {} as any as ModalComponent<ModalProps<{ foo: 'bar' }>>
 
-const modals = new Modals()
+const modals = new ModalsContext()
 
 describe('close', () => {
   test('returns the value from modal.close()', async () => {

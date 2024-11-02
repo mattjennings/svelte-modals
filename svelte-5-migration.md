@@ -5,7 +5,6 @@ LazySvelteModalComponent -> LazyModalComponent
 
 Components:
 
-Modals component -> ModalStack
 children slot -> modals snippet
 
 Methods:

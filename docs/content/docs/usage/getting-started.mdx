@@ -13,17 +13,17 @@ and styling of those modals up to you.
 npm install svelte-modals
 ```
 
-## Add \<ModalStack /> to your app
+## Add \<Modals /> to your app
 
-All opened modals will be rendered inside `<ModalStack />`. If you're using SvelteKit, `+layout.svelte` would be appropriate
+All opened modals will be rendered inside `<Modals />`. If you're using SvelteKit, `+layout.svelte` would be appropriate
 place to put it. Otherwise, wherever you want the modals to be rendered.
 
 ```svelte title="App.svelte"
 <script>
-  import { ModalStack } from 'svelte-modals'
+  import { Modals } from 'svelte-modals'
 </script>
 
-<ModalStack>
+<Modals>
   <!-- shown when any modal is opened -->
   {#snippet backdrop({ close })}
     <div
@@ -31,7 +31,7 @@ place to put it. Otherwise, wherever you want the modals to be rendered.
       onclick={() => close()}
     />
   {/snippet}
-</ModalStack>
+</Modals>
 
 <style>
   .backdrop {
@@ -52,7 +52,7 @@ Let's create a basic modal component:
 ```svelte title="MyModal.svelte"
 <script>
   const {
-    // provided by <ModalStack />
+    // provided by <Modals />
     isOpen,
     close,
 

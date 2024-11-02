@@ -1,12 +1,14 @@
 ---
 title: v2 Migration
 description: Migration guide from v1 to v2
-layout: ../../layouts/LegacyBaseLayout.astro
+layout: ../../layouts/BaseLayout.astro
 ---
 
-v2 introduces Svelte 5 support and an API overhaul to better solve the community requests during v1. To make the migration
-easier, you can change all of your `svelte-modals` imports to `svelte-modals/legacy`. This is a wrapper around the new APIs to
-maintain the v1 API.  This should hopefully have no breaking changes, but please report any issues you find.
+v2 introduces Svelte 5 support and an API overhaul to better solve the community requests from v1. 
+
+To make the migration easier and incrementally adopt the new APIs, you can change all of 
+your `svelte-modals` imports to `svelte-modals/legacy`. This is a wrapper around the new APIs to maintain the v1 API. 
+If you encounter any problems please open an issue.
 
 ```svelte live 
 <script>

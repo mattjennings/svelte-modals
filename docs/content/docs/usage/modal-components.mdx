@@ -182,7 +182,7 @@ result // 'cancel' | 'confirm'
 ## Transitions
 
 Transitions can be added to your modal components just like any other Svelte component. However they
-**must be global transitions** because they are mounted and unmounted by the `ModalStack` component.
+**must be global transitions** because they are mounted and unmounted by the `Modals` component.
 
 ```svelte title="MyModal.svelte" {11}
 <script>  
@@ -298,7 +298,7 @@ modals.open(() => import('./AlertModal.svelte'), {
 <button onclick={onclick}>Open Modal</button>
 ```
 
-While the component is being imported, the `<ModalStack />` component will render `backdrop` and `loading` snippets.
+While the component is being imported, the `<Modals />` component will render `backdrop` and `loading` snippets.
 
 ## Snippets
 

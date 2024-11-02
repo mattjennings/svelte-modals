@@ -1,5 +1,5 @@
-export { default as ModalStack } from './ModalStack.svelte'
-export { getModal, onBeforeClose, default as ModalContext } from './ModalContext.svelte'
+export { default as Modals, modals, type ModalsProps } from './Modals.svelte'
+export { getModal, onBeforeClose } from './ModalContext.svelte'
 export * from './modal.svelte'
-export * from './modals.svelte'
+export * from './modals-context.svelte'
 export type { LazyModalComponent, ModalComponent } from './types.d.ts'

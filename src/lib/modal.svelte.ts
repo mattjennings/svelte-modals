@@ -1,4 +1,4 @@
-import { Modals } from './modals.svelte'
+import { ModalsContext } from './modals-context.svelte'
 import type { LazyModalComponent, ModalComponent } from './types'
 import type { Action } from 'svelte/action'
 
@@ -15,7 +15,7 @@ type CloseFn<R> = (...args: R extends void ? [] : [result: R]) => boolean
 
 export class Modal<R = any> {
   private static _idCounter = 0
-  private modals: Modals
+  private modals: ModalsContext
   private _props: Record<string, any>
   private result = createDeferredPromise<R>()
 
@@ -23,7 +23,7 @@ export class Modal<R = any> {
   component: ModalComponent | LazyModalComponent
 
   constructor(
-    modals: Modals,
+    modals: ModalsContext,
     {
       id,
       component,
