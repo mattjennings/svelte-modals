@@ -10,16 +10,16 @@ Modals are opened using a "last in first out" stack. Each time a modal is opened
 it gets added to the top of the stack. When closed it unmounts and is removed,
 revealing the next modal in the stack (if there is one).
 
-Each modal component receives an `isActive` prop to determine if it is the currently shown modal.
+Each modal component receives an `isOpen` prop to determine if it is the currently shown modal.
 This should be used by your modal component to conditionally render or display itself.
 
 ```svelte title="MyModal.svelte"
 <script>
-  const { isActive } = $props()
+  const { isOpen } = $props()
 </script>
 
 <!-- in most cases you can do this -->
-{#if isActive}
+{#if isOpen}
   <div>
     <!-- ... -->
   </div>
@@ -29,7 +29,7 @@ This should be used by your modal component to conditionally render or display i
  but if you prefer you can visually hide your modal instead, 
  preserving state of any children components 
 -->
-<div class:hidden={!isActive} aria-hidden={!isActive}>
+<div class:hidden={!isOpen} aria-hidden={!isOpen}>
   <MyForm />
 </div>
 
@@ -74,7 +74,7 @@ if they close using their [close() prop](#the-close-prop).
 ### Stacking Modals
 
 You can call `modals.open` any time to open a new modal. This will add the new modal to the top of the stack,
-keeping the previous modals mounted but updating their `isActive` prop to `false`.
+keeping the previous modals mounted but updating their `isOpen` prop to `false`.
 
 ```svelte live
 <script>  
@@ -124,10 +124,10 @@ their corresponding `modals.open` with the given value.
 
 ```svelte title="ConfirmModal.svelte"
 <script>
-  const { isActive, close } = $props()
+  const { isOpen, close } = $props()
 </script>
 
-{#if isActive}
+{#if isOpen}
   <div>
     <!-- ... -->    
     <button onclick={() => close('cancel')}>Cancel</button>
@@ -160,10 +160,10 @@ If you are using Typescript, you can define the type of the value by using the `
 
   type Result = 'cancel' | 'confirm'
   
-  const { isActive, close }: ModalProps<Result> = $props()
+  const { isOpen, close }: ModalProps<Result> = $props()
 </script>
 
-{#if isActive}
+{#if isOpen}
   <div>
     <!-- ... -->    
     <button onclick={() => close('cancel')}>Cancel</button>
@@ -187,10 +187,10 @@ Transitions can be added to your modal components just like any other Svelte com
 <script>  
   import { fade } from 'svelte/transition'
 
-  const { isActive, close, title, message } = $props()
+  const { isOpen, close, title, message } = $props()
 </script>
 
-{#if isActive}
+{#if isOpen}
   <div 
     role="dialog"
     class="modal-container"
@@ -238,10 +238,10 @@ This tells `ModalStack` to wait for the transition to finish before opening the 
 <script>
   import { fade } from 'svelte/transition'
 
-  const { isActive, onintrostart, onoutroend } = $props()
+  const { isOpen, onintrostart, onoutroend } = $props()
 </script>
 
-{#if isActive}
+{#if isOpen}
   <div 
     role="dialog" 
     transition:fade|global 
@@ -307,10 +307,10 @@ Snippets can be passed in as props the same way you would with a regular Svelte 
 
 ```svelte title="SnippetModal.svelte"
 <script>
-  const { isActive, close, content } = $props()
+  const { isOpen, close, content } = $props()
 </script>
 
-{#if isActive}
+{#if isOpen}
   <div>
     <!-- ... -->    
     {@render content()}
@@ -344,7 +344,7 @@ Modal components receive the following props:
 ```ts
 interface ModalProps<ReturnValue = any> extends Record<string, any> {
   // whether the modal is currently open
-  isActive: boolean
+  isOpen: boolean
 
   // the unique id of the modal
   id: string
@@ -374,7 +374,7 @@ If you're using Typescript, you should use this interface to define the props of
     title: string
   }
 
-  const { isActive, title, close }: MyModalProps = $props()
+  const { isOpen, title, close }: MyModalProps = $props()
 
   function handleConfirm() {
     // uses CloseValue

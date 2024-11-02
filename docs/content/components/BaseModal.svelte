@@ -1,8 +1,8 @@
 <script>
-  let { isOpen, isActive, children, actions, style } = $props()
+  let { isOpen, children, actions, style } = $props()
 </script>
 
-{#if isOpen || isActive}
+{#if isOpen}
   <div
     class="modal-container"
     aria-labelledby="modal-title"

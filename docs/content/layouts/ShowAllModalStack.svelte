@@ -8,6 +8,6 @@
   {/snippet}
 
   {#snippet modal(modal, modals)}
-    <modal.component {...modal.props} isActive={modals.stack.length > 0} />
+    <modal.component {...modal.props} isOpen={modals.stack.length > 0} />
   {/snippet}
 </ModalStack>

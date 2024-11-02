@@ -1,10 +1,10 @@
 <script>
   import BaseModal from './BaseModal.svelte'
 
-  let { isActive, message, close } = $props()
+  let { isOpen, message, close } = $props()
 </script>
 
-<BaseModal {isActive}>
+<BaseModal {isOpen}>
   <h3>Alert</h3>
   <p>
     {message}

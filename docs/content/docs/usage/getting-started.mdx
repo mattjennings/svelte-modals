@@ -53,7 +53,7 @@ Let's create a basic modal component:
 <script>
   const {
     // provided by <ModalStack />
-    isActive,
+    isOpen,
     close,
 
     // your props
@@ -63,7 +63,7 @@ Let's create a basic modal component:
 
 </script>
 
-{#if isActive}
+{#if isOpen}
   <div role="dialog" class="modal">
     <div class="contents">
       <h2>{title}</h2>

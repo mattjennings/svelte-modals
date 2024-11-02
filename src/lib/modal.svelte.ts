@@ -3,18 +3,13 @@ import { Modals } from './modals.svelte'
 import type { LazyModalComponent, ModalComponent } from './types'
 
 export interface ModalProps<ReturnValue = any> extends Record<string, any> {
-  isActive: boolean
   id: string
   index: number
   close: CloseFn<ReturnValue>
+  isOpen: boolean
 
   onintrostart: () => void
   onoutroend: () => void
-
-  /**
-   * @deprecated - use isActive prop or getModal().isActive
-   */
-  isOpen: boolean
 }
 
 type CloseFn<R> = (...args: R extends void ? [] : [result: R]) => boolean
@@ -46,7 +41,7 @@ export class Modal<R = any> {
     this.modals = modals
   }
 
-  isActive = $derived(() => {
+  isOpen = $derived(() => {
     if (this.modals.stack.length === 0) {
       return false
     }
@@ -65,8 +60,7 @@ export class Modal<R = any> {
       ...this._props,
       id: this.id,
       index: this.index,
-      isOpen: this.isActive(),
-      isActive: this.isActive(),
+      isOpen: this.isOpen(),
       close: this.close.bind(this) as CloseFn<R>,
       onintrostart: () => {
         this.modals.exitBeforeEnter = true

@@ -1,10 +1,10 @@
 <script>
   import { fade } from 'svelte/transition'
 
-  let { isActive, close, title, message } = $props()
+  let { isOpen, close, title, message } = $props()
 </script>
 
-{#if isActive}
+{#if isOpen}
   <div role="dialog" class="modal-container" transition:fade|global>
     <div class="modal-content">
       <h2>{title}</h2>

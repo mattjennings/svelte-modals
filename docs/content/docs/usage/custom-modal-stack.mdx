@@ -20,7 +20,7 @@ the `modal` snippet in the `ModalStack` component.
   {#snippet modal(modal)}
     <modal.component 
       {...modal.props}     
-      isActive={modals.stack.length > 0} 
+      isOpen={modals.stack.length > 0} 
     />
   {/snippet}
 </ModalStack>
@@ -33,7 +33,7 @@ the `modal` snippet in the `ModalStack` component.
   
   function openInfiniteModal() {
     let index = modals.stack.length
-    let offset = `calc(20% + ${index * 50}px + 100px)`
+    let offset = `calc(${index * 150}px - 200px)`
     modals.open(ConfirmModal, {
       message: 'Open another modal? This is modal #' + (index+1),      
       onconfirm: () => openInfiniteModal(),

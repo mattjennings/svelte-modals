@@ -1,8 +1,8 @@
 <script>
-  const { isActive, close, title, message } = $props()
+  const { isOpen, close, title, message } = $props()
 </script>
 
-{#if isActive}
+{#if isOpen}
   <div role="dialog" class="modal-container">
     <div class="modal-content">
       <h2>{title}</h2>

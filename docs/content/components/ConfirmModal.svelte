@@ -2,7 +2,7 @@
   import BaseModal from './BaseModal.svelte'
 
   let {
-    isActive,
+    isOpen,
     close,
     message,
     onconfirm,
@@ -12,7 +12,7 @@
   } = $props()
 </script>
 
-<BaseModal {isActive} {style}>
+<BaseModal {isOpen} {style}>
   <h3>Confirm</h3>
   <p>
     {message}
