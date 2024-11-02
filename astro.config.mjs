@@ -13,7 +13,8 @@ export default defineConfig({
     resolve: {
       alias: {
         'svelte-modals/legacy': '/src/lib/legacy.svelte.ts',
-        'svelte-modals': '/src/lib/index.ts'
+        'svelte-modals': '/src/lib/index.ts',
+        $lib: '/docs/lib'
       },
       dedupe: ['svelte-modals']
     }
@@ -33,7 +34,11 @@ export default defineConfig({
             { label: 'Modal Components', slug: 'usage/modal-components' },
             { label: '<Modals />', slug: 'usage/modal-stack' },
             { label: 'API Reference', slug: 'usage/api' },
-            { label: 'v2 Migration', slug: 'usage/v2-migration' }
+            { label: 'v2 Migration', slug: 'usage/v2-migration' },
+            {
+              label: 'With UI Libraries',
+              items: [{ label: 'shadcdn-svelte', slug: 'usage/ui-libraries/shadcdn-svelte' }]
+            }
           ]
         }
       ],
@@ -43,7 +48,7 @@ export default defineConfig({
       preprocess: []
     }),
     liveCode({
-      layout: '/docs/content/layouts/code/Code.astro',
+      layout: '/docs/lib/layouts/code/Code.astro',
       defaultProps: {
         'client:load': true
       }

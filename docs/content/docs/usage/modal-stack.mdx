@@ -1,6 +1,6 @@
 ---
 title: <Modals />
-layout: ../../layouts/CustomRenderingLayout.astro
+layout: $lib/layouts/CustomRenderingLayout.astro
 ---
 
 Responsible for rendering the current stack of modals.
@@ -89,10 +89,10 @@ to always show each opened modal.
 </Modals>
 ```
 
-```svelte live layout="../../layouts/code/NoCode.astro"
+```svelte live layout="$lib/layouts/code/NoCode.astro"
 <script>  
   import { modals} from 'svelte-modals'
-  import ConfirmModal from '../../components/ConfirmModal.svelte'
+  import ConfirmModal from '$lib/components/ConfirmModal.svelte'
   
   function openInfiniteModal() {
     let index = modals.stack.length

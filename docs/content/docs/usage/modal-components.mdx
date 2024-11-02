@@ -1,10 +1,10 @@
 ---
 title: Modal Components
-layout: ../../layouts/AnimatedBackdropLayout.astro
+layout: $lib/layouts/AnimatedBackdropLayout.astro
 ---
 import { Aside } from '@astrojs/starlight/components';
 import { openModal } from 'svelte-modals'
-import AnimatedAlertModal from '../../components/AnimatedAlertModal.svelte'
+import AnimatedAlertModal from '$lib/components/AnimatedAlertModal.svelte'
 
 Svelte Modals does not provide any modal components, it is only responsible for
 managing what is opened and closed. All other functionality and styling is up to you.
@@ -48,8 +48,8 @@ To open a modal, import `modals` and call `modals.open(YourModalComponent, props
 ```svelte live
 <script>  
   import { modals } from 'svelte-modals'
-  import ConfirmModal from '../../components/ConfirmModal.svelte'
-  import AlertModal from '../../components/AlertModal.svelte'
+  import ConfirmModal from '$lib/components/ConfirmModal.svelte'
+  import AlertModal from '$lib/components/AlertModal.svelte'
   
   async function show() {
     const result = await modals.open(ConfirmModal, { 
@@ -80,7 +80,7 @@ keeping the previous modals mounted but updating their `isOpen` prop to `false`.
 ```svelte live
 <script>  
   import { modals} from 'svelte-modals'
-  import ConfirmModal from '../../components/ConfirmModal.svelte'
+  import ConfirmModal from '$lib/components/ConfirmModal.svelte'
   
   function openInfiniteModal() {
     modals.open(ConfirmModal, {
@@ -140,8 +140,8 @@ their corresponding `modals.open` with the given value.
 ```svelte live
 <script>
   import { modals } from 'svelte-modals'
-  import ConfirmModal from '../../components/ConfirmModal.svelte'
-  import AlertModal from '../../components/AlertModal.svelte'
+  import ConfirmModal from '$lib/components/ConfirmModal.svelte'
+  import AlertModal from '$lib/components/AlertModal.svelte'
 
   async function show() {
     const result = await modals.open(ConfirmModal, { message: 'Are you sure?' })
@@ -209,10 +209,10 @@ Transitions can be added to your modal components just like any other Svelte com
 {/if}
 ```
 
-```svelte live layout="../../layouts/code/NoCode.astro"
+```svelte live layout="$lib/layouts/code/NoCode.astro"
 <script>
   import { modals } from 'svelte-modals'
-  import AnimatedAlertModal from '../../components/AnimatedAlertModal.svelte'
+  import AnimatedAlertModal from '$lib/components/AnimatedAlertModal.svelte'
 
   const onclick = () => {
     modals.open(AnimatedAlertModal, {
@@ -252,10 +252,10 @@ To opt-in to this behaviour, you can use the `exitBeforeEnter` action on the ele
 {/if}
 ```
 
-```svelte live layout="../../layouts/code/NoCode.astro"
+```svelte live layout="$lib/layouts/code/NoCode.astro"
 <script>
   import { modals } from 'svelte-modals'
-  import AnimatedInfiniteModal from '../../components/AnimatedInfiniteModal.svelte'
+  import AnimatedInfiniteModal from '$lib/components/AnimatedInfiniteModal.svelte'
 
   function openInfiniteModal(props) {
     modals.open(InfiniteModal, { title: 'Modal', message: 'Try opening another one', openAnother: () => openInfiniteModal(props), ...props })
@@ -283,12 +283,12 @@ modals.open(() => import('./AlertModal.svelte'), {
 })
 ```
 
-```svelte live layout="../../layouts/code/NoCode.astro" 
+```svelte live layout="$lib/layouts/code/NoCode.astro" 
 <script>
   import { modals } from 'svelte-modals'
 
   function onclick() {
-    modals.open(() => import('../../components/AlertModal.svelte'), {
+    modals.open(() => import('$lib/components/AlertModal.svelte'), {
       title: 'Lazy Modal',
       message: 'This modal was loaded lazily'
     })
@@ -320,7 +320,7 @@ Snippets can be passed in as props the same way you would with a regular Svelte 
 ```svelte live {7,12-14}
 <script>
   import { modals } from 'svelte-modals'
-  import SnippetModal from '../../components/SnippetModal.svelte'
+  import SnippetModal from '$lib/components/SnippetModal.svelte'
 
   function onclick() {
     modals.open(SnippetModal, {
@@ -341,7 +341,7 @@ You can also use Svelte's `createRawSnippet` if you wish
 ```svelte live {8-10}
 <script>
   import { modals } from 'svelte-modals'
-  import SnippetModal from '../../components/SnippetModal.svelte'
+  import SnippetModal from '$lib/components/SnippetModal.svelte'
   import { createRawSnippet } from 'svelte'
 
   function onclick() {

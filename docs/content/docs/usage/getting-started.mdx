@@ -1,7 +1,7 @@
 ---
 title: Getting Started
 description: Begin using svelte-modals
-layout: ../../layouts/BaseLayout.astro
+layout: $lib/layouts/BaseLayout.astro
 ---
 
 Svelte Modals is a modal manager for Svelte. It provides APIs for opening and closing modals, but leaves functionality
@@ -127,7 +127,7 @@ Import `modals` anywhere in your app to open or close your modals
 ```svelte live 
 <script>
   import { modals } from 'svelte-modals'
-  import MyModal from '../../components/MyModal.svelte'
+  import MyModal from '$lib/components/MyModal.svelte'
 
   function handleClick() {     
     modals.open(MyModal, { title: "Alert", message: "This is an alert" })
