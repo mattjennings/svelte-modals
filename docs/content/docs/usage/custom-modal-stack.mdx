@@ -1,0 +1,57 @@
+---
+title: Custom Modal Stack
+layout: ../../layouts/CustomRenderingLayout.astro
+---
+
+It is possible to customize the modal stack and how modals are rendered. For example,
+you may wish to display opened modals all the time. This can be achieved by overriding 
+the `modal` snippet in the `ModalStack` component.
+
+```svelte
+<script>
+  import { ModalStack, modals } from 'svelte-modals'
+</script>
+
+<ModalStack>
+  {#snippet backdrop({ close })}
+    <div class="backdrop" onclick={() => close()}></div>
+  {/snippet}
+
+  {#snippet modal(modal)}
+    <modal.component 
+      {...modal.props}     
+      isActive={modals.stack.length > 0} 
+    />
+  {/snippet}
+</ModalStack>
+```
+
+```svelte live layout="../../layouts/code/NoCode.astro"
+<script>  
+  import { modals} from 'svelte-modals'
+  import ConfirmModal from '../../components/ConfirmModal.svelte'
+  
+  function openInfiniteModal() {
+    let index = modals.stack.length
+    let offset = `calc(20% + ${index * 50}px + 100px)`
+    modals.open(ConfirmModal, {
+      message: 'Open another modal? This is modal #' + (index+1),      
+      onconfirm: () => openInfiniteModal(),
+      style: `top: ${offset}; left: ${offset};`
+    })
+  }
+</script>
+
+<button onclick={openInfiniteModal}>Open</button>
+```
+
+Notice how clicking "close" on a modal in the background will close that modal 
+rather than the one on the top. This is because these modal components
+use the `close()` prop, which will dismiss that modal specifically.
+
+You can also close a modal by using `modals.closeById(id)` and passing an id to the modal.
+
+```js
+modals.open(ModalComponent, props, { id: 'some-id' })
+modals.closeById('some-id')
+```

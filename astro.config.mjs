@@ -31,6 +31,7 @@ export default defineConfig({
             // Each item here is one entry in the navigation menu.
             { label: 'Getting Started', slug: 'usage/getting-started' },
             { label: 'Modal Components', slug: 'usage/modal-components' },
+            { label: 'Custom Modal Stack', slug: 'usage/custom-modal-stack' },
             { label: 'API Reference', slug: 'usage/api' },
             { label: 'v2 Migration', slug: 'usage/v2-migration' }
           ]
@@ -42,7 +43,7 @@ export default defineConfig({
       preprocess: []
     }),
     liveCode({
-      layout: '/docs/content/docs/layouts/code/Code.astro',
+      layout: '/docs/content/layouts/code/Code.astro',
       defaultProps: {
         'client:load': true
       }

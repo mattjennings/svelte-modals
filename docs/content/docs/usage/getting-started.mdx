@@ -1,7 +1,7 @@
 ---
 title: Getting Started
 description: Begin using svelte-modals
-layout: ../layouts/BaseLayout.astro
+layout: ../../layouts/BaseLayout.astro
 ---
 
 ## Installation
@@ -125,7 +125,7 @@ Let's create a basic modal component:
 ```svelte live 
 <script>
   import { modals } from 'svelte-modals'
-  import MyModal from '../components/MyModal.svelte'
+  import MyModal from '../../components/MyModal.svelte'
 
   function handleClick() {     
     modals.open(MyModal, { title: "Alert", message: "This is an alert" })

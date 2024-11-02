@@ -7,11 +7,12 @@
     message,
     onconfirm,
     oncancel,
+    style,
     labels = { cancel: 'Cancel', confirm: 'OK' }
   } = $props()
 </script>
 
-<BaseModal {isActive}>
+<BaseModal {isActive} {style}>
   <h3>Confirm</h3>
   <p>
     {message}

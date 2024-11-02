@@ -11,7 +11,7 @@ export class Modals {
   /**
    * Opens a new modal
    */
-  async open<
+  open = async <
     Props extends ModalProps = ModalProps,
     Exports extends Record<string, any> = {},
     Bindings extends keyof ModalProps | '' = string,
@@ -29,7 +29,7 @@ export class Modals {
        */
       replace?: boolean
     }
-  ): Promise<Result | undefined> {
+  ): Promise<Result | undefined> => {
     if (this.transitioning) {
       return
     }
@@ -71,7 +71,7 @@ export class Modals {
    *
    * If closing was prevented by any modal it returns false
    */
-  close(amount = 1): boolean {
+  close = (amount = 1): boolean => {
     if (typeof amount !== 'number' || amount < 1) {
       throw new Error(`amount must be a number greater than 0. Received ${amount}`)
     }
@@ -103,7 +103,7 @@ export class Modals {
     return amount === closedAmount
   }
 
-  closeById(id: string): boolean {
+  closeById = (id: string): boolean => {
     const modal = this.stack.find((modal) => modal.id === id)
     if (!modal) {
       return false
@@ -117,7 +117,7 @@ export class Modals {
    *
    * If closing was prevented by any modal, it returns false
    */
-  closeAll(): boolean {
+  closeAll = (): boolean => {
     return this.close(this.stack.length)
   }
 }

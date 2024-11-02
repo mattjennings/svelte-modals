@@ -1,31 +1,36 @@
 ---
 title: Modal Components
-layout: ../layouts/AnimatedBackdropLayout.astro
+layout: ../../layouts/AnimatedBackdropLayout.astro
 ---
 import { Aside } from '@astrojs/starlight/components';
 import { openModal } from 'svelte-modals'
-import AnimatedAlertModal from '../components/AnimatedAlertModal.svelte'
+import AnimatedAlertModal from '../../components/AnimatedAlertModal.svelte'
 
-Modals are opened using a "last in first out" stack. If multiple modals are opened,
-the top modal receives an `isActive` prop of `true` and the rest receive `false`. Use this
-in your modal component to conditionally render or display the modal.
+Modals are opened using a "last in first out" stack. Each time a modal is opened
+it gets added to the top of the stack. When closed it unmounts and is removed,
+revealing the next modal in the stack (if there is one).
 
-When a modal is closed it is unmounted and removed from the stack.
+Each modal component receives an `isActive` prop to determine if it is the currently shown modal.
+This should be used by your modal component to conditionally render or display itself.
 
 ```svelte title="MyModal.svelte"
 <script>
   const { isActive } = $props()
 </script>
 
+<!-- in most cases you can do this -->
 {#if isActive}
   <div>
     <!-- ... -->
   </div>
 {/if}
 
-<!-- or if you need to preserve state of child components -->
+<!-- 
+ but if you prefer you can visually hide your modal instead, 
+ preserving state of any children components 
+-->
 <div class:hidden={!isActive} aria-hidden={!isActive}>
-  <!-- ... -->
+  <MyForm />
 </div>
 
 <style>
@@ -37,13 +42,13 @@ When a modal is closed it is unmounted and removed from the stack.
 
 ## Opening Modals
 
-Modals are opened with `modals.open(YourModalComponent, props)`.
+To open a modal, import `modals` and call `modals.open(YourModalComponent, props)`.
 
 ```svelte live
 <script>  
   import { modals } from 'svelte-modals'
-  import ConfirmModal from '../components/ConfirmModal.svelte'
-  import AlertModal from '../components/AlertModal.svelte'
+  import ConfirmModal from '../../components/ConfirmModal.svelte'
+  import AlertModal from '../../components/AlertModal.svelte'
   
   async function show() {
     const result = await modals.open(ConfirmModal, { 
@@ -66,15 +71,15 @@ Modals are opened with `modals.open(YourModalComponent, props)`.
 if they close using their [close() prop](#the-close-prop).
 </Aside>
 
-### Multiple Modals
+### Stacking Modals
 
-If another modal is opened while a modal is already open, the current modal
-will be hidden (by receiving an `isActive` prop of false) and the new modal will be shown.
+You can call `modals.open` any time to open a new modal. This will add the new modal to the top of the stack,
+keeping the previous modals mounted but updating their `isActive` prop to `false`.
 
 ```svelte live
 <script>  
   import { modals} from 'svelte-modals'
-  import ConfirmModal from '../components/ConfirmModal.svelte'
+  import ConfirmModal from '../../components/ConfirmModal.svelte'
   
   function openInfiniteModal() {
     modals.open(ConfirmModal, {
@@ -90,16 +95,16 @@ will be hidden (by receiving an `isActive` prop of false) and the new modal will
 ## Closing Modals
 
 From anywhere in your app you can call `modals.close()` to close the top modal, `modals.close(amount)` to 
-close a given number of modals, or `modals.closeAll()` to close all modals.
+close the last given number of modals, or `modals.closeAll()` to close all modals.
 
 ```svelte
 <script>
   import { modals } from 'svelte-modals'
 
-  // close 1 modal
+  // close the current modal
   modals.close()
 
-  // close 2 modals
+  // close the last 2 modals
   modals.close(2)
 
   // close all modals
@@ -108,14 +113,14 @@ close a given number of modals, or `modals.closeAll()` to close all modals.
 ```
 
 <Aside>
-When closing modals this way, any corresponding `modals.open` will resolve with undefined. If you need to return a value,
-you should use the [close() prop](#the-close-prop) 
+When closing modals this way, any pending `modals.open` promises will resolve with undefined. If you need to return a value,
+you should use the [close() prop](#the-close-prop) from within the modal.
 </Aside>
 
 ### The close() Prop
 
 Modals receive a `close` prop which will close the modal and resolve
-the corresponding `modals.open` with the given value.
+their corresponding `modals.open` with the given value.
 
 ```svelte title="ConfirmModal.svelte"
 <script>
@@ -134,8 +139,8 @@ the corresponding `modals.open` with the given value.
 ```svelte live
 <script>
   import { modals } from 'svelte-modals'
-  import ConfirmModal from '../components/ConfirmModal.svelte'
-  import AlertModal from '../components/AlertModal.svelte'
+  import ConfirmModal from '../../components/ConfirmModal.svelte'
+  import AlertModal from '../../components/AlertModal.svelte'
 
   async function show() {
     const result = await modals.open(ConfirmModal, { message: 'Are you sure?' })
@@ -175,8 +180,8 @@ result // 'cancel' | 'confirm'
 
 ## Transitions
 
-Transitions can be added to your modal components just like any other Svelte component. They
-**must be global transitions** because they are mounted and unmounted by the `<ModalStack />` component.
+Transitions can be added to your modal components just like any other Svelte component. However they
+**must be global transitions** because they are mounted and unmounted by the `ModalStack` component.
 
 ```svelte title="MyModal.svelte" {11}
 <script>  
@@ -203,10 +208,10 @@ Transitions can be added to your modal components just like any other Svelte com
 {/if}
 ```
 
-```svelte live layout="../layouts/code/NoCode.astro"
+```svelte live layout="../../layouts/code/NoCode.astro"
 <script>
   import { modals } from 'svelte-modals'
-  import AnimatedAlertModal from '../components/AnimatedAlertModal.svelte'
+  import AnimatedAlertModal from '../../components/AnimatedAlertModal.svelte'
 
   const onclick = () => {
     modals.open(AnimatedAlertModal, {
@@ -227,7 +232,7 @@ By default, when opening one modal after another the transitions for both will p
 Depending on your animation this might be ok, but often it’s cleaner to transition one at a time.
 
 To control this behaviour, you can forward on the `onintrostart` and `onoutroend` props to your modal.
-This tells `<ModalStack />` to wait for the transition to finish before opening the next modal.
+This tells `ModalStack` to wait for the transition to finish before opening the next modal.
 
 ```svelte title="MyModal.svelte" {11-12}
 <script>
@@ -248,10 +253,10 @@ This tells `<ModalStack />` to wait for the transition to finish before opening 
 {/if}
 ```
 
-```svelte live layout="../layouts/code/NoCode.astro"
+```svelte live layout="../../layouts/code/NoCode.astro"
 <script>
   import { modals } from 'svelte-modals'
-  import AnimatedInfiniteModal from '../components/AnimatedInfiniteModal.svelte'
+  import AnimatedInfiniteModal from '../../components/AnimatedInfiniteModal.svelte'
 
   function openInfiniteModal(props) {
     modals.open(InfiniteModal, { title: 'Modal', message: 'Try opening another one', openAnother: () => openInfiniteModal(props), ...props })
@@ -279,12 +284,12 @@ modals.open(() => import('./AlertModal.svelte'), {
 })
 ```
 
-```svelte live layout="../layouts/code/NoCode.astro" 
+```svelte live layout="../../layouts/code/NoCode.astro" 
 <script>
   import { modals } from 'svelte-modals'
 
   function onclick() {
-    modals.open(() => import('../components/AlertModal.svelte'), {
+    modals.open(() => import('../../components/AlertModal.svelte'), {
       title: 'Lazy Modal',
       message: 'This modal was loaded lazily'
     })
@@ -316,7 +321,7 @@ Snippets can be passed in as props the same way you would with a regular Svelte 
 ```svelte live 
 <script>
   import { modals } from 'svelte-modals'
-  import SnippetModal from '../components/SnippetModal.svelte'
+  import SnippetModal from '../../components/SnippetModal.svelte'
 
   function onclick() {
     modals.open(SnippetModal, {

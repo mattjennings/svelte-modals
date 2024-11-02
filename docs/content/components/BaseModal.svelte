@@ -1,9 +1,15 @@
 <script>
-  let { isOpen, isActive, children, actions } = $props()
+  let { isOpen, isActive, children, actions, style } = $props()
 </script>
 
 {#if isOpen || isActive}
-  <div class="modal-container" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div
+    class="modal-container"
+    aria-labelledby="modal-title"
+    role="dialog"
+    aria-modal="true"
+    {style}
+  >
     <div class="modal-content">
       {@render children?.()}
       <div class="modal-actions">
