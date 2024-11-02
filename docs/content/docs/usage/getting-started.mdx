@@ -4,6 +4,9 @@ description: Begin using svelte-modals
 layout: ../../layouts/BaseLayout.astro
 ---
 
+Svelte Modals is a modal manager for Svelte. It provides APIs for opening and closing modals, but leaves functionality
+and styling of those modals up to you.
+
 ## Installation
 
 ```bash
@@ -12,8 +15,8 @@ npm install svelte-modals
 
 ## Add \<ModalStack /> to your app
 
-All opened modals will be rendered in this component. If you're using SvelteKit, `+layout.svelte` would be appropriate
-place to put this. Otherwise, wherever you want the modals to be rendered.
+All opened modals will be rendered inside `<ModalStack />`. If you're using SvelteKit, `+layout.svelte` would be appropriate
+place to put it. Otherwise, wherever you want the modals to be rendered.
 
 ```svelte title="App.svelte"
 <script>
@@ -43,9 +46,6 @@ place to put this. Otherwise, wherever you want the modals to be rendered.
 ```
 
 ## Create your Modal component
-
-Svelte Modals does not provide any modal components, it is only responsible for
-managing what is opened and closed. All other functionality and styling is up to you.
 
 Let's create a basic modal component:
 
@@ -121,6 +121,8 @@ Let's create a basic modal component:
 ```
 
 ## Try it out
+
+Import `modals` anywhere in your app to open or close your modals
 
 ```svelte live 
 <script>

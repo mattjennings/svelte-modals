@@ -2,7 +2,15 @@ import { Modal, type ModalProps } from './modal.svelte'
 import type { LazyModalComponent, ModalComponent } from './types'
 
 export class Modals {
+  /**
+   * The current stack of modals
+   */
   stack = $state<Modal[]>([])
+
+  /**
+   * The last action that was performed on the modals stack. This
+   * can be useful for animations
+   */
   action = $state<null | 'push' | 'pop'>(null)
 
   exitBeforeEnter = $state(false)
@@ -22,10 +30,15 @@ export class Modals {
       | LazyModalComponent<Props, Exports, Bindings>,
     props?: Omit<Props, 'isOpen'>,
     options?: {
+      /**
+       * The id of the modal. Can be used to close it with closeById()
+       */
       id?: string
 
       /**
-       * This modal will close and replace the last modal in the stack. If the current modal prevents closing it will throw
+       * This modal will close and replace the last modal in the stack.
+       * If the current modal prevents closing it,
+       * the promise will be rejected with an error
        */
       replace?: boolean
     }
@@ -103,6 +116,9 @@ export class Modals {
     return amount === closedAmount
   }
 
+  /**
+   * Closes a modal by its id. Can be provided with `options.id` in modals.open(Comp, props, options)
+   */
   closeById = (id: string): boolean => {
     const modal = this.stack.find((modal) => modal.id === id)
     if (!modal) {

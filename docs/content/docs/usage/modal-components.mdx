@@ -6,12 +6,11 @@ import { Aside } from '@astrojs/starlight/components';
 import { openModal } from 'svelte-modals'
 import AnimatedAlertModal from '../../components/AnimatedAlertModal.svelte'
 
-Modals are opened using a "last in first out" stack. Each time a modal is opened
-it gets added to the top of the stack. When closed it unmounts and is removed,
-revealing the next modal in the stack (if there is one).
+Svelte Modals does not provide any modal components, it is only responsible for
+managing what is opened and closed. All other functionality and styling is up to you.
 
-Each modal component receives an `isOpen` prop to determine if it is the currently shown modal.
-This should be used by your modal component to conditionally render or display itself.
+By default, modals are opened using a "last in first out" stack (this can be [customized](/usage/modal-stack#always-show-all-modals)). 
+The top modal is the only one that is visible, while the others below remain mounted but hidden determined by an `isOpen` prop.
 
 ```svelte title="MyModal.svelte"
 <script>
@@ -27,10 +26,12 @@ This should be used by your modal component to conditionally render or display i
 
 <!-- 
  but if you prefer you can visually hide your modal instead, 
- preserving state of any children components 
+ preserving state of any children 
 -->
 <div class:hidden={!isOpen} aria-hidden={!isOpen}>
-  <MyForm />
+  <form>
+    <!-- ... -->
+  </form>
 </div>
 
 <style>
@@ -305,7 +306,7 @@ While the component is being imported, the `<ModalStack />` component will rende
 
 Snippets can be passed in as props the same way you would with a regular Svelte 5 component.
 
-```svelte title="SnippetModal.svelte"
+```svelte title="SnippetModal.svelte" {2,8}
 <script>
   const { isOpen, close, content } = $props()
 </script>
@@ -318,7 +319,7 @@ Snippets can be passed in as props the same way you would with a regular Svelte 
 {/if}
 ```
 
-```svelte live 
+```svelte live {7,12-14}
 <script>
   import { modals } from 'svelte-modals'
   import SnippetModal from '../../components/SnippetModal.svelte'
@@ -336,6 +337,27 @@ Snippets can be passed in as props the same way you would with a regular Svelte 
 
 <button onclick={onclick}>Open Modal</button>
 ```
+
+You can also use Svelte's `createRawSnippet` if you wish
+
+```svelte live {8-10}
+<script>
+  import { modals } from 'svelte-modals'
+  import SnippetModal from '../../components/SnippetModal.svelte'
+  import { createRawSnippet } from 'svelte'
+
+  function onclick() {
+    modals.open(SnippetModal, {
+      content: createRawSnippet(() => ({
+        render: () => `<div>Snippet content</div>`
+      }))
+    })
+  }
+</script>
+
+<button onclick={onclick}>Open Modal</button>
+```
+
 
 ## Props
 

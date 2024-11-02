@@ -1,11 +1,74 @@
 ---
-title: Custom Modal Stack
+title: <ModalStack />
 layout: ../../layouts/CustomRenderingLayout.astro
 ---
 
-It is possible to customize the modal stack and how modals are rendered. For example,
-you may wish to display opened modals all the time. This can be achieved by overriding 
-the `modal` snippet in the `ModalStack` component.
+Responsible for rendering the current stack of modals.
+
+## Props
+
+ModalStack can receive the following props (which are currently all just snippets):
+
+```ts
+interface ModalStackProps {
+  backdrop?: Snippet<[modals: Modals]>
+  modal?: Snippet<
+    [
+      modal: { 
+        component: ModalComponent<ModalProps<any>, {}, string>; 
+        props: ModalProps 
+      },
+      modals: Modals
+    ]
+  >
+  loading?: Snippet<[modals: Modals]>
+}
+```
+
+## Snippets
+
+### backdrop
+
+Renders when at least 1 modal has been opened.
+
+```svelte
+<ModalStack>
+  {#snippet backdrop(modals)}
+    <div class="backdrop" onclick={() => modals.close()}></div>
+  {/snippet}
+</ModalStack>
+```
+
+### modal
+
+Renders each modal component in the stack
+
+```svelte
+<ModalStack>
+  {#snippet modal(modal, modals)}
+    <modal.component {...modal.props} />
+  {/snippet}
+</ModalStack>
+```
+
+### loading
+
+Renders when a modal has been opened via dynamic import and is still loading.
+
+```svelte
+<ModalStack>
+  {#snippet loading()}
+    <LoadingSpinner />
+  {/snippet}
+</ModalStack>
+```
+
+## Advanced Usage
+
+### Always show all modals
+
+By overriding the `modal` snippet, you can change the behavior of the stack
+to always show each opened modal.
 
 ```svelte
 <script>
