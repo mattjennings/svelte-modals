@@ -9,7 +9,7 @@ import AnimatedAlertModal from '$lib/components/AnimatedAlertModal.svelte'
 Svelte Modals does not provide any modal components, it is only responsible for
 managing what is opened and closed. All other functionality and styling is up to you.
 
-By default, modals are opened using a "last in first out" stack (this can be [customized](/usage/modal-stack#always-show-all-modals)). 
+By default, modals are opened using a "last in first out" stack (this can be [customized](/usage/modals#always-show-all-modals)). 
 The top modal is the only one that is visible, while the others below remain mounted but hidden determined by an `isOpen` prop.
 
 ```svelte title="MyModal.svelte"

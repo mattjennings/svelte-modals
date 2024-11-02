@@ -29,16 +29,11 @@ export default defineConfig({
         {
           label: 'Usage',
           items: [
-            // Each item here is one entry in the navigation menu.
             { label: 'Getting Started', slug: 'usage/getting-started' },
             { label: 'Modal Components', slug: 'usage/modal-components' },
-            { label: '<Modals />', slug: 'usage/modal-stack' },
+            { label: '<Modals />', slug: 'usage/modals' },
             { label: 'API Reference', slug: 'usage/api' },
-            { label: 'v2 Migration', slug: 'usage/v2-migration' },
-            {
-              label: 'With UI Libraries',
-              items: [{ label: 'shadcdn-svelte', slug: 'usage/ui-libraries/shadcdn-svelte' }]
-            }
+            { label: 'v2 Migration', slug: 'usage/v2-migration' }
           ]
         }
       ],

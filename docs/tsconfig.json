@@ -1,8 +1,11 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": "./",
     "paths": {
-      "$lib/components": ["./components/*"]
+      "$lib/components": ["./components/*"],
+      "svelte-modals": ["../src/lib/index.ts"]
     }
-  }
+  },
+  "include": ["./**/*.ts", "./**/*.tsx", "./**/*.js", "./**/*.svelte"]
 }
