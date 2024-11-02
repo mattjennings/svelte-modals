@@ -1,6 +1,6 @@
-import { createRawSnippet } from 'svelte'
 import { Modals } from './modals.svelte'
 import type { LazyModalComponent, ModalComponent } from './types'
+import type { Action } from 'svelte/action'
 
 export interface ModalProps<ReturnValue = any> extends Record<string, any> {
   id: string
@@ -8,8 +8,7 @@ export interface ModalProps<ReturnValue = any> extends Record<string, any> {
   close: CloseFn<ReturnValue>
   isOpen: boolean
 
-  onintrostart: () => void
-  onoutroend: () => void
+  exitBeforeEnter: Action
 }
 
 type CloseFn<R> = (...args: R extends void ? [] : [result: R]) => boolean
@@ -46,9 +45,9 @@ export class Modal<R = any> {
       return false
     }
 
-    return (
-      this.modals.stack[this.modals.stack.length - 1].id === this.id && !this.modals.transitioning
-    )
+    const isCurrent = this.modals.stack[this.modals.stack.length - 1].id === this.id
+
+    return isCurrent && !this.modals.transitioning
   })
 
   get index() {
@@ -62,17 +61,30 @@ export class Modal<R = any> {
       index: this.index,
       isOpen: this.isOpen(),
       close: this.close.bind(this) as CloseFn<R>,
-      onintrostart: () => {
-        this.modals.exitBeforeEnter = true
-        this._props?.onintrostart?.()
-      },
-      onoutroend: () => {
-        // unsure why, but without this timeout sometimes the modal is briefly shown before being removed
-        // started happening with svelte 5
-        setTimeout(() => {
-          this.modals.transitioning = false
+      exitBeforeEnter: (node) => {
+        const onintrostart = () => {
+          // @ts-expect-error private property
+          this.modals.exitBeforeEnter = true
+        }
+
+        const onoutroend = () => {
+          // unsure why, but without this timeout sometimes
+          // the modal is briefly shown before being removed
+          // started happening with svelte 5
+          setTimeout(() => {
+            this.modals.transitioning = false
+          })
+        }
+
+        node.addEventListener('introstart', onintrostart)
+        node.addEventListener('outroend', onoutroend)
+
+        $effect(() => {
+          return () => {
+            node.removeEventListener('introstart', onintrostart)
+            node.removeEventListener('outroend', onoutroend)
+          }
         })
-        this._props?.onoutroend?.()
       }
     }
   }

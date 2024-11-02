@@ -13,7 +13,9 @@ export class Modals {
    */
   action = $state<null | 'push' | 'pop'>(null)
 
-  exitBeforeEnter = $state(false)
+  // if/when https://github.com/sveltejs/svelte/issues/14124 is fixed, we can
+  // just have transitioning and update it in the appropriate intro/outro events
+  private exitBeforeEnter = $state(false)
   transitioning = $state(false)
 
   /**

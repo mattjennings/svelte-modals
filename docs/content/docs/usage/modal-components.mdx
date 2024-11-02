@@ -227,27 +227,25 @@ Transitions can be added to your modal components just like any other Svelte com
 </button>
 ```
 
-### Transitions between Modals
+### Exit before enter
 
-By default, when opening one modal after another the transitions for both will play at the same time.
-Depending on your animation this might be ok, but often it’s cleaner to transition one at a time.
+By default, transitions for both opening and closing modals will play at the same time.
+Depending on your transition this might be ok, but often it’s cleaner to play one at a time.
 
-To control this behaviour, you can forward on the `onintrostart` and `onoutroend` props to your modal.
-This tells `ModalStack` to wait for the transition to finish before opening the next modal.
+To opt-in to this behaviour, you can use the `exitBeforeEnter` action on the element that has the transitions.
 
-```svelte title="MyModal.svelte" {11-12}
+```svelte title="MyModal.svelte" {10}
 <script>
   import { fade } from 'svelte/transition'
 
-  const { isOpen, onintrostart, onoutroend } = $props()
+  const { isOpen, exitBeforeEnter } = $props()
 </script>
 
 {#if isOpen}
   <div 
     role="dialog" 
-    transition:fade|global 
-    {onintrostart} 
-    {onoutroend}
+    use:exitBeforeEnter
+    transition:fade|global
   >
     <!-- ... -->
   </div>
@@ -268,8 +266,8 @@ This tells `ModalStack` to wait for the transition to finish before opening the 
 
 </script>
 
-<button onclick={() => openAnimatedInfiniteModal({ exitBeforeEnter: true })}>With forwarding</button>
-<button onclick={() => openAnimatedInfiniteModal()}>Without forwarding</button>
+<button onclick={() => openAnimatedInfiniteModal({ withExitBeforeEnter: true })}>with exitBeforeEnter</button>
+<button onclick={() => openAnimatedInfiniteModal()}>without exitBeforeEnter</button>
 ```
 
 ## Lazy Loading

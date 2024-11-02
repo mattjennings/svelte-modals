@@ -2,35 +2,15 @@
   import { closeModal, modals } from 'svelte-modals/legacy'
   import { fade, fly } from 'svelte/transition'
 
-  let {
-    isOpen,
-    title,
-    message,
-    openAnother,
-    exitBeforeEnter = false,
-    onintrostart = () => {},
-    onoutroend = () => {}
-  } = $props()
+  let { isOpen, title, message, openAnother, withExitBeforeEnter, exitBeforeEnter } = $props()
 
   let index = $modals.length
+
+  let _use = withExitBeforeEnter ? exitBeforeEnter : () => undefined
 </script>
 
 {#if isOpen}
-  <div
-    role="dialog"
-    class="modal-container"
-    transition:fade|global
-    onintrostart={() => {
-      if (exitBeforeEnter) {
-        onintrostart()
-      }
-    }}
-    onoutroend={() => {
-      if (exitBeforeEnter) {
-        onoutroend()
-      }
-    }}
-  >
+  <div role="dialog" class="modal-container" use:_use transition:fade|global>
     <div class="modal-content">
       <h2>{title} #{index}</h2>
       <p>{message}</p>
