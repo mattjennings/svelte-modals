@@ -1,51 +1,62 @@
-<script>
-  import { modals, exitBeforeEnter, transitioning } from './store'
+<script lang="ts" module>
+  export const modals = new ModalsContext()
 
-  function isLazyModal(component) {
-    return typeof component.prototype === 'undefined'
-  }
-
-  async function getComponent(component) {
-    return component().then((res) => res.default)
+  export interface ModalsProps {
+    context?: ModalsContext
+    backdrop?: Snippet<[modals: ModalsContext]>
+    modal?: Snippet<
+      [
+        modal: {
+          component: ModalComponent<ModalProps<any>, {}, string>
+          props: ModalProps
+        },
+        modals: ModalsContext
+      ]
+    >
+    loading?: Snippet<[modals: ModalsContext]>
   }
 </script>
 
-{#if $modals.length > 0}
-  <slot name="backdrop" />
+<script lang="ts">
+  import type { Snippet } from 'svelte'
+  import ModalContext from './ModalContext.svelte'
+  import type { ModalProps } from './modal.svelte'
+  import { ModalsContext } from './modals-context.svelte'
+  import type { LazyModalComponent, ModalComponent } from './types'
+
+  function isLazyModal(
+    component: ModalComponent | LazyModalComponent
+  ): component is LazyModalComponent {
+    return typeof component.prototype === 'undefined'
+  }
+
+  const props: ModalsProps = $props()
+</script>
+
+{#if modals.stack.length > 0}
+  {@render props.backdrop?.(modals)}
 {/if}
 
-<slot>
-  {#each $modals as modal, i (i)}
+{#each modals.stack as m, i (m.id)}
+  <ModalContext modal={m}>
     <!-- lazy modal -->
-    {#if isLazyModal(modal.component)}
-      {#await getComponent(modal.component)}
-        <slot name="loading" />
+    {#if isLazyModal(m.component)}
+      {#await m.component()}
+        {@render props.loading?.(modals)}
       {:then component}
-        <svelte:component
-          this={component}
-          isOpen={i === $modals.length - 1 && !$transitioning}
-          {...modal.props}
-          on:introstart={() => {
-            $exitBeforeEnter = true
-          }}
-          on:outroend={() => {
-            $transitioning = false
-          }}
-        />
+        {#if props.modal}
+          {@render props.modal({ component: component.default, props: m.props }, modals)}
+        {:else}
+          <component.default {...m.props} />
+        {/if}
       {/await}
     {:else}
       <!-- normal modal -->
-      <svelte:component
-        this={modal.component}
-        isOpen={i === $modals.length - 1 && !$transitioning}
-        {...modal.props}
-        on:introstart={() => {
-          $exitBeforeEnter = true
-        }}
-        on:outroend={() => {
-          $transitioning = false
-        }}
-      />
+      {#if props.modal}
+        {@render props.modal({ component: m.component, props: m.props }, modals)}
+      {:else}
+        <m.component {...m.props} />
+      {/if}
     {/if}
-  {/each}
-</slot>
+  </ModalContext>
+{/each}

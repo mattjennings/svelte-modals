@@ -1,0 +1,28 @@
+<div class="container">  
+  <div class="example">
+    <div>
+      <slot name="example" />
+    </div>
+  </div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0 !important;
+  }
+
+  .example {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0 !important;
+    padding: 2.5rem;
+    background: var(--ec-frm-edBg, var(--astro-code-color-background));
+    border-style: solid;
+    border-width: var(--ec-brdWd, 1px);
+    border-color: var(--ec-brdCol, var(--sl-color-gray-5));
+    border-top: none;
+  }
+</style>

@@ -1,10 +1,5 @@
-export { default as Modals } from './Modals.svelte'
-export {
-  action,
-  modals,
-  openModal,
-  closeModal,
-  closeModals,
-  closeAllModals,
-  onBeforeClose
-} from './store.js'
+export { default as Modals, modals, type ModalsProps } from './Modals.svelte'
+export { getModal, onBeforeClose, exitBeforeEnter } from './ModalContext.svelte'
+export * from './modal.svelte'
+export * from './modals-context.svelte'
+export type { LazyModalComponent, ModalComponent } from './types.d.ts'

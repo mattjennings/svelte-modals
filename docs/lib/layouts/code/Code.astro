@@ -1,0 +1,38 @@
+<div class="container">
+  <slot name="code" />
+  <div class="example">
+    <div class="example-layout">
+      <slot name="example" />
+    </div>
+  </div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;    
+  }
+
+  .example {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0 !important;
+    padding: 2.5rem;
+    background: var(--ec-frm-edBg, var(--astro-code-color-background));
+    border-style: solid;
+    border-width: var(--ec-brdWd, 1px);
+    border-color: var(--ec-brdCol, var(--sl-color-gray-5));
+    border-top: none;
+  }
+
+  .example-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
+  }
+</style>
