@@ -3,11 +3,11 @@
   import { on } from 'svelte/events'
 
   const key = Symbol('modal')
-  function setModal(modal: Modal) {
+  function setModal(modal: StackedModal) {
     setContext(key, modal)
   }
 
-  export function getModal(): Modal {
+  export function getModal(): StackedModal {
     return getContext(key)
   }
 
@@ -43,9 +43,9 @@
 </script>
 
 <script lang="ts">
-  import type { Modal } from './modal.svelte'
+  import type { StackedModal } from './stacked-modal.svelte'
 
-  const { modal, children }: { modal: Modal; children: any } = $props()
+  const { modal, children }: { modal: StackedModal; children: any } = $props()
 
   setModal(modal)
 </script>

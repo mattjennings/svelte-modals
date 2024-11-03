@@ -1,11 +1,11 @@
 import { writable } from 'svelte/store'
-import { ModalsContext } from './modals-context.svelte'
+import { ModalStack } from './modal-stack.svelte'
 import { modals } from './Modals.svelte'
-import { Modal } from './modal.svelte'
+import { StackedModal } from './stacked-modal.svelte'
 import Modals from './LegacyModals.svelte'
 
-const modalsStore = writable<Modal[]>([])
-const actionStore = writable<ModalsContext['action']>(null)
+const modalsStore = writable<StackedModal[]>([])
+const actionStore = writable<ModalStack['action']>(null)
 
 // sync rune to modals store
 $effect.root(() => {
@@ -17,7 +17,7 @@ $effect.root(() => {
   actionStore.set(modals.action)
 })
 
-const openModal: ModalsContext['open'] = async (...args) => {
+const openModal: ModalStack['open'] = async (...args) => {
   try {
     return await modals.open(...args)
   } catch (e) {

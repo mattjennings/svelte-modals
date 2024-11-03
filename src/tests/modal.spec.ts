@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Modal, ModalsContext, type ModalComponent, type ModalProps } from '../lib'
+import { StackedModal, ModalStack, type ModalComponent, type ModalProps } from '../lib'
 
 const FakeComponent = class {} as any as ModalComponent<ModalProps<{ foo: 'bar' }>>
 
-const modals = new ModalsContext()
+const modals = new ModalStack()
 
 describe('close', () => {
   test('returns the value from modal.close()', async () => {
-    const modal = new Modal(modals, { component: FakeComponent })
+    const modal = new StackedModal(modals, { component: FakeComponent })
     modals.stack[0] = modal
     const promise = modal.promise
 
@@ -19,7 +19,7 @@ describe('close', () => {
   })
 
   test('return type of modal.close is inferred', async () => {
-    const modal = new Modal(modals, { component: FakeComponent })
+    const modal = new StackedModal(modals, { component: FakeComponent })
     modals.stack[0] = modal
     const promise = modal.promise
     modal.close({ foo: 'bar' })
@@ -33,7 +33,7 @@ describe('onBeforeClose', () => {
   test('prevents closing modal', () => {
     const fn = vi.fn().mockImplementation(() => false)
 
-    const modal = new Modal(modals, { component: FakeComponent })
+    const modal = new StackedModal(modals, { component: FakeComponent })
     modal.onBeforeClose = fn
 
     expect(modal.close()).toBe(false)
@@ -43,7 +43,7 @@ describe('onBeforeClose', () => {
   test('allows modal to close', () => {
     const fn = vi.fn().mockImplementation(() => true)
 
-    const modal = new Modal(modals, { component: FakeComponent })
+    const modal = new StackedModal(modals, { component: FakeComponent })
     modal.onBeforeClose = fn
 
     expect(modal.close()).toBe(true)

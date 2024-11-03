@@ -1,11 +1,11 @@
-import { Modal, type ModalProps } from './modal.svelte'
+import { StackedModal, type ModalProps } from './stacked-modal.svelte'
 import type { LazyModalComponent, ModalComponent } from './types'
 
-export class ModalsContext {
+export class ModalStack {
   /**
    * The current stack of modals
    */
-  stack = $state<Modal[]>([])
+  stack = $state<StackedModal[]>([])
 
   /**
    * The last action that was performed on the modals stack. This
@@ -65,7 +65,7 @@ export class ModalsContext {
       this.transitioning = true
     }
 
-    const modal = new Modal(this, {
+    const modal = new StackedModal(this, {
       id: options?.id,
       component,
       props

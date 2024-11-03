@@ -1,5 +1,5 @@
 import type { Component } from 'svelte'
-import type { ModalProps } from './modal.svelte'
+import type { ModalProps } from './stacked-modal.svelte'
 
 export type ModalComponent<
   Props extends ModalProps<any> = ModalProps<any>,

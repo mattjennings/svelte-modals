@@ -1,27 +1,27 @@
 <script lang="ts" module>
-  export const modals = new ModalsContext()
+  export const modals = new ModalStack()
 
   export interface ModalsProps {
-    context?: ModalsContext
-    backdrop?: Snippet<[modals: ModalsContext]>
+    context?: ModalStack
+    backdrop?: Snippet<[modals: ModalStack]>
     modal?: Snippet<
       [
         modal: {
           component: ModalComponent<ModalProps<any>, {}, string>
           props: ModalProps
         },
-        modals: ModalsContext
+        modals: ModalStack
       ]
     >
-    loading?: Snippet<[modals: ModalsContext]>
+    loading?: Snippet<[modals: ModalStack]>
   }
 </script>
 
 <script lang="ts">
   import type { Snippet } from 'svelte'
   import ModalContext from './ModalContext.svelte'
-  import type { ModalProps } from './modal.svelte'
-  import { ModalsContext } from './modals-context.svelte'
+  import type { ModalProps } from './stacked-modal.svelte'
+  import { ModalStack } from './modal-stack.svelte'
   import type { LazyModalComponent, ModalComponent } from './types'
 
   function isLazyModal(

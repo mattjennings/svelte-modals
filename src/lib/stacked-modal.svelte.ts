@@ -1,5 +1,4 @@
-import { get, writable, type Writable } from 'svelte/store'
-import { ModalsContext } from './modals-context.svelte'
+import { ModalStack } from './modal-stack.svelte'
 import type { LazyModalComponent, ModalComponent } from './types'
 
 export interface ModalProps<ReturnValue = any> extends Record<string, any> {
@@ -11,18 +10,18 @@ export interface ModalProps<ReturnValue = any> extends Record<string, any> {
 
 type CloseFn<R> = (...args: R extends void ? [] : [result: R]) => boolean
 
-export class Modal<R = any> {
+export class StackedModal<R = any> {
   private static _idCounter = 0
   private _props: Record<string, any>
   private result = createDeferredPromise<R>()
 
   id: string
   component: ModalComponent | LazyModalComponent
-  modals: ModalsContext
+  modals: ModalStack
   exitBeforeEnter = $state(false)
 
   constructor(
-    modals: ModalsContext,
+    modals: ModalStack,
     {
       id,
       component,
@@ -33,7 +32,7 @@ export class Modal<R = any> {
       props?: Record<string, any>
     }
   ) {
-    this.id = id || (Modal._idCounter++).toString()
+    this.id = id || (StackedModal._idCounter++).toString()
     this.component = component
     this._props = props ?? {}
     this.modals = modals
@@ -50,7 +49,7 @@ export class Modal<R = any> {
   })
 
   get index() {
-    return this.modals.stack.indexOf(this as Modal<any>)
+    return this.modals.stack.indexOf(this as StackedModal<any>)
   }
 
   get props(): ModalProps & Record<string, any> {
