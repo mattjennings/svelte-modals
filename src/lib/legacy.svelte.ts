@@ -1,7 +1,8 @@
 import { writable } from 'svelte/store'
 import { ModalsContext } from './modals-context.svelte'
-import Modals, { modals } from './Modals.svelte'
+import { modals } from './Modals.svelte'
 import { Modal } from './modal.svelte'
+import Modals from './LegacyModals.svelte'
 
 const modalsStore = writable<Modal[]>([])
 const actionStore = writable<ModalsContext['action']>(null)
