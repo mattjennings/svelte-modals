@@ -20,9 +20,6 @@ interface ModalProps<ReturnValue = any> extends Record<string, any> {
 
   // closes the modal with an optional return value
   close: (value?: ReturnValue) => void
-
-  // awaits transitions before opening the next modal
-  exitBeforeEnter?: Action
 }
 ```
 

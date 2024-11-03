@@ -2,10 +2,6 @@ import { Modal, type ModalProps } from './modal.svelte'
 import type { LazyModalComponent, ModalComponent } from './types'
 
 export class ModalsContext {
-  // if/when https://github.com/sveltejs/svelte/issues/14124 is fixed, we can
-  // just have transitioning and update it in the appropriate intro/outro events
-  private exitBeforeEnter = $state(false)
-
   /**
    * The current stack of modals
    */
@@ -63,11 +59,11 @@ export class ModalsContext {
 
     this.action = 'push'
 
-    if (this.exitBeforeEnter && this.stack.length) {
+    const currentModal = this.stack[this.stack.length - 1]
+
+    if (currentModal?.exitBeforeEnter) {
       this.transitioning = true
     }
-
-    this.exitBeforeEnter = false
 
     const modal = new Modal(this, {
       id: options?.id,
@@ -78,9 +74,15 @@ export class ModalsContext {
     this.stack.push(modal)
 
     modal.onclose = () => {
+      if (modal.exitBeforeEnter) {
+        this.transitioning = true
+      }
+
       if (this.stack.indexOf(modal) > -1) {
         this.stack.splice(this.stack.indexOf(modal), 1)
       }
+
+      this.action = 'pop'
     }
 
     return modal.promise
@@ -96,10 +98,6 @@ export class ModalsContext {
       throw new Error(`amount must be a number greater than 0. Received ${amount}`)
     }
 
-    if (this.transitioning) {
-      return false
-    }
-
     const closedModals = this.stack.slice(this.stack.length - amount).reverse()
 
     let closedAmount = 0
@@ -109,15 +107,6 @@ export class ModalsContext {
         break
       }
       closedAmount++
-    }
-
-    if (closedAmount > 0) {
-      if (this.exitBeforeEnter && this.stack.length > 0) {
-        this.transitioning = true
-      }
-
-      this.exitBeforeEnter = false
-      this.action = 'pop'
     }
 
     return amount === closedAmount

@@ -15,9 +15,31 @@
       const modal = getModal()
       modal.onBeforeClose = callback
     } catch (e) {
-      console.error('onBeforeClose must be called inside a component rendered by ModalStack')
+      console.error('onBeforeClose must be called inside a component rendered by Modals')
       return
     }
+  }
+
+  export function exitBeforeEnter(node: HTMLElement) {
+    const modal = getModal()
+    modal.exitBeforeEnter = true
+
+    const onoutroend = () => {
+      // unsure why, but without this timeout sometimes
+      // the modal is briefly shown before being removed
+      // started happening with svelte 5
+      setTimeout(() => {
+        modal.modals.transitioning = false
+      })
+    }
+
+    node.addEventListener('outroend', onoutroend)
+
+    $effect(() => {
+      return () => {
+        node.removeEventListener('outroend', onoutroend)
+      }
+    })
   }
 </script>
 

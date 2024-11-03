@@ -16,7 +16,7 @@ $effect.root(() => {
   actionStore.set(modals.action)
 })
 
-const openModal: (typeof modals)['open'] = async (...args) => {
+const openModal: ModalsContext['open'] = async (...args) => {
   try {
     return await modals.open(...args)
   } catch (e) {

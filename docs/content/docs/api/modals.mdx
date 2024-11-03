@@ -29,7 +29,8 @@ const value = await modals.open(MyModal, props, options)
 
 ## modals.close
 
-Closes the current modal or last `amount` of modals in the stack.
+Closes the current modal or last `amount` of modals in the stack. Returns true if
+the modal was closed, false if the modal prevented the close.
 
 ```js
 import { modals } from 'svelte-modals'

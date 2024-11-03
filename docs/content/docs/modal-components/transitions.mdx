@@ -62,8 +62,9 @@ on the element that has the transitions.
 ```svelte title="MyModal.svelte" {10}
 <script>
   import { fade } from 'svelte/transition'
+  import { exitBeforeEnter } from 'svelte-modals'
 
-  const { isOpen, exitBeforeEnter } = $props()
+  const { isOpen } = $props()
 </script>
 
 {#if isOpen}

@@ -6,6 +6,8 @@ layout: $lib/layouts/BaseLayout.astro
 
 v2 introduces Svelte 5 support and an API overhaul to better solve the community requests from v1. 
 
+## svelte-modals/legacy
+
 To make the migration easier and incrementally adopt the new APIs, you can change all of 
 your `svelte-modals` imports to `svelte-modals/legacy`. This is a wrapper around the new APIs to maintain the v1 API. 
 If you encounter any problems please open an issue.
@@ -26,5 +28,20 @@ If you encounter any problems please open an issue.
 {/* TODO: link v1 docs */}
 {/* TODO: do slots work with snippets? */}
 
+## Breaking Changes
 
-## What's new?
+- `modals` has been changed from a store of the modal stack to being the main entrypoint for most svelte-modals methods. The stack can be found
+in `modals.stack`, which is now a rune.
+  - `openModal` has become `modals.open` and returns a promise
+  - `closeModal` has become `modals.close`
+  - `closeAllModals` has become `modals.closeAll`
+  - `action` has become `modals.action` and changed from a store to a rune
+  - `transition` has become `modals.transition` and changed from a store to a rune
+- `modals.open(component, props, { replace: true })` will throw an error if the currently opened modal prevents the close
+
+- `<Modals />` has been updated to use snippets instead of slots. The `children` slot has been renamed to a `modals` snippet.
+
+### Types
+
+- `SvelteModalComponent` has been renamed to `ModalComponent` and updated for Svelte 5 component types
+- `LazySvelteModalComponent` has been renamed to `LazyModalComponent` and updated for Svelte 5 component types
