@@ -21,7 +21,7 @@ describe('openModal', () => {
     openModal(FakeComponent)
     const $modalsStore = get(modalsStore)
     expect($modalsStore).toHaveLength(1)
-    expect($modalsStore[0].isOpen()).toBe(true)
+    expect($modalsStore[0].isOpen).toBe(true)
   })
 
   test('adds a 2nd modal to the stack', () => {
@@ -29,8 +29,8 @@ describe('openModal', () => {
     openModal(FakeComponent)
     const $modalsStore = get(modalsStore)
     expect($modalsStore).toHaveLength(2)
-    expect($modalsStore[0].isOpen()).toBe(false)
-    expect($modalsStore[1].isOpen()).toBe(true)
+    expect($modalsStore[0].isOpen).toBe(false)
+    expect($modalsStore[1].isOpen).toBe(true)
   })
 
   test('adds a modal to the stack with props', () => {
