@@ -39,7 +39,8 @@ export default defineConfig({
             { label: 'Props', slug: 'modal-components/props' },
             { label: 'Transitions', slug: 'modal-components/transitions' },
             { label: 'Snippets', slug: 'modal-components/snippets' },
-            { label: 'Lazy Loading', slug: 'modal-components/lazy-loading' }
+            { label: 'Lazy loading', slug: 'modal-components/lazy-loading' },
+            { label: 'Preventing close', slug: 'modal-components/preventing-close' }
           ]
         },
         {
