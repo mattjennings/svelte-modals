@@ -1,5 +1,6 @@
 <script lang="ts" module>
   import { setContext, getContext } from 'svelte'
+  import { on } from 'svelte/events'
 
   const key = Symbol('modal')
   function setModal(modal: Modal) {
@@ -24,20 +25,18 @@
     const modal = getModal()
     modal.exitBeforeEnter = true
 
-    const onoutroend = () => {
+    const onoutroend = on(node, 'outroend', () => {
       // unsure why, but without this timeout sometimes
       // the modal is briefly shown before being removed
       // started happening with svelte 5
       setTimeout(() => {
         modal.modals.transitioning = false
       })
-    }
-
-    node.addEventListener('outroend', onoutroend)
+    })
 
     $effect(() => {
       return () => {
-        node.removeEventListener('outroend', onoutroend)
+        onoutroend()
       }
     })
   }
