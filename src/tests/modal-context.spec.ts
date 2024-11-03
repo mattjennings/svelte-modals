@@ -5,6 +5,7 @@ const FakeComponent = class {} as any as ModalComponent<ModalProps<{ foo: 'bar' 
 
 afterEach(() => {
   modals.stack.length = 0
+  modals.transitioning = false
 })
 
 describe('open', () => {
@@ -52,6 +53,25 @@ describe('close', () => {
     modals.open(FakeComponent)
     modals.close(2)
     expect(modals.stack).toHaveLength(1)
+  })
+})
+
+describe('closeAll', () => {
+  test('removes all modals from the stack', () => {
+    modals.open(FakeComponent)
+    modals.open(FakeComponent)
+    modals.open(FakeComponent)
+    modals.closeAll()
+    expect(modals.stack).toHaveLength(0)
+  })
+
+  test('removes all modals from the stack even if transitioning', () => {
+    modals.open(FakeComponent)
+    modals.stack[0].exitBeforeEnter = true
+    modals.open(FakeComponent)
+    modals.open(FakeComponent)
+    modals.closeAll()
+    expect(modals.stack).toHaveLength(0)
   })
 })
 

@@ -1,7 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte'
 
-  import { closeModal, modals } from 'svelte-modals/legacy'
+  import { closeAllModals, closeModal, modals } from 'svelte-modals/legacy'
   import { fade, fly } from 'svelte/transition'
 
   const dispatch = createEventDispatcher()
@@ -46,6 +46,7 @@
       <div class="modal-actions">
         <button on:click={openAnother}>Open</button>
         <button on:click={closeModal}>Close</button>
+        <button on:click={closeAllModals}>Close All</button>
       </div>
     </div>
   </div>

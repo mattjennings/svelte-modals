@@ -64,10 +64,6 @@ export class Modal<R = any> {
   }
 
   close(...args: R extends void ? [] : [result: R]) {
-    if (this.modals.transitioning) {
-      return false
-    }
-
     if (this.onBeforeClose?.() === false) {
       return false
     }
