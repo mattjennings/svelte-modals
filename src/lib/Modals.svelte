@@ -19,7 +19,7 @@
 
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import ModalContext from './ModalContext.svelte'
+  import StackedModalContext from './StackedModalContext.svelte'
   import type { ModalProps } from './stacked-modal.svelte'
   import { ModalStack } from './modal-stack.svelte'
   import type { LazyModalComponent, ModalComponent } from './types'
@@ -38,7 +38,7 @@
 {/if}
 
 {#each modals.stack as m, i (m.id)}
-  <ModalContext modal={m}>
+  <StackedModalContext modal={m}>
     <!-- lazy modal -->
     {#if isLazyModal(m.component)}
       {#await m.component()}
@@ -58,5 +58,5 @@
         <m.component {...m.props} />
       {/if}
     {/if}
-  </ModalContext>
+  </StackedModalContext>
 {/each}
