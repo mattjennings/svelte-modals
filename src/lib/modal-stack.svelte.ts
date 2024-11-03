@@ -73,17 +73,23 @@ export class ModalStack {
 
     this.stack.push(modal)
 
-    modal.onclose = () => {
-      if (modal.exitBeforeEnter) {
-        this.transitioning = true
-      }
+    modal.addEventListener(
+      'close',
+      () => {
+        if (modal.exitBeforeEnter) {
+          this.transitioning = true
+        }
 
-      if (this.stack.indexOf(modal) > -1) {
-        this.stack.splice(this.stack.indexOf(modal), 1)
-      }
+        if (this.stack.indexOf(modal) > -1) {
+          this.stack.splice(this.stack.indexOf(modal), 1)
+        }
 
-      this.action = 'pop'
-    }
+        this.action = 'pop'
+      },
+      {
+        once: true
+      }
+    )
 
     return modal.promise
   }

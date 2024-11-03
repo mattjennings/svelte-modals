@@ -6,6 +6,17 @@ const FakeComponent = class {} as any as ModalComponent<ModalProps<{ foo: 'bar' 
 const modals = new ModalStack()
 
 describe('close', () => {
+  test('emits close event', async () => {
+    const fn = vi.fn()
+
+    const modal = new StackedModal(modals, { component: FakeComponent })
+    modal.addEventListener('close', fn)
+
+    modal.close()
+
+    expect(fn).toHaveBeenCalled()
+  })
+
   test('returns the value from modal.close()', async () => {
     const modal = new StackedModal(modals, { component: FakeComponent })
     modals.stack[0] = modal
