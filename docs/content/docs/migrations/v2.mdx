@@ -28,6 +28,25 @@ If you encounter any problems [please open an issue](https://github.com/mattjenn
 
 <button onclick={handleClick}>Open Modal</button>
 ```
+{/* 
+```svelte live layout="$lib/layouts/code/NoCode.astro"
+<script>
+  import { openModal } from 'svelte-modals/legacy'
+  import AnimatedInfiniteModal from '$lib/components/LegacyAnimatedInfiniteModal.svelte'
+
+  function openInfiniteModal(props) {
+    openModal(InfiniteModal, { title: 'Modal', message: 'Try opening another one', openAnother: () => openInfiniteModal(props), ...props })
+  }
+  function openAnimatedInfiniteModal(props) {
+    openModal(AnimatedInfiniteModal, { title: 'Modal', message: 'Try opening another one', openAnother: () => openAnimatedInfiniteModal(props), ...props })
+  }
+
+</script>
+
+<button onclick={() => openAnimatedInfiniteModal({ withExitBeforeEnter: true })}>with exitBeforeEnter</button>
+<button onclick={() => openAnimatedInfiniteModal()}>without exitBeforeEnter</button>
+```
+*/}
 
 {/* TODO: link v1 docs */}
 {/* TODO: do slots work with snippets? */}
@@ -45,8 +64,10 @@ If you encounter any problems [please open an issue](https://github.com/mattjenn
   - `transition` -> `modals.transition` and changed from a store to a rune  
 - `<Modals />` has been updated to use snippets instead of slots. The default slot has been changed to a `modals` snippet. 
   - `svelte-modals/legacy` continues to use slots and the default slot
+- Deferred transitions are now enabled by using the [exitBeforeEnter](/modal-components/transitions#exit-before-enter) instead of
+forwarding events
 
-### Types
+## Types
 
 - `SvelteModalComponent` has been renamed to `ModalComponent` and updated for Svelte 5 component types
 - `LazySvelteModalComponent` has been renamed to `LazyModalComponent` and updated for Svelte 5 component types

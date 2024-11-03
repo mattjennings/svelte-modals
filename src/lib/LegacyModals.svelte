@@ -21,11 +21,33 @@
       {#await getComponent(modal.component)}
         <slot name="loading" />
       {:then component}
-        <svelte:component this={component} {...modal.props} />
+        <svelte:component
+          this={component}
+          {...modal.props}
+          on:introstart={() => {
+            modal.exitBeforeEnter = true
+          }}
+          on:outroend={() => {
+            setTimeout(() => {
+              modal.modals.transitioning = false
+            })
+          }}
+        />
       {/await}
     {:else}
       <!-- normal modal -->
-      <svelte:component this={modal.component} {...modal.props} />
+      <svelte:component
+        this={modal.component}
+        {...modal.props}
+        on:introstart={() => {
+          modal.exitBeforeEnter = true
+        }}
+        on:outroend={() => {
+          setTimeout(() => {
+            modal.modals.transitioning = false
+          })
+        }}
+      />
     {/if}
   {/each}
 </slot>
