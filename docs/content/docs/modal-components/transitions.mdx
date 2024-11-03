@@ -1,0 +1,96 @@
+---
+title: Transitions
+layout: $lib/layouts/AnimatedBackdropLayout.astro
+---
+import { Aside } from '@astrojs/starlight/components';
+import AnimatedAlertModal from '$lib/components/AnimatedAlertModal.svelte'
+
+Transitions can be added to your modals just like any other Svelte component. However they
+**must be global transitions** because they are mounted and unmounted by the `Modals` component.
+
+```svelte title="MyModal.svelte" {11}
+<script>  
+  import { fade } from 'svelte/transition'
+
+  const { isOpen, close, title, message } = $props()
+</script>
+
+{#if isOpen}
+  <div 
+    role="dialog"
+    class="modal-container"
+    transition:fade|global
+  >
+    <div class="modal-content">
+      <h2>{title}</h2>
+      <p>{message}</p>
+
+      <div class="modal-actions">
+        <button onclick={() => close()}>OK</button>
+      </div>
+    </div>
+  </div>
+{/if}
+```
+
+```svelte live layout="$lib/layouts/code/NoCode.astro"
+<script>
+  import { modals } from 'svelte-modals'
+  import AnimatedAlertModal from '$lib/components/AnimatedAlertModal.svelte'
+
+  const onclick = () => {
+    modals.open(AnimatedAlertModal, {
+      title: 'Hello',
+      message: 'This is a message'
+    })
+  }
+</script>
+
+<button onclick={onclick}>
+  Open Modal
+</button>
+```
+
+## Exit before enter
+
+By default, modals will open the next modal before the previous one has finished transitioning.
+Depending on your transition this might be ok, but often it’s cleaner to play one at a time.
+
+To opt-in to this behaviour, you can use the `exitBeforeEnter` action. Use this 
+on the element that has the transitions.
+
+```svelte title="MyModal.svelte" {10}
+<script>
+  import { fade } from 'svelte/transition'
+
+  const { isOpen, exitBeforeEnter } = $props()
+</script>
+
+{#if isOpen}
+  <div 
+    role="dialog" 
+    use:exitBeforeEnter
+    transition:fade|global
+  >
+    <!-- ... -->
+  </div>
+{/if}
+```
+
+```svelte live layout="$lib/layouts/code/NoCode.astro"
+<script>
+  import { modals } from 'svelte-modals'
+  import AnimatedInfiniteModal from '$lib/components/AnimatedInfiniteModal.svelte'
+
+  function openInfiniteModal(props) {
+    modals.open(InfiniteModal, { title: 'Modal', message: 'Try opening another one', openAnother: () => openInfiniteModal(props), ...props })
+  }
+  function openAnimatedInfiniteModal(props) {
+    modals.open(AnimatedInfiniteModal, { title: 'Modal', message: 'Try opening another one', openAnother: () => openAnimatedInfiniteModal(props), ...props })
+  }
+
+</script>
+
+<button onclick={() => openAnimatedInfiniteModal({ withExitBeforeEnter: true })}>with exitBeforeEnter</button>
+<button onclick={() => openAnimatedInfiniteModal()}>without exitBeforeEnter</button>
+```

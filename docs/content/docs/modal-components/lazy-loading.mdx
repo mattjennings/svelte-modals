@@ -1,0 +1,33 @@
+---
+title: Lazy Loading
+layout: $lib/layouts/AnimatedBackdropLayout.astro
+---
+
+Modal components can be lazy loaded by using dynamic imports
+
+```js
+import { modals } from 'svelte-modals'
+
+modals.open(() => import('./AlertModal.svelte'), {
+  title: 'Lazy Modal',
+  message: 'This modal was loaded lazily'
+})
+```
+
+```svelte live layout="$lib/layouts/code/NoCode.astro" 
+<script>
+  import { modals } from 'svelte-modals'
+
+  function onclick() {
+    modals.open(() => import('$lib/components/AlertModal.svelte'), {
+      title: 'Lazy Modal',
+      message: 'This modal was loaded lazily'
+    })
+  }
+</script>
+
+<button onclick={onclick}>Open Modal</button>
+```
+
+While the component is being imported, the `<Modals />` component will render `backdrop` and `loading` snippets.
+See [\<Modals /> API](/api/modals-component)

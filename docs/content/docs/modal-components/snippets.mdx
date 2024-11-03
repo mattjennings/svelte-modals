@@ -1,0 +1,50 @@
+---
+title: Modal Components
+layout: $lib/layouts/AnimatedBackdropLayout.astro
+---
+import { Aside } from '@astrojs/starlight/components';
+import AnimatedAlertModal from '$lib/components/AnimatedAlertModal.svelte'
+
+Snippets can be passed in as props the same way you would with a regular Svelte 5 component.
+
+```svelte live {7,12-14}
+<script>
+  import { modals } from 'svelte-modals'
+  import SnippetModal from '$lib/components/SnippetModal.svelte'
+
+  function onclick() {
+    modals.open(SnippetModal, {
+      content
+    })
+  }
+</script>
+
+{#snippet content()}
+  <div>Snippet content</div>
+{/snippet}
+
+<button onclick={onclick}>Open Modal</button>
+```
+
+## Raw snippets
+
+You can also use Svelte's `createRawSnippet` if you wish
+
+```svelte live {8-10}
+<script>
+  import { modals } from 'svelte-modals'
+  import SnippetModal from '$lib/components/SnippetModal.svelte'
+  import { createRawSnippet } from 'svelte'
+
+  function onclick() {
+    modals.open(SnippetModal, {
+      content: createRawSnippet(() => ({
+        render: () => `<div>Snippet content</div>`
+      }))
+    })
+  }
+</script>
+
+<button onclick={onclick}>Open Modal</button>
+```
+

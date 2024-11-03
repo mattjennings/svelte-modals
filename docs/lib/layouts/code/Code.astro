@@ -1,7 +1,7 @@
 <div class="container">
   <slot name="code" />
   <div class="example">
-    <div>
+    <div class="example-layout">
       <slot name="example" />
     </div>
   </div>
@@ -10,7 +10,7 @@
 <style>
   .container {
     display: flex;
-    flex-direction: column;
+    flex-direction: column;    
   }
 
   .example {
@@ -24,5 +24,15 @@
     border-width: var(--ec-brdWd, 1px);
     border-color: var(--ec-brdCol, var(--sl-color-gray-5));
     border-top: none;
+  }
+
+  .example-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
   }
 </style>

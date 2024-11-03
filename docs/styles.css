@@ -59,3 +59,7 @@ button:not([disabled]) {
   left: 0;
   background: rgba(0, 0, 0, 0.25);
 }
+
+.full-width {
+  width: 100%;
+}
