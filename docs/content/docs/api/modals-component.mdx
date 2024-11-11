@@ -1,0 +1,45 @@
+---
+title: <Modals />
+layout: $lib/layouts/BaseLayout.astro
+---
+
+Renders the current stack of modals
+
+## Props
+
+### backdrop
+
+Renders when at least 1 modal has been opened.
+
+```svelte
+<Modals>
+  {#snippet backdrop(modals)}
+    <div class="backdrop" onclick={() => modals.close()}></div>
+  {/snippet}
+</Modals>
+```
+
+### modal
+
+Renders each modal component in the stack
+
+```svelte
+<Modals>
+  {#snippet modal(modal, modals)}
+    <modal.component {...modal.props} />
+  {/snippet}
+</Modals>
+```
+
+### loading
+
+Renders when a modal has been opened via dynamic import and is fetching.
+
+```svelte
+<Modals>
+  {#snippet loading()}
+    <LoadingSpinner />
+  {/snippet}
+</Modals>
+```
+

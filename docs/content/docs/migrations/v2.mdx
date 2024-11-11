@@ -1,0 +1,156 @@
+---
+title: v2
+description: Migration guide from v1 to v2
+layout: $lib/layouts/LegacyLayout.astro
+---
+
+v2 introduces Svelte 5 support and an API overhaul to better solve the community requests from v1. The
+v1 docs will remain available [here](https://v1.svelte-modals.mattjennin.gs/)
+
+## svelte-modals/legacy
+
+There are breaking changes – methods have been renamed, moved around and the internals
+have been rewritten from stores to runes. While I anticipate this migration is mostly a matter
+of renaming imports and methods, I've provided a legacy wrapper to make the transition easier.
+This will allow you continue using v1 APIs as a wrapper around v2 and 
+incrementally migrate your codebase.
+
+If you encounter any problems [please open an issue](https://github.com/mattjennings/svelte-modals/issues).
+
+```svelte live 
+<script>
+  import { openModal, closeModal } from 'svelte-modals/legacy'  
+  import MyModal from '$lib/components/MyModal.svelte'
+
+  function handleClick() {     
+    openModal(MyModal, { title: "Alert", message: "This is an alert" })
+  }
+</script>
+
+<button onclick={handleClick}>Open Modal</button>
+```
+
+Note that `Modals` from `svelte-modals/legacy` will continue to use slots instead of snippets. If you want to use
+[snippets](/modal-components/snippets) in your modal props, you must import `Modals` from `svelte-modals` . You can 
+still use open/close methods from `svelte-modals/legacy`.
+
+{/* 
+```svelte live layout="$lib/layouts/code/NoCode.astro"
+<script>
+  import { openModal } from 'svelte-modals/legacy'
+  import AnimatedInfiniteModal from '$lib/components/LegacyAnimatedInfiniteModal.svelte'
+
+  function openInfiniteModal(props) {
+    openModal(InfiniteModal, { title: 'Modal', message: 'Try opening another one', openAnother: () => openInfiniteModal(props), ...props })
+  }
+  function openAnimatedInfiniteModal(props) {
+    openModal(AnimatedInfiniteModal, { title: 'Modal', message: 'Try opening another one', openAnother: () => openAnimatedInfiniteModal(props), ...props })
+  }
+
+</script>
+
+<button onclick={() => openAnimatedInfiniteModal({ withExitBeforeEnter: true })}>with exitBeforeEnter</button>
+<button onclick={() => openAnimatedInfiniteModal()}>without exitBeforeEnter</button>
+```
+*/}
+
+
+## Breaking changes
+
+### API
+
+- Svelte 5 is now required as a peer dependency
+- `modals` has been changed from a store to being the main entrypoint for most svelte-modals methods.  
+  - `openModal` -> `modals.open` and now returns a promise
+    - when using `{ replace: true }` and the currently opened modal prevents the close, the promise will reject
+  - `closeModal` -> `modals.close`
+  - `closeAllModals` -> `modals.closeAll`
+  - `modals` -> `modals.stack` and changed from a store to a rune
+  - `action` -> `modals.action` and changed from a store to a rune
+  - `transition` -> `modals.transition` and changed from a store to a rune  
+- `<Modals />` has been updated to use snippets instead of slots. The default slot has been changed to a `modals` snippet. 
+  - `svelte-modals/legacy` continues to use slots and the default slot
+- Deferred transitions are now enabled by using the [exitBeforeEnter](/modal-components/transitions#exit-before-enter) instead of
+forwarding events
+
+### Types
+
+- `SvelteModalComponent` has been renamed to `ModalComponent` and updated for Svelte 5 component types
+- `LazySvelteModalComponent` has been renamed to `LazyModalComponent` and updated for Svelte 5 component types
+
+## Migration
+
+### Modal props
+
+```diff
+<script>
+-  export let isOpen
++  const { isOpen } = $props()
+</script>
+```
+
+### Transitions between modals
+
+```diff lang="svelte"
+<script>
+  import { fade } from 'svelte/transition'
+  import { exitBeforeEnter } from 'svelte-modals'
+
+  const { isOpen } = $props()
+</script>
+
+{#if isOpen}
+  <div 
+    role="dialog" 
+    class="modal" 
+    transition:fade|global 
+-    on:introstart 
+-    on:outroend
++    use:exitBeforeEnter
+  >
+    <!-- ... -->
+  </div>
+{/if}
+```
+
+### Methods
+
+#### openModal
+
+```diff lang="js"
+- import { openModal } from 'svelte-modals'
+- openModal(MyModal, props)
+
++ import { modals } from 'svelte-modals'
++ modals.open(MyModal, props)
+```
+
+#### closeModal
+
+```diff lang="js"
+- import { closeModal } from 'svelte-modals'
+- closeModal()
+
++ import { modals } from 'svelte-modals'
++ modals.close()
+```
+
+#### closeModal
+
+```diff lang="js"
+- import { closeModals } from 'svelte-modals'
+- closeModals(2)
+
++ import { modals } from 'svelte-modals'
++ modals.close(2)
+```
+
+#### closeAllModals
+
+```diff lang="js"
+- import { closeAllModals } from 'svelte-modals'
+- closeAllModals()
+
++ import { modals } from 'svelte-modals'
++ modals.closeAll()
+```

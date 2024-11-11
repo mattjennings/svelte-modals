@@ -1,0 +1,85 @@
+---
+title: modals
+layout: $lib/layouts/BaseLayout.astro
+---
+import { Code, Badge} from '@astrojs/starlight/components';
+import ModalsDTS from '../../../../dist/modal-stack.svelte.d.ts?raw'
+
+The main entry point for the modals API.
+
+## modals.open
+
+Opens a modal. Returns a promise that resolves when the modal is closed. Value can be determined
+by the modal using its `close(value)` prop, otherwise it will resolve to `undefined`.
+
+```js
+import { modals } from 'svelte-modals'
+import MyModal from './MyModal.svelte'
+
+const value = await modals.open(MyModal, props, options)
+```
+
+| Param           | Type                         | Required | Description                                                 |
+| --------------- | ---------------------------- | -------- | ----------------------------------------------------------- |
+| component       | <code>SvelteComponent</code> | Yes      | Your Svelte modal component                                 |
+| props           | <code>any</code>             | No       | Props for the modal                                         |
+| options         | <code>object</code>          | No       |                                                             |
+| options.id      | <code>string</code>          | No       | Gives the modal an id, which can be used for closeById(id)  |
+| options.replace | <code>boolean</code>         | No       | This modal will replace the last modal in the stack         |
+
+## modals.close
+
+Closes the current modal or last `amount` of modals in the stack. Returns true if
+the modal was closed, false if the modal prevented the close.
+
+```js
+import { modals } from 'svelte-modals'
+
+// Close the current modal
+modals.close()
+
+// Close the last 2 modals
+modals.close(2)
+```
+
+
+| Param  | Type                | Required | Description                                 |
+| ------ | ------------------- | -------- | ------------------------------------------- |
+| amount | <code>number</code> | No      | The number of modals to close. Defaults to 1 |
+
+## modals.closeById
+
+Closes a modal by its id.
+
+```js
+import { modals } from 'svelte-modals'
+
+modals.open(MyModal, {}, { id: 'my-modal' })
+modals.closeById('my-modal')
+```
+
+| Param | Type                | Required | Description |
+| ----- | ------------------- | -------- | ----------- |
+| id    | <code>string</code> | Yes      | The id of the modal to close |
+
+## modals.closeAll
+
+Closes all modals.
+
+```js
+import { modals } from 'svelte-modals'
+
+modals.closeAll()
+```
+
+## modals.stack
+
+<Badge text="Rune" variant="danger" />
+
+An array of the current stack of modals.
+
+## modals.action
+
+<Badge text="Rune" variant="danger" />
+
+The last action that was performed on the modals stack (push or pop). This can be useful for animations.

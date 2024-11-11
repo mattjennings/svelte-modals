@@ -1,0 +1,49 @@
+---
+title: Props
+layout: $lib/layouts/AnimatedBackdropLayout.astro
+---
+import { Aside } from '@astrojs/starlight/components';
+import AnimatedAlertModal from '$lib/components/AnimatedAlertModal.svelte'
+
+Your modal components will receive the following props when opened:
+
+```ts
+interface ModalProps<ReturnValue = any> extends Record<string, any> {
+  // whether this modal is the topmost modal in the stack
+  isOpen: boolean
+
+  // the unique id of the modal
+  id: string
+
+  // the index of the modal in the stack
+  index: number
+
+  // closes the modal with an optional return value
+  close: (value?: ReturnValue) => void
+}
+```
+
+## Typescript
+
+If you're using Typescript, you should use this interface to define the props of your modal components.
+
+```svelte title="MyModal.svelte"
+<script lang="ts">
+  import type { ModalProps } from 'svelte-modals'
+  
+  // optional
+  type CloseValue = 'cancel' | 'confirm'
+
+  interface MyModalProps extends ModalProps<CloseValue> {
+    title: string
+  }
+
+  const { isOpen, title, close }: MyModalProps = $props()
+
+  function handleConfirm() {
+    // uses CloseValue
+    close('confirm')
+  }
+</script>
+```
+

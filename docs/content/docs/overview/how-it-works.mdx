@@ -1,0 +1,204 @@
+---
+title: How it works
+description: Begin using svelte-modals
+layout: $lib/layouts/BaseLayout.astro
+---
+import { Aside } from '@astrojs/starlight/components';
+
+Svelte Modals is a modal manager for Svelte. It provides APIs for opening and closing modals as components but leaves **functionality
+and styling** up to you. You provide the component and Svelte Modals handles rendering it with appropriate props.
+
+## The Modal Stack
+
+Modals are opened using a LIFO (Last In, First Out) stack. When you open a new modal, it hides
+any previously opened modals until it is closed. These are all rendered inside the `<Modals />` component,
+which should be somewhere near the root of your app or layout.
+
+```svelte title="App.svelte"
+<script>
+  import { Modals } from 'svelte-modals'
+</script>
+
+<Modals />
+```
+
+```svelte live layout="$lib/layouts/code/NoCode.astro"
+<script>  
+  import { modals } from 'svelte-modals'
+  import ConfirmModal from '$lib/components/ConfirmModal.svelte'
+  
+  function openInfiniteModal() {
+    modals.open(ConfirmModal, {
+      message: 'Open another modal? This is modal #' + (modals.stack.length + 1),      
+      onconfirm: () => openInfiniteModal()
+    })
+  }
+</script>
+
+<button onclick={openInfiniteModal}>Open Modal</button>
+```
+
+
+## Opening modals
+
+Open a modal at any time by calling [modals.open](/overview/api#modalsopen)
+
+```svelte live
+<script>  
+  import { modals } from 'svelte-modals'
+  import ConfirmModal from '$lib/components/ConfirmModal.svelte'
+  import AlertModal from '$lib/components/AlertModal.svelte'
+  
+  async function show() {
+    const result = await modals.open(ConfirmModal, { 
+      message: 'Are you sure?'
+    })
+
+    if (result === 'confirm') {
+      modals.open(AlertModal, { message: 'You confirmed' })
+    } else {
+      modals.open(AlertModal, { message: 'You cancelled' })
+    }
+  }
+</script>
+
+<button onclick={show}>Open Modal</button>
+```
+
+<Aside>
+`modals.open` returns a promise that resolves when the modal is closed. Modals can return a value
+by using their [close() prop](#the-close-prop).
+</Aside>
+
+### The isOpen prop
+
+Opened modal components receive an `isOpen` prop to indicate whether it is the top modal or not. It is up
+to you how to handle it. It will always be true when first opened, but may become false if another modal is opened
+before it is closed.
+
+```svelte title="MyModal.svelte"
+<script>
+  const { isOpen } = $props()
+</script>
+
+<!-- in most cases you can do this -->
+{#if isOpen}
+  <div>
+    <!-- ... -->
+  </div>
+{/if}
+
+<!-- 
+ but if you prefer you can visually hide your modal instead, 
+ preserving state of any children 
+-->
+<div class:hidden={!isOpen} aria-hidden={!isOpen}>
+  <form>
+    <!-- ... -->
+  </form>
+</div>
+
+<style>
+  .hidden {
+    display: none;
+  }
+</style>
+```
+
+<Aside>
+If you want all opened modals to be visible at the same time, you can ignore the `isOpen` prop.
+</Aside>
+
+
+## Closing Modals
+
+From anywhere in your app you can call [modals.close](/overview/api#modalsclose) to close the top modal, `modals.close(amount)` to 
+close the last given number of modals, or `modals.closeAll()` to close all modals.
+
+Modals that are closed will unmount.
+
+```svelte
+<script>
+  import { modals } from 'svelte-modals'
+
+  // close the current modal
+  modals.close()
+
+  // close the last 2 modals
+  modals.close(2)
+
+  // close all modals
+  modals.closeAll()
+</script>
+```
+
+<Aside>
+When closing modals this way, their `modals.open` promises will resolve with undefined. If you need to return a value,
+use the [close() prop](#the-close-prop) explained below.
+</Aside>
+
+### The close() prop
+
+Modals receive a `close` prop which will close and resolve
+their corresponding `modals.open` with the given value.
+
+```svelte title="ConfirmModal.svelte"
+<script>
+  const { isOpen, close } = $props()
+</script>
+
+{#if isOpen}
+  <div>
+    <!-- ... -->    
+    <button onclick={() => close('cancel')}>Cancel</button>
+    <button onclick={() => close('confirm')}>Confirm</button>    
+  </div>
+{/if}
+```
+
+```svelte live
+<script>
+  import { modals } from 'svelte-modals'
+  import ConfirmModal from '$lib/components/ConfirmModal.svelte'
+  import AlertModal from '$lib/components/AlertModal.svelte'
+
+  let result = $state(undefined)
+
+  async function onclick() {
+    result = await modals.open(ConfirmModal, { message: 'Are you sure?' })
+  }
+</script>
+
+<button {onclick}>Open Modal</button>
+
+<p>
+result: {result}
+</p>
+```
+
+
+If you are using Typescript, you can define the type of the value by using the `ModalProps` interface.
+  
+```svelte title="ConfirmModal.svelte"
+<script lang="ts">
+  import type { ModalProps } from 'svelte-modals'
+
+  type Result = 'cancel' | 'confirm'
+  
+  const { isOpen, close }: ModalProps<Result> = $props()
+</script>
+
+{#if isOpen}
+  <div>
+    <!-- ... -->    
+    <button onclick={() => close('cancel')}>Cancel</button>
+    <button onclick={() => close('confirm')}>Confirm</button>    
+  </div>
+{/if}
+```
+
+```ts
+const result = await modals.open(ConfirmModal, { message: 'Are you sure?' })
+
+result // 'cancel' | 'confirm'
+```
