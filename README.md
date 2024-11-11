@@ -2,23 +2,31 @@
 
 A simple, flexible, zero-dependency modal manager for Svelte.
 
-[View documentation](https://svelte-modals.mattjennings.io)
+[View documentation](https://svelte-modals.mattjennin.gs)
 
 ## Getting Started
 
-```
+### Installation
+
+```bash
 npm install svelte-modals
 ```
 
-Add `Modals` somewhere in your app. This is where the modals will render.
+### Add \<Modals /> to your app
+
+All opened modals will be rendered inside `<Modals />`. If you're using SvelteKit, `+layout.svelte` would be appropriate
+place to put it. Otherwise, wherever you want the modals to be rendered.
 
 ```svelte
 <script>
-  import { Modals, closeModal } from 'svelte-modals'
+  import { Modals } from 'svelte-modals'
 </script>
 
 <Modals>
-  <div slot="backdrop" class="backdrop" on:click={closeModal} />
+  <!-- shown when any modal is opened -->
+  {#snippet backdrop({ close })}
+    <div class="backdrop" onclick={() => close()} />
+  {/snippet}
 </Modals>
 
 <style>
@@ -33,29 +41,33 @@ Add `Modals` somewhere in your app. This is where the modals will render.
 </style>
 ```
 
-Create your Modal component
+### Create your Modal component
 
-```html
+Let's create a basic modal component:
+
+```svelte
 <script>
-  import { closeModal } from 'svelte-modals'
+  const {
+    // provided by <Modals />
+    isOpen,
+    close,
 
-  // provided by Modals
-  export let isOpen
-
-  export let title
-  export let message
+    // your props
+    title,
+    message
+  } = $props()
 </script>
 
 {#if isOpen}
-<div role="dialog" class="modal">
-  <div class="contents">
-    <h2>{title}</h2>
-    <p>{message}</p>
-    <div class="actions">
-      <button on:click="{closeModal}">OK</button>
+  <div role="dialog" class="modal">
+    <div class="contents">
+      <h2>{title}</h2>
+      <p>{message}</p>
+      <div class="actions">
+        <button onclick={() => close()}>OK</button>
+      </div>
     </div>
   </div>
-</div>
 {/if}
 
 <style>
@@ -75,7 +87,6 @@ Create your Modal component
 
   .contents {
     min-width: 240px;
-    border-radius: 6px;
     padding: 16px;
     background: white;
     display: flex;
@@ -92,6 +103,7 @@ Create your Modal component
   p {
     text-align: center;
     margin-top: 16px;
+    border-radius: 6px;
   }
 
   .actions {
@@ -102,17 +114,19 @@ Create your Modal component
 </style>
 ```
 
-Open it
+### Try it out
 
-```html
+Import `modals` anywhere in your app to open or close your modals
+
+```svelte
 <script>
-  import { openModal } from 'svelte-modals/legacy'
-  import Modal from './Modal.svelte'
+  import { modals } from 'svelte-modals'
+  import MyModal from '$lib/components/MyModal.svelte'
 
   function handleClick() {
-    openModal(Modal, { title: 'Alert', message: 'This is an alert' })
+    modals.open(MyModal, { title: 'Alert', message: 'This is an alert' })
   }
 </script>
 
-<button on:click="{handleClick}">Open Modal</button>
+<button onclick={handleClick}>Open Modal</button>
 ```
