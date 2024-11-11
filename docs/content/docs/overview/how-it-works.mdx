@@ -5,13 +5,12 @@ layout: $lib/layouts/BaseLayout.astro
 ---
 import { Aside } from '@astrojs/starlight/components';
 
-Svelte Modals is a modal manager for Svelte. It provides APIs for opening and closing modals, but leaves **functionality
-and styling** of those modals up to you or your UI library. There are no modal components provided out of the box,
-it onlys renders your modal component with props to communicate its visibility.
+Svelte Modals is a modal manager for Svelte. It provides APIs for opening and closing modals as components but leaves **functionality
+and styling** up to you. You provide the component and Svelte Modals handles rendering it with appropriate props.
 
 ## The Modal Stack
 
-Modals are opened using a LIFO (Last In, First Out) stack. When a new modal is opened, it hides
+Modals are opened using a LIFO (Last In, First Out) stack. When you open a new modal, it hides
 any previously opened modals until it is closed. These are all rendered inside the `<Modals />` component,
 which should be somewhere near the root of your app or layout.
 
@@ -36,7 +35,7 @@ which should be somewhere near the root of your app or layout.
   }
 </script>
 
-<button onclick={openInfiniteModal}>Open</button>
+<button onclick={openInfiniteModal}>Open Modal</button>
 ```
 
 
@@ -63,12 +62,12 @@ Open a modal at any time by calling [modals.open](/overview/api#modalsopen)
   }
 </script>
 
-<button onclick={show}>Open</button>
+<button onclick={show}>Open Modal</button>
 ```
 
 <Aside>
 `modals.open` returns a promise that resolves when the modal is closed. Modals can return a value
-if they close using their [close() prop](#the-close-prop).
+by using their [close() prop](#the-close-prop).
 </Aside>
 
 ### The isOpen prop
@@ -170,7 +169,7 @@ their corresponding `modals.open` with the given value.
   }
 </script>
 
-<button {onclick}>Open</button>
+<button {onclick}>Open Modal</button>
 
 <p>
 result: {result}
