@@ -24,7 +24,7 @@
     "dev": "astro dev",
     "build": "svelte-package && astro check && astro build",
     "test": "vitest",
-    "package": "svelte-package",
+    "package": "npm run test && svelte-package",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
