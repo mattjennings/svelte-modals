@@ -1,4 +1,5 @@
 <script lang="ts" module>
+  import { ModalStack } from './modal-stack.svelte'
   export const modals = new ModalStack()
 
   export interface ModalsProps {
@@ -21,7 +22,6 @@
   import type { Snippet } from 'svelte'
   import StackedModalContext from './StackedModalContext.svelte'
   import type { ModalProps } from './stacked-modal.svelte'
-  import { ModalStack } from './modal-stack.svelte'
   import type { LazyModalComponent, ModalComponent } from './types'
 
   function isLazyModal(
